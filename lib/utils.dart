@@ -183,7 +183,15 @@ enum DecisionKey {
 
 enum ActivationTriggerType { firstInitiative, secondInitiative, special }
 
-enum MonsterSpecies { avenkian, rakire, jel, aglandian, centarian, talmak }
+enum MonsterSpecies {
+  avenkian,
+  rakire,
+  jel,
+  aglandian,
+  centarian,
+  talmak,
+  deranger
+}
 
 class StatefulMonster {
   final MonsterDescription desc;
@@ -200,6 +208,11 @@ class StatefulMonster {
 
   bool specialAttacksRequireDecision() {
     return desc.specialAttackQuestions.questionForAttack.isNotEmpty;
+  }
+
+  bool specificSpeAttackRequireDecision(int attackIndex) {
+    return desc.specialAttackQuestions.questionForAttack.isNotEmpty &&
+        desc.specialAttackQuestions.questionForAttack[attackIndex]!.isNotEmpty;
   }
 
   bool endOfTurnPossible() {

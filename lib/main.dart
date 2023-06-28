@@ -125,7 +125,7 @@ class _MyHomePageState extends State<MyHomePage> {
         child: const Icon(Icons.add),
       )
     ];
-    if (!monstersAlreadyInGame.isEmpty) {
+    if (monstersAlreadyInGame.isNotEmpty) {
       floatingButtons.add(FloatingActionButton(
         onPressed: () {
           Navigator.push(

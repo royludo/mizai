@@ -273,4 +273,60 @@ final Map<int, MonsterDescription> monsterDB = {
         1: ([1], [])
       },
       SpecialAttackQuestions({}, SpeAttackPreamblePosition.onBasicOnly)),
+  21: MonsterDescription(
+      "Deranger",
+      "Deranger",
+      22,
+      24,
+      AIType.monstrosity,
+      [
+        Attack(
+            "Psionic Lash (Psionic)",
+            "3x attacks (Melee, Combat, Psionic, 1D6+2 damage). " +
+                "If hit, target must pass a Dex check {0}. " +
+                "Failure => Blinded.",
+            [(18, 22)]),
+        Attack(
+            "Nightmare Pulse (Psionic)",
+            "All team members within 12\" must pass a For check {0}. " +
+                "Failure => suffer 2D6+2 damage and Stunned.",
+            [(19, 23)]),
+        Attack(
+            "Deepened Nightmares (Psionic)",
+            "Target enemy within 12\" who is either Stunned or Blinded must pass a For check {0}. " +
+                "Failure => suffer 5D6 damage and immediately move 12\" " +
+                "directly away from the Deranger. If this movement would carry " +
+                "the enemy into Difficult terrain (or up a vertical surface), " +
+                "they must pay for that additional movement as normal. If this " +
+                "movement would carry the enemy into Dangerous terrain, they will " +
+                "suffer any consequences of that as normal. If this movement would " +
+                "move them off of a horizontal surface that is elevated, they will " +
+                "fall and suffer damage as normal, with no chance to reduce it.",
+            [(20, 24)])
+      ],
+      MonsterSpecies.deranger,
+      21,
+      118,
+      [
+        Attack(
+            "Nightmare Visions (Psionic)",
+            "Whenever an enemy activates within 12\", if they are making" +
+                "a stat check to clear a condition with the Psionic keyword " +
+                "they must roll twice and use the lower result.",
+            []),
+        Attack(
+            "Psionic Healing",
+            "Heals 4 damage whenever an enemy fails a stat check to avoid a " +
+                "condition with the Psionic keyword resulting from an attack made by the Deranger.",
+            [])
+      ],
+      {
+        // TODO is it right ? rules unclear about cycling here
+        1: ([1, 2], []),
+        2: ([2], [1])
+      },
+      SpecialAttackQuestions({
+        1: "",
+        2: "Are there 1 or more enemy within 12\" either Stunned or Blinded?"
+      }, SpeAttackPreamblePosition.onBasicOnly))
 };

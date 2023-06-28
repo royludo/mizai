@@ -122,15 +122,20 @@ class AllEnnemyAttackedPreviously extends MonsterDecisionStep {
 
                       if (monster.isSpecialAttackPossible(false) &&
                           monster.isAnySpecialAttackAllowedNow()) {
-                        if (monster.specialAttacksRequireDecision()) {
-                          return MonstrositySpecialDecision(
-                              monster: monster, preamble: commonPreamble);
-                        } else {
-                          // if more than 2 attacks without decision what do ?
-                          // is it even possible ?
-                          return monster.makeSpecialAttack(context,
-                              EndOfAction(monster: monster), commonPreamble, 1);
+                        for (var i = 1; i < monster.desc.attacks.length; i++) {
+                          if (monster.isSpecificAttackAllowedNow(i) &&
+                              !monster.specificSpeAttackRequireDecision(i)) {
+                            return monster.makeSpecialAttack(
+                                context,
+                                EndOfAction(monster: monster),
+                                commonPreamble,
+                                i);
+                          }
                         }
+                        // at this point we are sure we need a decision for the special attack
+                        // else the attack would have been made already
+                        return MonstrositySpecialDecision(
+                            monster: monster, preamble: commonPreamble);
                       } else {
                         return monster.makeBasicAttack(
                             context,
@@ -172,15 +177,20 @@ class WhereIsLowestHP extends MonsterDecisionStep {
                           "Target ennemy with lowest HP. If tied, determine randomly.";
                       if (monster.isSpecialAttackPossible(false) &&
                           monster.isAnySpecialAttackAllowedNow()) {
-                        if (monster.specialAttacksRequireDecision()) {
-                          return MonstrositySpecialDecision(
-                              monster: monster, preamble: commonPreamble);
-                        } else {
-                          // if more than 2 attacks without decision what do ?
-                          // is it even possible ?
-                          return monster.makeSpecialAttack(context,
-                              EndOfAction(monster: monster), commonPreamble, 1);
+                        for (var i = 1; i < monster.desc.attacks.length; i++) {
+                          if (monster.isSpecificAttackAllowedNow(i) &&
+                              !monster.specificSpeAttackRequireDecision(i)) {
+                            return monster.makeSpecialAttack(
+                                context,
+                                EndOfAction(monster: monster),
+                                commonPreamble,
+                                i);
+                          }
                         }
+                        // at this point we are sure we need a decision for the special attack
+                        // else the attack would have been made already
+                        return MonstrositySpecialDecision(
+                            monster: monster, preamble: commonPreamble);
                       } else {
                         return monster.makeBasicAttack(
                             context,
@@ -237,15 +247,20 @@ class EnnemyInMovementRange extends MonsterDecisionStep {
                               "enemy with the lowest HP. If tied, determine randomly.";
                       if (monster.isSpecialAttackPossible(false) &&
                           monster.isAnySpecialAttackAllowedNow()) {
-                        if (monster.specialAttacksRequireDecision()) {
-                          return MonstrositySpecialDecision(
-                              monster: monster, preamble: commonPreamble);
-                        } else {
-                          // if more than 2 attacks without decision what do ?
-                          // is it even possible ?
-                          return monster.makeSpecialAttack(context,
-                              EndOfAction(monster: monster), commonPreamble, 1);
+                        for (var i = 1; i < monster.desc.attacks.length; i++) {
+                          if (monster.isSpecificAttackAllowedNow(i) &&
+                              !monster.specificSpeAttackRequireDecision(i)) {
+                            return monster.makeSpecialAttack(
+                                context,
+                                EndOfAction(monster: monster),
+                                commonPreamble,
+                                i);
+                          }
                         }
+                        // at this point we are sure we need a decision for the special attack
+                        // else the attack would have been made already
+                        return MonstrositySpecialDecision(
+                            monster: monster, preamble: commonPreamble);
                       } else {
                         return monster.makeBasicAttack(
                             context,
