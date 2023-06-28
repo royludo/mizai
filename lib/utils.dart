@@ -158,7 +158,12 @@ enum DecisionKey {
   noEnemyInLineOfSight,
   doubleMove,
   randomMove,
+  activatedWithFirstInitiative,
+  activatedWithSecondInitiative,
+  activatedWithSpecial
 }
+
+enum ActivationTriggerType { firstInitiative, secondInitiative, special }
 
 enum MonsterSpecies { avenkian, rakire, jel, aglandian, centarian }
 
@@ -171,8 +176,17 @@ class StatefulMonster {
   List<int> previousActionAttackIndexes = [];
   bool isInExtremis = false;
   Set<DecisionKey> decisionsMemory = {};
+  List<ActivationTriggerType> activationTriggers = [];
 
   StatefulMonster(this.desc, this.phase);
+
+  bool endOfTurnPossible() {
+    if (activationTriggers.contains(ActivationTriggerType.firstInitiative) &&
+        activationTriggers.contains(ActivationTriggerType.secondInitiative)) {
+      return true;
+    }
+    return activationTriggers.length >= 3;
+  }
 
   bool isSpecialAttackPossible(bool forceBasicAttack) {
     if (veryFirstAttack || forceBasicAttack) {
@@ -243,7 +257,21 @@ class StatefulMonster {
   }
 
   void endActivation() {
+    // pull activation triggers from monster memory and record them in dedicated array
+    if (decisionsMemory.contains(DecisionKey.activatedWithFirstInitiative)) {
+      activationTriggers.add(ActivationTriggerType.firstInitiative);
+    }
+    if (decisionsMemory.contains(DecisionKey.activatedWithSecondInitiative)) {
+      activationTriggers.add(ActivationTriggerType.secondInitiative);
+    }
+    if (decisionsMemory.contains(DecisionKey.activatedWithSpecial)) {
+      activationTriggers.add(ActivationTriggerType.special);
+    }
     decisionsMemory.clear();
+  }
+
+  void endTurn() {
+    activationTriggers.clear();
   }
 
   Widget makeBasicAttack(
