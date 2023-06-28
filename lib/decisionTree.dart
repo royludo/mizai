@@ -128,6 +128,18 @@ class AllEnnemyAttackedPreviously extends DecisionAccumulator {
                               monster: monster,
                               preamble: commonPreamble,
                             );
+                          case MonsterSpecies.rakire:
+                            return RakireWHDecision(
+                                monster: monster, preamble: commonPreamble);
+                          case MonsterSpecies.jel:
+                            return JelBruteDecision(
+                                monster: monster, preamble: commonPreamble);
+                          case MonsterSpecies.aglandian:
+                            return AglandianHDecision(
+                                monster: monster, preamble: commonPreamble);
+                          case MonsterSpecies.centarian:
+                            return CentarianMDecision(
+                                monster: monster, preamble: commonPreamble);
                           default:
                             throw Exception("Monster not implemented yet");
                         }
@@ -175,6 +187,18 @@ class WhereIsLowestHP extends DecisionAccumulator {
                         switch (monster.desc.species) {
                           case MonsterSpecies.avenkian:
                             return AvenkianSSTDecision(
+                                monster: monster, preamble: commonPreamble);
+                          case MonsterSpecies.rakire:
+                            return RakireWHDecision(
+                                monster: monster, preamble: commonPreamble);
+                          case MonsterSpecies.jel:
+                            return JelBruteDecision(
+                                monster: monster, preamble: commonPreamble);
+                          case MonsterSpecies.aglandian:
+                            return AglandianHDecision(
+                                monster: monster, preamble: commonPreamble);
+                          case MonsterSpecies.centarian:
+                            return CentarianMDecision(
                                 monster: monster, preamble: commonPreamble);
                           default:
                             throw Exception("Monster not implemented yet");
@@ -238,6 +262,18 @@ class EnnemyInMovementRange extends DecisionAccumulator {
                         switch (monster.desc.species) {
                           case MonsterSpecies.avenkian:
                             return AvenkianSSTDecision(
+                                monster: monster, preamble: commonPreamble);
+                          case MonsterSpecies.rakire:
+                            return RakireWHDecision(
+                                monster: monster, preamble: commonPreamble);
+                          case MonsterSpecies.jel:
+                            return JelBruteDecision(
+                                monster: monster, preamble: commonPreamble);
+                          case MonsterSpecies.aglandian:
+                            return AglandianHDecision(
+                                monster: monster, preamble: commonPreamble);
+                          case MonsterSpecies.centarian:
+                            return CentarianMDecision(
                                 monster: monster, preamble: commonPreamble);
                           default:
                             throw Exception("Monster not implemented yet");

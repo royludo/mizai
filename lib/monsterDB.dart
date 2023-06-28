@@ -90,7 +90,7 @@ final Map<int, MonsterDescription> monsterDB = {
             [(18, 22)])
       ],
       {
-        1: ([1], [])
+        1: ([], [0])
       }),
   13: MonsterDescription(
       'Jel Brute',
@@ -112,7 +112,7 @@ final Map<int, MonsterDescription> monsterDB = {
             [(21, 25)]),
         Attack(
             "Stun Smash",
-            "1x attack (Melee, Combat, 5D6 damage). " +
+            "1x attack (Melee, Combat, 5D6 damage) against the Stunned enemy. " +
                 "If hit, target must roll twice and take the lower result " +
                 "on all attempts to clear the Stunned condition for " +
                 "the remainder of the mission.",
@@ -135,7 +135,86 @@ final Map<int, MonsterDescription> monsterDB = {
             [])
       ],
       {
-        1: ([1], []),
+        1: ([1, 2], []),
         2: ([2], [1])
+      }),
+  14: MonsterDescription(
+      "Aglandian Horror",
+      "Aglandian H.",
+      28,
+      35,
+      AIType.monstrosity,
+      [
+        Attack(
+            "Grabbing Limbs",
+            "2x attacks (Melee, Combat, 1D6+4 damage). " +
+                "Each attack targets a different team member if possible. " +
+                "If hit, targets must pass a Dex check {0}. " +
+                "Failure => Restrained.",
+            [(23, 27)]),
+        Attack(
+            "Chewing Frenzy",
+            "Restrained target must pass a For check {0}. " +
+                "Failure => suffer 4D6 damage and Stunned.",
+            [(24, 28)]),
+        Attack(
+            "Consume All",
+            "Stunned target must pass a For check {0}. " +
+                "Failure => suffer 8D6 damage and the monster heals 4d6 damage.",
+            [(25, 29)])
+      ],
+      MonsterSpecies.aglandian,
+      14,
+      114,
+      [
+        Attack(
+            "Wave of Flesh",
+            "Immune to Restrained and Blind conditions, and can never " +
+                "have its move reduced for any reason or by any means.",
+            [])
+      ],
+      {
+        1: ([1], []),
+        2: ([], [1])
+      }),
+  15: MonsterDescription(
+      "Centarian Mauler",
+      "Centarian M.",
+      20,
+      25,
+      AIType.monstrosity,
+      [
+        Attack(
+            "Destructive Limbs",
+            "3x attacks (Melee, Combat, 1D6+6 damage). " +
+                "If hit, target must pass a For check {0}. " +
+                "Failure => Stunned.",
+            [(22, 26)]),
+        Attack(
+            "Mutilating Wave",
+            "All team members within 6\" must pass a For check {0}. " +
+                "Failure => suffer 2D6+2 damage and Poisoned.",
+            [(22, 26)])
+      ],
+      MonsterSpecies.centarian,
+      15,
+      116,
+      [
+        Attack("Rock-Hard Skin",
+            "Reduces all damage dealt by Ballistic weapons by 3.", []),
+        Attack(
+            "Climbing Limbs",
+            "Does not pay additional movement when climbing; " +
+                "each 1\" of vertical movement counts as 1\" of movement.",
+            []),
+        Attack(
+            "Reverberating Destruction",
+            "Whenever the monster is damaged by a Weapon attack, " +
+                "all team members within 3\" must pass a For check {0}. " +
+                "Failure => suffer 2D6 damage.",
+            [(19, 23)])
+      ],
+      {
+        1: ([1], [])
       })
 };

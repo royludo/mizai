@@ -160,7 +160,7 @@ enum DecisionKey {
   randomMove,
 }
 
-enum MonsterSpecies { avenkian, rakire, jel }
+enum MonsterSpecies { avenkian, rakire, jel, aglandian, centarian }
 
 class StatefulMonster {
   final MonsterDescription desc;
