@@ -92,6 +92,21 @@ class Attack {
 
 enum AIType { monstrosity, ravager, stalker }
 
+// onQuestion: preamble is put before question deciding attack
+// onAllAttacks, onBasicOnly: preamble is put on attack screen, before attack text
+enum SpeAttackPreamblePosition { onQuestion, onAllAttacks, onBasicOnly }
+
+class SpecialAttackQuestions {
+  /*
+    Map looks like:
+    attackIndex: string with the question to ask to decide for this attack
+  */
+  final Map<int, String> questionForAttack;
+  final SpeAttackPreamblePosition preamblePosition;
+
+  SpecialAttackQuestions(this.questionForAttack, this.preamblePosition);
+}
+
 class MonsterDescription {
   final String fullName;
   final String shortName;
@@ -110,6 +125,7 @@ class MonsterDescription {
     tells if attack has to have an attack used previously, 2nd List
   */
   final Map<int, (List<int>, List<int>)> specialAttacksConditions;
+  final SpecialAttackQuestions specialAttackQuestions;
 
   MonsterDescription(
       this.fullName,
@@ -124,7 +140,8 @@ class MonsterDescription {
       this.code,
       this.pageReference,
       this.passiveAbilities,
-      this.specialAttacksConditions);
+      this.specialAttacksConditions,
+      this.specialAttackQuestions);
 
   int getAcuityFromPhase(int phase) {
     if (phase != 1 && phase != 2) {

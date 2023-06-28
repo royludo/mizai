@@ -122,27 +122,8 @@ class AllEnnemyAttackedPreviously extends DecisionAccumulator {
 
                       if (monster.isSpecialAttackPossible(false) &&
                           monster.isAnySpecialAttackAllowedNow()) {
-                        switch (monster.desc.species) {
-                          case MonsterSpecies.avenkian:
-                            return AvenkianSSTDecision(
-                              monster: monster,
-                              preamble: commonPreamble,
-                            );
-                          case MonsterSpecies.rakire:
-                            return RakireWHDecision(
-                                monster: monster, preamble: commonPreamble);
-                          case MonsterSpecies.jel:
-                            return JelBruteDecision(
-                                monster: monster, preamble: commonPreamble);
-                          case MonsterSpecies.aglandian:
-                            return AglandianHDecision(
-                                monster: monster, preamble: commonPreamble);
-                          case MonsterSpecies.centarian:
-                            return CentarianMDecision(
-                                monster: monster, preamble: commonPreamble);
-                          default:
-                            throw Exception("Monster not implemented yet");
-                        }
+                        return MonstrositySpecialDecision(
+                            monster: monster, preamble: commonPreamble);
                       } else {
                         return monster.makeBasicAttack(
                             context,
@@ -184,25 +165,8 @@ class WhereIsLowestHP extends DecisionAccumulator {
                           "Target ennemy with lowest HP. If tied, determine randomly.";
                       if (monster.isSpecialAttackPossible(false) &&
                           monster.isAnySpecialAttackAllowedNow()) {
-                        switch (monster.desc.species) {
-                          case MonsterSpecies.avenkian:
-                            return AvenkianSSTDecision(
-                                monster: monster, preamble: commonPreamble);
-                          case MonsterSpecies.rakire:
-                            return RakireWHDecision(
-                                monster: monster, preamble: commonPreamble);
-                          case MonsterSpecies.jel:
-                            return JelBruteDecision(
-                                monster: monster, preamble: commonPreamble);
-                          case MonsterSpecies.aglandian:
-                            return AglandianHDecision(
-                                monster: monster, preamble: commonPreamble);
-                          case MonsterSpecies.centarian:
-                            return CentarianMDecision(
-                                monster: monster, preamble: commonPreamble);
-                          default:
-                            throw Exception("Monster not implemented yet");
-                        }
+                        return MonstrositySpecialDecision(
+                            monster: monster, preamble: commonPreamble);
                       } else {
                         return monster.makeBasicAttack(
                             context,
@@ -259,25 +223,8 @@ class EnnemyInMovementRange extends DecisionAccumulator {
                               "enemy with the lowest HP. If tied, determine randomly.";
                       if (monster.isSpecialAttackPossible(false) &&
                           monster.isAnySpecialAttackAllowedNow()) {
-                        switch (monster.desc.species) {
-                          case MonsterSpecies.avenkian:
-                            return AvenkianSSTDecision(
-                                monster: monster, preamble: commonPreamble);
-                          case MonsterSpecies.rakire:
-                            return RakireWHDecision(
-                                monster: monster, preamble: commonPreamble);
-                          case MonsterSpecies.jel:
-                            return JelBruteDecision(
-                                monster: monster, preamble: commonPreamble);
-                          case MonsterSpecies.aglandian:
-                            return AglandianHDecision(
-                                monster: monster, preamble: commonPreamble);
-                          case MonsterSpecies.centarian:
-                            return CentarianMDecision(
-                                monster: monster, preamble: commonPreamble);
-                          default:
-                            throw Exception("Monster not implemented yet");
-                        }
+                        return MonstrositySpecialDecision(
+                            monster: monster, preamble: commonPreamble);
                       } else {
                         return monster.makeBasicAttack(
                             context,

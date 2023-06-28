@@ -41,7 +41,9 @@ final Map<int, MonsterDescription> monsterDB = {
       ],
       {
         1: ([1], [])
-      }),
+      },
+      SpecialAttackQuestions({1: "Are there 2 or more ennemies within 12\"?"},
+          SpeAttackPreamblePosition.onBasicOnly)),
   12: MonsterDescription(
       'Rakire Winged Hunter',
       'Rakire W.H.',
@@ -91,7 +93,10 @@ final Map<int, MonsterDescription> monsterDB = {
       ],
       {
         1: ([], [0])
-      }),
+      },
+      SpecialAttackQuestions(
+          {1: "Did the monster start the activation with an enemy within 6\"?"},
+          SpeAttackPreamblePosition.onAllAttacks)),
   13: MonsterDescription(
       'Jel Brute',
       'Jel Brute',
@@ -137,7 +142,11 @@ final Map<int, MonsterDescription> monsterDB = {
       {
         1: ([1, 2], []),
         2: ([2], [1])
-      }),
+      },
+      SpecialAttackQuestions({
+        1: "Are there 2 or more ennemies within 6\"?",
+        2: "Did the monster activate within 6\" of a Stunned enemy?"
+      }, SpeAttackPreamblePosition.onBasicOnly)),
   14: MonsterDescription(
       "Aglandian Horror",
       "Aglandian H.",
@@ -176,7 +185,11 @@ final Map<int, MonsterDescription> monsterDB = {
       {
         1: ([1], []),
         2: ([], [1])
-      }),
+      },
+      SpecialAttackQuestions({
+        1: "Is there a Restrained enemy within melee range?",
+        2: "Is there a Stunned enemy within melee range?"
+      }, SpeAttackPreamblePosition.onBasicOnly)),
   15: MonsterDescription(
       "Centarian Mauler",
       "Centarian M.",
@@ -216,5 +229,7 @@ final Map<int, MonsterDescription> monsterDB = {
       ],
       {
         1: ([1], [])
-      })
+      },
+      SpecialAttackQuestions({1: "Are there 2 or more ennemies within 6\"?"},
+          SpeAttackPreamblePosition.onBasicOnly)),
 };
