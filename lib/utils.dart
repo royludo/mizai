@@ -167,8 +167,8 @@ class StatefulMonster {
   final int phase; // 1 or 2
   bool veryFirstAttack = true;
   int nextAttackIndex = 0; // 0, 1, 2, 0 is basic attack
-  List<int> currentActivationAttackIndexes = [];
-  List<int> previousActivationAttackIndexes = [];
+  List<int> currentActionAttackIndexes = [];
+  List<int> previousActionAttackIndexes = [];
   bool isInExtremis = false;
   Set<DecisionKey> decisionsMemory = {};
 
@@ -182,7 +182,7 @@ class StatefulMonster {
   }
 
   bool wasSpecialAttackUsedBefore(int specialAttackIndex) {
-    return previousActivationAttackIndexes.contains(specialAttackIndex);
+    return previousActionAttackIndexes.contains(specialAttackIndex);
   }
 
   bool isSpecificAttackAllowedNow(int specialAttackIndex) {
@@ -197,7 +197,7 @@ class StatefulMonster {
       result = true;
     } else {
       for (var i in forbiddenList) {
-        for (var previous_i in previousActivationAttackIndexes) {
+        for (var previous_i in previousActionAttackIndexes) {
           if (i == previous_i) {
             // attack listed as forbidden was used previously, so forbidden
             return false;
@@ -213,7 +213,7 @@ class StatefulMonster {
       // if allowedList exist, then its condition must be fullfiled
       result = false;
       for (var i in allowedList) {
-        for (var previous_i in previousActivationAttackIndexes) {
+        for (var previous_i in previousActionAttackIndexes) {
           if (i == previous_i) {
             // attack listed as mandatory in previous activation was found, so ok
             return true;
@@ -237,9 +237,12 @@ class StatefulMonster {
     return false;
   }
 
+  void endAction() {
+    previousActionAttackIndexes = List.from(currentActionAttackIndexes);
+    currentActionAttackIndexes.clear();
+  }
+
   void endActivation() {
-    previousActivationAttackIndexes = List.from(currentActivationAttackIndexes);
-    currentActivationAttackIndexes.clear();
     decisionsMemory.clear();
   }
 
@@ -262,7 +265,7 @@ class StatefulMonster {
                 // update monster state
                 veryFirstAttack = false;
                 nextAttackIndex = 1 % desc.getTotalNumberOfAttacks();
-                currentActivationAttackIndexes.add(0);
+                currentActionAttackIndexes.add(0);
 
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
                   return endPoint;
@@ -298,7 +301,7 @@ class StatefulMonster {
                 // update monster state
                 nextAttackIndex =
                     (specialAttackIndex + 1) % desc.getTotalNumberOfAttacks();
-                currentActivationAttackIndexes.add(specialAttackIndex);
+                currentActionAttackIndexes.add(specialAttackIndex);
 
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
                   return endPoint;

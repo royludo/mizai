@@ -495,6 +495,7 @@ class EndOfAction extends DecisionAccumulator {
                   // new extra action
                   monster.decisionsMemory
                       .add(DecisionKey.inExtremisSecondAction);
+                  monster.endAction();
                   Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -504,6 +505,7 @@ class EndOfAction extends DecisionAccumulator {
                   // clean monster memory
                   monster.decisionsMemory
                       .remove(DecisionKey.inExtremisSecondAction);
+                  monster.endAction();
                   monster.endActivation();
 
                   // back to monster page, purge navigation
