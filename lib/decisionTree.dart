@@ -10,6 +10,33 @@ abstract class MonsterDecisionStep extends StatelessWidget {
 
   final StatefulMonster monster;
   //final Set<DecisionKey> decisions;
+
+  void initiateAttackProcess(
+      BuildContext context, StatefulMonster monster, String commonPreamble) {
+    Navigator.push(context, MaterialPageRoute(builder: (context) {
+      if (monster.isSpecialAttackPossible(false) &&
+          monster.isAnySpecialAttackAllowedNow()) {
+        // first checks say it is possible to have a special attack
+        // loop determines first available spe attack that does not
+        // require a decision step = 1st spe attack that auto apply
+        for (var i = 1; i < monster.desc.attacks.length; i++) {
+          if (monster.isSpecificAttackAllowedNow(i) &&
+              !monster.specificSpeAttackRequireDecision(i)) {
+            return monster.makeSpecialAttack(
+                context, EndOfAction(monster: monster), commonPreamble, i);
+          }
+        }
+        // at this point we are sure we need a decision for the special attack
+        // else the attack would have been made already
+        return MonstrositySpecialDecision(
+            monster: monster, preamble: commonPreamble);
+      } else {
+        // spe attack not possible, revert to basic one
+        return monster.makeBasicAttack(
+            context, EndOfAction(monster: monster), commonPreamble);
+      }
+    }));
+  }
 }
 
 class CheckInExtremis extends MonsterDecisionStep {
@@ -114,36 +141,10 @@ class AllEnnemyAttackedPreviously extends MonsterDecisionStep {
                   onPressed: () {
                     monster.decisionsMemory
                         .add(DecisionKey.somePreviouslyNotAttacked);
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) {
-                      const String commonPreamble =
-                          "Target ennemy that was not attacked before and with " +
-                              "the lowest HP. If tied, determine randomly.";
-
-                      if (monster.isSpecialAttackPossible(false) &&
-                          monster.isAnySpecialAttackAllowedNow()) {
-                        for (var i = 1; i < monster.desc.attacks.length; i++) {
-                          if (monster.isSpecificAttackAllowedNow(i) &&
-                              !monster.specificSpeAttackRequireDecision(i)) {
-                            return monster.makeSpecialAttack(
-                                context,
-                                EndOfAction(monster: monster),
-                                commonPreamble,
-                                i);
-                          }
-                        }
-                        // at this point we are sure we need a decision for the special attack
-                        // else the attack would have been made already
-                        return MonstrositySpecialDecision(
-                            monster: monster, preamble: commonPreamble);
-                      } else {
-                        return monster.makeBasicAttack(
-                            context,
-                            //decisions,
-                            EndOfAction(monster: monster),
-                            commonPreamble);
-                      }
-                    }));
+                    const String commonPreamble =
+                        "Target ennemy that was not attacked before and with " +
+                            "the lowest HP. If tied, determine randomly.";
+                    initiateAttackProcess(context, monster, commonPreamble);
                   },
                   child: const Text("No, one or more was not attacked"))
             ],
@@ -171,34 +172,9 @@ class WhereIsLowestHP extends MonsterDecisionStep {
               ElevatedButton(
                   onPressed: () {
                     monster.decisionsMemory.add(DecisionKey.lowestHPInMelee);
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) {
-                      const String commonPreamble =
-                          "Target ennemy with lowest HP. If tied, determine randomly.";
-                      if (monster.isSpecialAttackPossible(false) &&
-                          monster.isAnySpecialAttackAllowedNow()) {
-                        for (var i = 1; i < monster.desc.attacks.length; i++) {
-                          if (monster.isSpecificAttackAllowedNow(i) &&
-                              !monster.specificSpeAttackRequireDecision(i)) {
-                            return monster.makeSpecialAttack(
-                                context,
-                                EndOfAction(monster: monster),
-                                commonPreamble,
-                                i);
-                          }
-                        }
-                        // at this point we are sure we need a decision for the special attack
-                        // else the attack would have been made already
-                        return MonstrositySpecialDecision(
-                            monster: monster, preamble: commonPreamble);
-                      } else {
-                        return monster.makeBasicAttack(
-                            context,
-                            //decisions,
-                            EndOfAction(monster: monster),
-                            commonPreamble);
-                      }
-                    }));
+                    const String commonPreamble =
+                        "Target ennemy with lowest HP. If tied, determine randomly.";
+                    initiateAttackProcess(context, monster, commonPreamble);
                   },
                   child: const Text("Already in melee")),
               ElevatedButton(
@@ -241,34 +217,10 @@ class EnnemyInMovementRange extends MonsterDecisionStep {
                   onPressed: () {
                     monster.decisionsMemory
                         .add(DecisionKey.lowestHPWithinMovement);
-                    Navigator.push(context, MaterialPageRoute(builder: (_) {
-                      const String commonPreamble =
-                          "The monster moves up to its full movement distance to attack the " +
-                              "enemy with the lowest HP. If tied, determine randomly.";
-                      if (monster.isSpecialAttackPossible(false) &&
-                          monster.isAnySpecialAttackAllowedNow()) {
-                        for (var i = 1; i < monster.desc.attacks.length; i++) {
-                          if (monster.isSpecificAttackAllowedNow(i) &&
-                              !monster.specificSpeAttackRequireDecision(i)) {
-                            return monster.makeSpecialAttack(
-                                context,
-                                EndOfAction(monster: monster),
-                                commonPreamble,
-                                i);
-                          }
-                        }
-                        // at this point we are sure we need a decision for the special attack
-                        // else the attack would have been made already
-                        return MonstrositySpecialDecision(
-                            monster: monster, preamble: commonPreamble);
-                      } else {
-                        return monster.makeBasicAttack(
-                            context,
-                            //decisions,
-                            EndOfAction(monster: monster),
-                            commonPreamble);
-                      }
-                    }));
+                    const String commonPreamble =
+                        "The monster moves up to its full movement distance to attack the " +
+                            "enemy with the lowest HP. If tied, determine randomly.";
+                    initiateAttackProcess(context, monster, commonPreamble);
                   },
                   child: const Text("Yes")),
               ElevatedButton(
