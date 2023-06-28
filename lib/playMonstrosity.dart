@@ -64,11 +64,14 @@ class _PlayMonstrosityState extends State<PlayMonstrosity> {
           },
           secondary: const Icon(Icons.warning_amber_sharp),
         ),
+        Text(
+            "${widget.monster.getActivationCountThisTurn()} / 3 activations this turn"),
         Column(children: [
           const Text("Monster will activate when"),
           ElevatedButton(
               onPressed: widget.monster.activationTriggers
-                      .contains(ActivationTriggerType.firstInitiative)
+                          .contains(ActivationTriggerType.firstInitiative) ||
+                      widget.monster.maxActivationReached()
                   ? null
                   : () =>
                       activateMonster(ActivationTriggerType.firstInitiative),
@@ -76,14 +79,17 @@ class _PlayMonstrosityState extends State<PlayMonstrosity> {
                   "Initiative ${widget.monster.desc.getAcuityFromPhase(widget.monster.phase)}")),
           ElevatedButton(
               onPressed: widget.monster.activationTriggers
-                      .contains(ActivationTriggerType.secondInitiative)
+                          .contains(ActivationTriggerType.secondInitiative) ||
+                      widget.monster.maxActivationReached()
                   ? null
                   : () =>
                       activateMonster(ActivationTriggerType.secondInitiative),
               child: Text(
                   "Initiative ${widget.monster.desc.getAcuityFromPhase(widget.monster.phase) - 10}")),
           ElevatedButton(
-              onPressed: () => activateMonster(ActivationTriggerType.special),
+              onPressed: widget.monster.maxActivationReached()
+                  ? null
+                  : () => activateMonster(ActivationTriggerType.special),
               child: const Text("Suffered critical hit"))
         ]),
       ]),

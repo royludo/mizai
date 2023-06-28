@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mizai/utils.dart';
 import 'decisionTree.dart';
 
-class MonstrositySpecialDecision extends DecisionAccumulator {
+class MonstrositySpecialDecision extends MonsterDecisionStep {
   const MonstrositySpecialDecision(
       {super.key, required super.monster, required this.preamble});
 

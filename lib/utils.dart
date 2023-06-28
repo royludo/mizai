@@ -174,6 +174,7 @@ enum DecisionKey {
   enemyInLineOfSight,
   noEnemyInLineOfSight,
   doubleMove,
+  normalMove,
   randomMove,
   activatedWithFirstInitiative,
   activatedWithSecondInitiative,
@@ -206,6 +207,14 @@ class StatefulMonster {
         activationTriggers.contains(ActivationTriggerType.secondInitiative)) {
       return true;
     }
+    return maxActivationReached();
+  }
+
+  int getActivationCountThisTurn() {
+    return activationTriggers.length;
+  }
+
+  bool maxActivationReached() {
     return activationTriggers.length >= 3;
   }
 

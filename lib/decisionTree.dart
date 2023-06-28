@@ -5,14 +5,14 @@ import 'package:mizai/playMonstrosity.dart';
 import 'utils.dart';
 import 'monstrositySpecials.dart';
 
-abstract class DecisionAccumulator extends StatelessWidget {
-  const DecisionAccumulator({super.key, required this.monster});
+abstract class MonsterDecisionStep extends StatelessWidget {
+  const MonsterDecisionStep({super.key, required this.monster});
 
   final StatefulMonster monster;
   //final Set<DecisionKey> decisions;
 }
 
-class CheckInExtremis extends DecisionAccumulator {
+class CheckInExtremis extends MonsterDecisionStep {
   const CheckInExtremis({super.key, required super.monster});
 
   @override
@@ -45,7 +45,7 @@ class CheckInExtremis extends DecisionAccumulator {
   }
 }
 
-class EnnemyInMelee extends DecisionAccumulator {
+class EnnemyInMelee extends MonsterDecisionStep {
   const EnnemyInMelee({super.key, required super.monster});
 
   @override
@@ -84,7 +84,7 @@ class EnnemyInMelee extends DecisionAccumulator {
   }
 }
 
-class AllEnnemyAttackedPreviously extends DecisionAccumulator {
+class AllEnnemyAttackedPreviously extends MonsterDecisionStep {
   const AllEnnemyAttackedPreviously({super.key, required super.monster});
 
   @override
@@ -147,7 +147,7 @@ class AllEnnemyAttackedPreviously extends DecisionAccumulator {
   }
 }
 
-class WhereIsLowestHP extends DecisionAccumulator {
+class WhereIsLowestHP extends MonsterDecisionStep {
   const WhereIsLowestHP({super.key, required super.monster});
 
   @override
@@ -212,7 +212,7 @@ class WhereIsLowestHP extends DecisionAccumulator {
   }
 }
 
-class EnnemyInMovementRange extends DecisionAccumulator {
+class EnnemyInMovementRange extends MonsterDecisionStep {
   const EnnemyInMovementRange({super.key, required super.monster});
 
   @override
@@ -271,7 +271,7 @@ class EnnemyInMovementRange extends DecisionAccumulator {
   }
 }
 
-class EnemyInLineOfSight extends DecisionAccumulator {
+class EnemyInLineOfSight extends MonsterDecisionStep {
   const EnemyInLineOfSight({super.key, required super.monster});
 
   @override
@@ -292,7 +292,16 @@ class EnemyInLineOfSight extends DecisionAccumulator {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (_) => MaxMove(monster: monster)));
+                            builder: (_) => GenericSimpleStep(
+                                monster: monster,
+                                title: const Text("Maximum move"),
+                                bodyMessage: const Text(
+                                    "Move and use an extra move action instead of an attack to be " +
+                                        "within melee range or as close as possible of as many enemies " +
+                                        "as possible that can be seen."),
+                                decisionForMemory: DecisionKey.doubleMove,
+                                nextStep: EndOfAction(monster: monster),
+                                buttonMessage: const Text("Continue"))));
                   },
                   child: const Text("Yes")),
               ElevatedButton(
@@ -311,36 +320,7 @@ class EnemyInLineOfSight extends DecisionAccumulator {
   }
 }
 
-class MaxMove extends DecisionAccumulator {
-  const MaxMove({super.key, required super.monster});
-
-  @override
-  Widget build(BuildContext context) {
-    //stdout.writeln("inextremis with decisions: $decisions");
-    return Scaffold(
-        appBar: AppBar(
-          title: const Text("Maximum move"),
-          backgroundColor: Theme.of(context).colorScheme.primary,
-        ),
-        body: Column(children: [
-          const Text(
-              "Move and use an extra move action instead of an attack to be " +
-                  "within melee range or as close as possible of as many enemies " +
-                  "as possible that can be seen."),
-          ElevatedButton(
-              onPressed: () {
-                monster.decisionsMemory.add(DecisionKey.doubleMove);
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (_) => EndOfAction(monster: monster)));
-              },
-              child: const Text("Continue"))
-        ]));
-  }
-}
-
-class NoEnemyVisible extends DecisionAccumulator {
+class NoEnemyVisible extends MonsterDecisionStep {
   const NoEnemyVisible({super.key, required super.monster});
 
   @override
@@ -360,7 +340,16 @@ class NoEnemyVisible extends DecisionAccumulator {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (_) => NormalMove(monster: monster)));
+                        builder: (_) => GenericSimpleStep(
+                            monster: monster,
+                            title: const Text("Normal move"),
+                            bodyMessage: const Text(
+                                "Move to be within melee range or as close as " +
+                                    "possible of as many enemies " +
+                                    "as possible that can be seen."),
+                            decisionForMemory: DecisionKey.normalMove,
+                            nextStep: EndOfAction(monster: monster),
+                            buttonMessage: const Text("Continue"))));
               },
               child: const Text("One or more enemy was revealed")),
           ElevatedButton(
@@ -368,68 +357,59 @@ class NoEnemyVisible extends DecisionAccumulator {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (_) => RandomMove(monster: monster)));
+                        builder: (_) => GenericSimpleStep(
+                            monster: monster,
+                            title: const Text("Random move"),
+                            bodyMessage: const Text(
+                                "Move in a random direction up to full movement distance."),
+                            decisionForMemory: DecisionKey.randomMove,
+                            nextStep: EndOfAction(monster: monster),
+                            buttonMessage: const Text("Continue"))));
               },
               child: const Text("Spot failed, or no Hidden enemy around"))
         ]));
   }
 }
 
-class NormalMove extends DecisionAccumulator {
-  const NormalMove({super.key, required super.monster});
+/// Describe a screen giving a message and a button to continue
+class GenericSimpleStep extends MonsterDecisionStep {
+  const GenericSimpleStep(
+      {super.key,
+      required super.monster,
+      required this.title,
+      required this.bodyMessage,
+      required this.decisionForMemory,
+      required this.nextStep,
+      required this.buttonMessage});
+
+  final Widget title;
+  final Widget bodyMessage;
+  final DecisionKey decisionForMemory;
+  final MonsterDecisionStep nextStep;
+  final Widget buttonMessage;
 
   @override
   Widget build(BuildContext context) {
     //stdout.writeln("inextremis with decisions: $decisions");
     return Scaffold(
         appBar: AppBar(
-          title: const Text("Normal move"),
+          title: title,
           backgroundColor: Theme.of(context).colorScheme.primary,
         ),
         body: Column(children: [
-          const Text(
-              "Move to be within melee range or as close as possible of as many enemies " +
-                  "as possible that can be seen."),
+          bodyMessage,
           ElevatedButton(
               onPressed: () {
+                monster.decisionsMemory.add(decisionForMemory);
                 Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (_) => EndOfAction(monster: monster)));
+                    context, MaterialPageRoute(builder: (_) => nextStep));
               },
-              child: const Text("Continue"))
+              child: buttonMessage)
         ]));
   }
 }
 
-class RandomMove extends DecisionAccumulator {
-  const RandomMove({super.key, required super.monster});
-
-  @override
-  Widget build(BuildContext context) {
-    //stdout.writeln("inextremis with decisions: $decisions");
-    return Scaffold(
-        appBar: AppBar(
-          title: const Text("Random move"),
-          backgroundColor: Theme.of(context).colorScheme.primary,
-        ),
-        body: Column(children: [
-          const Text(
-              "Move in a random direction up to full movement distance."),
-          ElevatedButton(
-              onPressed: () {
-                monster.decisionsMemory.add(DecisionKey.randomMove);
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (_) => EndOfAction(monster: monster)));
-              },
-              child: const Text("Continue"))
-        ]));
-  }
-}
-
-class EndOfAction extends DecisionAccumulator {
+class EndOfAction extends MonsterDecisionStep {
   const EndOfAction({super.key, required super.monster});
 
   @override
