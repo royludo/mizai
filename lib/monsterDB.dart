@@ -232,4 +232,45 @@ final Map<int, MonsterDescription> monsterDB = {
       },
       SpecialAttackQuestions({1: "Are there 2 or more ennemies within 6\"?"},
           SpeAttackPreamblePosition.onBasicOnly)),
+  16: MonsterDescription(
+      "Talmak Spawn",
+      "Talmak Spawn",
+      19,
+      23,
+      AIType.monstrosity,
+      [
+        Attack(
+            "Psionic Claws (Psionic)",
+            "1x attack (Melee, Combat, Psionic, 4D6+2 damage). " +
+                "If hit, target must pass a For check {0}. " +
+                "Failure => suffer 2D6 damage and Stunned.",
+            [(18, 22)]),
+        Attack(
+            "Psionic Wave (Psionic)",
+            "All team members within 12\" must pass a Dex check {0}. " +
+                "Failure => suffer 3D6 damage and Blinded.",
+            [(18, 22)])
+      ],
+      MonsterSpecies.talmak,
+      16,
+      117,
+      [
+        Attack(
+            "Twisted Creature (Psionic)",
+            "Whenever the monster suffers damage from a Weapon attack, it " +
+                "suffers 1D6 additional damage and " +
+                "all team members within 18\" must pass a For check {0}." +
+                "Failure => suffer 2D6 damage.",
+            [(18, 22)]),
+        Attack(
+            "Psionic Hardening",
+            "Reduce all damage from any attack with the Psionic keyword by 3. " +
+                "The monster may automatically clear one condition at the start " +
+                "of its activation if that condition was caused by a Psionic attack.",
+            [])
+      ],
+      {
+        1: ([1], [])
+      },
+      SpecialAttackQuestions({}, SpeAttackPreamblePosition.onBasicOnly)),
 };

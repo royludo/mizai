@@ -182,7 +182,7 @@ enum DecisionKey {
 
 enum ActivationTriggerType { firstInitiative, secondInitiative, special }
 
-enum MonsterSpecies { avenkian, rakire, jel, aglandian, centarian }
+enum MonsterSpecies { avenkian, rakire, jel, aglandian, centarian, talmak }
 
 class StatefulMonster {
   final MonsterDescription desc;
@@ -196,6 +196,10 @@ class StatefulMonster {
   List<ActivationTriggerType> activationTriggers = [];
 
   StatefulMonster(this.desc, this.phase);
+
+  bool specialAttacksRequireDecision() {
+    return desc.specialAttackQuestions.questionForAttack.isNotEmpty;
+  }
 
   bool endOfTurnPossible() {
     if (activationTriggers.contains(ActivationTriggerType.firstInitiative) &&
@@ -293,13 +297,18 @@ class StatefulMonster {
 
   Widget makeBasicAttack(
       BuildContext context, Widget endPoint, String preamble) {
+    var preamblePosition = desc.specialAttackQuestions.preamblePosition;
+
     return Scaffold(
         appBar: AppBar(
           title: const Text("Basic monster attacks"),
           backgroundColor: Theme.of(context).colorScheme.primary,
         ),
         body: Column(children: [
-          Text(preamble),
+          preamblePosition == SpeAttackPreamblePosition.onAllAttacks ||
+                  preamblePosition == SpeAttackPreamblePosition.onBasicOnly
+              ? Text(preamble)
+              : Container(),
           const Text("ATTACK"),
           Text(desc.attacks[0].name),
           Text(desc.attacks[0].interpolatedText(phase)),
@@ -328,6 +337,7 @@ class StatefulMonster {
           "Special attack index out of range. Index: $specialAttackIndex while array has length ${desc.attacks.length}");
     }
     Attack attack = desc.attacks[specialAttackIndex];
+    var preamblePosition = desc.specialAttackQuestions.preamblePosition;
 
     return Scaffold(
         appBar: AppBar(
@@ -335,7 +345,9 @@ class StatefulMonster {
           backgroundColor: Theme.of(context).colorScheme.primary,
         ),
         body: Column(children: [
-          Text(preamble),
+          preamblePosition == SpeAttackPreamblePosition.onAllAttacks
+              ? Text(preamble)
+              : Container(),
           const Text("ATTACK"),
           Text(attack.name),
           Text(attack.interpolatedText(phase)),

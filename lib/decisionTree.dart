@@ -122,8 +122,15 @@ class AllEnnemyAttackedPreviously extends DecisionAccumulator {
 
                       if (monster.isSpecialAttackPossible(false) &&
                           monster.isAnySpecialAttackAllowedNow()) {
-                        return MonstrositySpecialDecision(
-                            monster: monster, preamble: commonPreamble);
+                        if (monster.specialAttacksRequireDecision()) {
+                          return MonstrositySpecialDecision(
+                              monster: monster, preamble: commonPreamble);
+                        } else {
+                          // if more than 2 attacks without decision what do ?
+                          // is it even possible ?
+                          return monster.makeSpecialAttack(context,
+                              EndOfAction(monster: monster), commonPreamble, 1);
+                        }
                       } else {
                         return monster.makeBasicAttack(
                             context,
@@ -165,8 +172,15 @@ class WhereIsLowestHP extends DecisionAccumulator {
                           "Target ennemy with lowest HP. If tied, determine randomly.";
                       if (monster.isSpecialAttackPossible(false) &&
                           monster.isAnySpecialAttackAllowedNow()) {
-                        return MonstrositySpecialDecision(
-                            monster: monster, preamble: commonPreamble);
+                        if (monster.specialAttacksRequireDecision()) {
+                          return MonstrositySpecialDecision(
+                              monster: monster, preamble: commonPreamble);
+                        } else {
+                          // if more than 2 attacks without decision what do ?
+                          // is it even possible ?
+                          return monster.makeSpecialAttack(context,
+                              EndOfAction(monster: monster), commonPreamble, 1);
+                        }
                       } else {
                         return monster.makeBasicAttack(
                             context,
@@ -223,8 +237,15 @@ class EnnemyInMovementRange extends DecisionAccumulator {
                               "enemy with the lowest HP. If tied, determine randomly.";
                       if (monster.isSpecialAttackPossible(false) &&
                           monster.isAnySpecialAttackAllowedNow()) {
-                        return MonstrositySpecialDecision(
-                            monster: monster, preamble: commonPreamble);
+                        if (monster.specialAttacksRequireDecision()) {
+                          return MonstrositySpecialDecision(
+                              monster: monster, preamble: commonPreamble);
+                        } else {
+                          // if more than 2 attacks without decision what do ?
+                          // is it even possible ?
+                          return monster.makeSpecialAttack(context,
+                              EndOfAction(monster: monster), commonPreamble, 1);
+                        }
                       } else {
                         return monster.makeBasicAttack(
                             context,

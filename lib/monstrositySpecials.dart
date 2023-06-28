@@ -11,8 +11,7 @@ class MonstrositySpecialDecision extends DecisionAccumulator {
   @override
   Widget build(BuildContext context) {
     //stdout.writeln("AllEnnemyAttackedPreviously with decisions: $decisions");
-    var preambleOnQuestion =
-        monster.desc.specialAttackQuestions.preamblePosition;
+    var preamblePosition = monster.desc.specialAttackQuestions.preamblePosition;
     var questionForAttack =
         monster.desc.specialAttackQuestions.questionForAttack;
 
@@ -26,7 +25,7 @@ class MonstrositySpecialDecision extends DecisionAccumulator {
             body: Column(children: [
               // use preamble as part of checking range condition, else it's weird
               // situation where we check 12" before moving and making attack
-              preambleOnQuestion == SpeAttackPreamblePosition.onQuestion
+              preamblePosition == SpeAttackPreamblePosition.onQuestion
                   ? Text("$preamble ${questionForAttack[i]!}")
                   : Text(questionForAttack[i]!),
               Row(
@@ -39,11 +38,7 @@ class MonstrositySpecialDecision extends DecisionAccumulator {
                                 builder: (context) => monster.makeSpecialAttack(
                                     context,
                                     EndOfAction(monster: monster),
-                                    preambleOnQuestion ==
-                                            SpeAttackPreamblePosition
-                                                .onAllAttacks
-                                        ? preamble
-                                        : "",
+                                    preamble,
                                     i)));
                       },
                       child: const Text("Yes")),
@@ -55,14 +50,7 @@ class MonstrositySpecialDecision extends DecisionAccumulator {
                                 builder: (context) => monster.makeBasicAttack(
                                     context,
                                     EndOfAction(monster: monster),
-                                    preambleOnQuestion ==
-                                                SpeAttackPreamblePosition
-                                                    .onAllAttacks ||
-                                            preambleOnQuestion ==
-                                                SpeAttackPreamblePosition
-                                                    .onBasicOnly
-                                        ? preamble
-                                        : "")));
+                                    preamble)));
                       },
                       child: const Text("No"))
                 ],
