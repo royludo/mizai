@@ -66,12 +66,15 @@ int monsterCodeFromButtonIndex(int index) {
   }
 }
 
+enum AttackType { normal, area, passive }
+
 class Attack {
   final String name;
   final String text;
   final List<(int, int)> varStats;
+  final AttackType type;
 
-  Attack(this.name, this.text, this.varStats);
+  Attack(this.name, this.text, this.varStats, this.type);
 
   String interpolatedText(int phase) {
     //stdout.writeln("start interpolate text with phase $phase");
@@ -204,6 +207,7 @@ class StatefulMonster {
   bool isInExtremis = false;
   Set<DecisionKey> decisionsMemory = {};
   List<ActivationTriggerType> activationTriggers = [];
+  bool hasMovedBefore = false;
 
   StatefulMonster(this.desc, this.phase);
 
@@ -298,6 +302,17 @@ class StatefulMonster {
   void endAction() {
     previousActionAttackIndexes = List.from(currentActionAttackIndexes);
     currentActionAttackIndexes.clear();
+    if (decisionsMemory.contains(DecisionKey.normalMove) ||
+        decisionsMemory.contains(DecisionKey.doubleMove) ||
+        decisionsMemory.contains(DecisionKey.randomMove)) {
+      hasMovedBefore = true;
+    } else {
+      hasMovedBefore = false;
+    }
+    // in any case, remove the move memories
+    decisionsMemory.remove(DecisionKey.normalMove);
+    decisionsMemory.remove(DecisionKey.doubleMove);
+    decisionsMemory.remove(DecisionKey.randomMove);
   }
 
   void endActivation() {

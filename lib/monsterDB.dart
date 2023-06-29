@@ -15,12 +15,14 @@ final Map<int, MonsterDescription> monsterDB = {
             "2x attacks (Melee, Combat, 2D6+3 damage). " +
                 "If hit, target must pass a Dex check {0}. " +
                 "Failure => Restrained.",
-            [(20, 24)]),
+            [(20, 24)],
+            AttackType.normal),
         Attack(
             "Keening Shriek",
             "All team members within 12\" must pass a For check {0}. " +
                 "Failure => suffer 2D6 damage and Stunned.",
-            [(21, 25)])
+            [(21, 25)],
+            AttackType.area)
       ],
       MonsterSpecies.avenkian,
       11,
@@ -31,13 +33,15 @@ final Map<int, MonsterDescription> monsterDB = {
             "Whenever the monster suffers damage from " +
                 "a weapon attack, all enemies within 12\" must pass a FOR check {0}. " +
                 "Failure => suffer 2D6 damage and Stunned.",
-            [(20, 24)]),
+            [(20, 24)],
+            AttackType.passive),
         Attack(
             "Psionic Disruption",
             "Whenever a team member attempts to use a Psionic power of any kind " +
                 "they must pass a FOR check {0}." +
                 "Failure => the power fails and the action is wasted.",
-            [(18, 22)])
+            [(18, 22)],
+            AttackType.passive)
       ],
       {
         1: ([1], [])
@@ -56,7 +60,8 @@ final Map<int, MonsterDescription> monsterDB = {
             "2x attacks (Melee, Combat, 2D6+1 damage). " +
                 "If hit, target must pass a For check {0}. " +
                 "Failure => Poisoned.",
-            [(21, 25)]),
+            [(21, 25)],
+            AttackType.normal),
         Attack(
             "Grab and Drop",
             "Move to an ennemy within 6\", make 1x attack " +
@@ -65,7 +70,8 @@ final Map<int, MonsterDescription> monsterDB = {
                 "Success => monster flies to highest elevation with remaining movement. " +
                 "If no higher elevation in range, monster will move away from target and " +
                 "all other ennemies.",
-            [(24, 28)])
+            [(24, 28)],
+            AttackType.normal)
       ],
       MonsterSpecies.rakire,
       12,
@@ -80,7 +86,8 @@ final Map<int, MonsterDescription> monsterDB = {
                 "Enemy AI for Monstrosities, except it will always attempt to keep " +
                 "moving after making an attack, and move to the highest vertical " +
                 "point on the game board within its remaining movement distance.",
-            []),
+            [],
+            AttackType.passive),
         Attack(
             "Hard to Restrain",
             "Whenever a Rakire Winged Hunter is subject to " +
@@ -89,7 +96,8 @@ final Map<int, MonsterDescription> monsterDB = {
                 "start of their activation, the Rakire Winged Hunter automatically " +
                 "clears one Dexterity condition without any check necessary (they " +
                 "may make an additional check to clear a condition as normal).",
-            [(18, 22)])
+            [(18, 22)],
+            AttackType.passive)
       ],
       {
         1: ([], [0])
@@ -109,19 +117,22 @@ final Map<int, MonsterDescription> monsterDB = {
             "2x attacks (Melee, Combat, 3D6 damage). " +
                 "If hit, target must pass a For check {0}. " +
                 "Failure => Stunned.",
-            [(21, 25)]),
+            [(21, 25)],
+            AttackType.normal),
         Attack(
             "Shockwave",
             "All team members within 6\" must pass a For check {0}. " +
                 "Failure => suffer 2D6 damage and Stunned.",
-            [(21, 25)]),
+            [(21, 25)],
+            AttackType.area),
         Attack(
             "Stun Smash",
             "1x attack (Melee, Combat, 5D6 damage) against the Stunned enemy. " +
                 "If hit, target must roll twice and take the lower result " +
                 "on all attempts to clear the Stunned condition for " +
                 "the remainder of the mission.",
-            [])
+            [],
+            AttackType.normal)
       ],
       MonsterSpecies.jel,
       13,
@@ -131,13 +142,15 @@ final Map<int, MonsterDescription> monsterDB = {
             "Brute Toughness",
             "Reduce all damage the monster suffers from weapons by 3. " +
                 "The monster automatically clears all Fortitude conditions when it activates.",
-            []),
+            [],
+            AttackType.passive),
         Attack(
             "Weak Mind",
             "Monster gets a -4 penalty to all stat checks made to resist any " +
                 "condition with the Psionic keyword. If the monster suffers damage " +
                 "from a source with the Psionic keyword, that damage is increased by 3.",
-            [])
+            [],
+            AttackType.passive)
       ],
       {
         1: ([1, 2], []),
@@ -160,17 +173,20 @@ final Map<int, MonsterDescription> monsterDB = {
                 "Each attack targets a different team member if possible. " +
                 "If hit, targets must pass a Dex check {0}. " +
                 "Failure => Restrained.",
-            [(23, 27)]),
+            [(23, 27)],
+            AttackType.normal),
         Attack(
             "Chewing Frenzy",
             "Restrained target must pass a For check {0}. " +
                 "Failure => suffer 4D6 damage and Stunned.",
-            [(24, 28)]),
+            [(24, 28)],
+            AttackType.normal),
         Attack(
             "Consume All",
             "Stunned target must pass a For check {0}. " +
                 "Failure => suffer 8D6 damage and the monster heals 4d6 damage.",
-            [(25, 29)])
+            [(25, 29)],
+            AttackType.normal)
       ],
       MonsterSpecies.aglandian,
       14,
@@ -180,7 +196,8 @@ final Map<int, MonsterDescription> monsterDB = {
             "Wave of Flesh",
             "Immune to Restrained and Blind conditions, and can never " +
                 "have its move reduced for any reason or by any means.",
-            [])
+            [],
+            AttackType.passive)
       ],
       {
         1: ([1], []),
@@ -202,30 +219,37 @@ final Map<int, MonsterDescription> monsterDB = {
             "3x attacks (Melee, Combat, 1D6+6 damage). " +
                 "If hit, target must pass a For check {0}. " +
                 "Failure => Stunned.",
-            [(22, 26)]),
+            [(22, 26)],
+            AttackType.normal),
         Attack(
             "Mutilating Wave",
             "All team members within 6\" must pass a For check {0}. " +
                 "Failure => suffer 2D6+2 damage and Poisoned.",
-            [(22, 26)])
+            [(22, 26)],
+            AttackType.area)
       ],
       MonsterSpecies.centarian,
       15,
       116,
       [
-        Attack("Rock-Hard Skin",
-            "Reduces all damage dealt by Ballistic weapons by 3.", []),
+        Attack(
+            "Rock-Hard Skin",
+            "Reduces all damage dealt by Ballistic weapons by 3.",
+            [],
+            AttackType.passive),
         Attack(
             "Climbing Limbs",
             "Does not pay additional movement when climbing; " +
                 "each 1\" of vertical movement counts as 1\" of movement.",
-            []),
+            [],
+            AttackType.passive),
         Attack(
             "Reverberating Destruction",
             "Whenever the monster is damaged by a Weapon attack, " +
                 "all team members within 3\" must pass a For check {0}. " +
                 "Failure => suffer 2D6 damage.",
-            [(19, 23)])
+            [(19, 23)],
+            AttackType.passive)
       ],
       {
         1: ([1], [])
@@ -244,12 +268,14 @@ final Map<int, MonsterDescription> monsterDB = {
             "1x attack (Melee, Combat, Psionic, 4D6+2 damage). " +
                 "If hit, target must pass a For check {0}. " +
                 "Failure => suffer 2D6 damage and Stunned.",
-            [(18, 22)]),
+            [(18, 22)],
+            AttackType.normal),
         Attack(
             "Psionic Wave (Psionic)",
             "All team members within 12\" must pass a Dex check {0}. " +
                 "Failure => suffer 3D6 damage and Blinded.",
-            [(18, 22)])
+            [(18, 22)],
+            AttackType.area)
       ],
       MonsterSpecies.talmak,
       16,
@@ -261,13 +287,15 @@ final Map<int, MonsterDescription> monsterDB = {
                 "suffers 1D6 additional damage and " +
                 "all team members within 18\" must pass a For check {0}." +
                 "Failure => suffer 2D6 damage.",
-            [(18, 22)]),
+            [(18, 22)],
+            AttackType.passive),
         Attack(
             "Psionic Hardening",
             "Reduce all damage from any attack with the Psionic keyword by 3. " +
                 "The monster may automatically clear one condition at the start " +
                 "of its activation if that condition was caused by a Psionic attack.",
-            [])
+            [],
+            AttackType.passive)
       ],
       {
         1: ([1], [])
@@ -285,12 +313,14 @@ final Map<int, MonsterDescription> monsterDB = {
             "3x attacks (Melee, Combat, Psionic, 1D6+2 damage). " +
                 "If hit, target must pass a Dex check {0}. " +
                 "Failure => Blinded.",
-            [(18, 22)]),
+            [(18, 22)],
+            AttackType.normal),
         Attack(
             "Nightmare Pulse (Psionic)",
             "All team members within 12\" must pass a For check {0}. " +
                 "Failure => suffer 2D6+2 damage and Stunned.",
-            [(19, 23)]),
+            [(19, 23)],
+            AttackType.area),
         Attack(
             "Deepened Nightmares (Psionic)",
             "Target enemy within 12\" who is either Stunned or Blinded must pass a For check {0}. " +
@@ -302,7 +332,8 @@ final Map<int, MonsterDescription> monsterDB = {
                 "suffer any consequences of that as normal. If this movement would " +
                 "move them off of a horizontal surface that is elevated, they will " +
                 "fall and suffer damage as normal, with no chance to reduce it.",
-            [(20, 24)])
+            [(20, 24)],
+            AttackType.normal)
       ],
       MonsterSpecies.deranger,
       21,
@@ -313,12 +344,14 @@ final Map<int, MonsterDescription> monsterDB = {
             "Whenever an enemy activates within 12\", if they are making" +
                 "a stat check to clear a condition with the Psionic keyword " +
                 "they must roll twice and use the lower result.",
-            []),
+            [],
+            AttackType.passive),
         Attack(
             "Psionic Healing",
             "Heals 4 damage whenever an enemy fails a stat check to avoid a " +
                 "condition with the Psionic keyword resulting from an attack made by the Deranger.",
-            [])
+            [],
+            AttackType.passive)
       ],
       {
         // TODO is it right ? rules unclear about cycling here
@@ -341,12 +374,14 @@ final Map<int, MonsterDescription> monsterDB = {
             "2x attacks (Melee, Combat, 2D6+1 damage). " +
                 "If hit, target must pass a For check {0}. " +
                 "Failure => 3D6 damage and Stunned.",
-            [(17, 21)]),
+            [(17, 21)],
+            AttackType.normal),
         Attack(
             "Earth Eruption",
             "All team members within 12\" must pass a Dex check {0}. " +
                 "Failure => suffer 1D6 damage and Restrained.",
-            [(18, 22)]),
+            [(18, 22)],
+            AttackType.area),
       ],
       MonsterSpecies.terraformer,
       22,
@@ -357,14 +392,16 @@ final Map<int, MonsterDescription> monsterDB = {
             "All terrain within 18\" of the Terraformer is considered Dangerous " +
                 "terrain for enemies. The Terraformer ignores all Difficult " +
                 "and Dangerous terrain.",
-            []),
+            [],
+            AttackType.passive),
         Attack(
             "Deadly Terrain",
             "Whenever a model fails a check for Dangerous terrain while within " +
                 "18\" of the Terraformer (see Dangerous Terrain, page 67), the " +
                 "damage suffered is increased to 2D6 and the roll fails on a 4+ " +
                 "(instead of 5+).",
-            [])
+            [],
+            AttackType.passive)
       ],
       {
         1: ([1], [])
