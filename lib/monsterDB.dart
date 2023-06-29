@@ -328,5 +328,46 @@ final Map<int, MonsterDescription> monsterDB = {
       SpecialAttackQuestions({
         1: "",
         2: "Are there 1 or more enemy within 12\" either Stunned or Blinded?"
-      }, SpeAttackPreamblePosition.onBasicOnly))
+      }, SpeAttackPreamblePosition.onBasicOnly)),
+  22: MonsterDescription(
+      "Terraformer",
+      "Terraformer",
+      18,
+      22,
+      AIType.monstrosity,
+      [
+        Attack(
+            "Rending Claws",
+            "2x attacks (Melee, Combat, 2D6+1 damage). " +
+                "If hit, target must pass a For check {0}. " +
+                "Failure => 3D6 damage and Stunned.",
+            [(17, 21)]),
+        Attack(
+            "Earth Eruption",
+            "All team members within 12\" must pass a Dex check {0}. " +
+                "Failure => suffer 1D6 damage and Restrained.",
+            [(18, 22)]),
+      ],
+      MonsterSpecies.terraformer,
+      22,
+      119,
+      [
+        Attack(
+            "Terraform",
+            "All terrain within 18\" of the Terraformer is considered Dangerous " +
+                "terrain for enemies. The Terraformer ignores all Difficult " +
+                "and Dangerous terrain.",
+            []),
+        Attack(
+            "Deadly Terrain",
+            "Whenever a model fails a check for Dangerous terrain while within " +
+                "18\" of the Terraformer (see Dangerous Terrain, page 67), the " +
+                "damage suffered is increased to 2D6 and the roll fails on a 4+ " +
+                "(instead of 5+).",
+            [])
+      ],
+      {
+        1: ([1], [])
+      },
+      SpecialAttackQuestions({}, SpeAttackPreamblePosition.onBasicOnly))
 };

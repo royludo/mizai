@@ -190,7 +190,8 @@ enum MonsterSpecies {
   aglandian,
   centarian,
   talmak,
-  deranger
+  deranger,
+  terraformer
 }
 
 class StatefulMonster {

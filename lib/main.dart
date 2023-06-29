@@ -240,26 +240,30 @@ class _GlobalGameState extends State<GlobalGame> {
       ),
       body: Column(
         children: [
-          Row(
-            children: [
-              const Text("Controlling"),
-              DropdownButton(
-                value: selectedMonsterCode,
-                items: widget.gameState.allGameMonsters.map((m) {
-                  return DropdownMenuItem(
-                      value: m.desc.code, child: Text(m.desc.shortName));
-                }).toList(),
-                onChanged: (int? value) {
-                  // This is called when the user selects an item.
-                  setState(() {
-                    selectedMonsterCode = value!;
-                    selectedMonster = widget.gameState.allGameMonsters
-                        .firstWhere((m) => m.desc.code == selectedMonsterCode);
-                  });
-                },
-              )
-            ],
-          ),
+          // make drop down available only when more than 1 monster
+          widget.gameState.isMultiplayerGame()
+              ? Row(
+                  children: [
+                    const Text("Controlling"),
+                    DropdownButton(
+                      value: selectedMonsterCode,
+                      items: widget.gameState.allGameMonsters.map((m) {
+                        return DropdownMenuItem(
+                            value: m.desc.code, child: Text(m.desc.shortName));
+                      }).toList(),
+                      onChanged: (int? value) {
+                        // This is called when the user selects an item.
+                        setState(() {
+                          selectedMonsterCode = value!;
+                          selectedMonster = widget.gameState.allGameMonsters
+                              .firstWhere(
+                                  (m) => m.desc.code == selectedMonsterCode);
+                        });
+                      },
+                    )
+                  ],
+                )
+              : Container(),
           PlayMonstrosity(
               gameState:
                   GameState(widget.gameState.allGameMonsters, selectedMonster))
