@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 import 'utils.dart';
 import 'decisionTree.dart';
 
-class PlayMonstrosity extends StatefulWidget {
-  const PlayMonstrosity({super.key, required this.gameState});
+class MainMonsterScreen extends StatefulWidget {
+  const MainMonsterScreen({super.key, required this.gameState});
 
   final GameState gameState;
   //final Set<DecisionKey> previousDecisions;
 
   @override
-  State<PlayMonstrosity> createState() => _PlayMonstrosityState();
+  State<MainMonsterScreen> createState() => _MainMonsterScreenState();
 }
 
-class _PlayMonstrosityState extends State<PlayMonstrosity> {
+class _MainMonsterScreenState extends State<MainMonsterScreen> {
   void activateMonster(ActivationTriggerType triggerType) {
     /*Set<DecisionKey> decisions = {};
     widget.monster.phase == 1
@@ -34,13 +34,21 @@ class _PlayMonstrosityState extends State<PlayMonstrosity> {
         break;
     }
 
-    Navigator.push(context, MaterialPageRoute(builder: (context) {
-      if (monster.isInExtremis) {
-        return CheckInExtremis(gameState: widget.gameState);
-      } else {
-        return EnnemyInMelee(gameState: widget.gameState);
-      }
-    }));
+    switch (monster.desc.aiType) {
+      case AIType.monstrosity:
+        Navigator.push(context, MaterialPageRoute(builder: (context) {
+          if (monster.isInExtremis) {
+            return CheckInExtremis(gameState: widget.gameState);
+          } else {
+            return EnnemyInMelee(gameState: widget.gameState);
+          }
+        }));
+        break;
+      case AIType.ravager:
+        throw Exception("Ravager not implemented yet");
+      case AIType.stalker:
+        throw Exception("Stalker not implemented yet");
+    }
   }
 
   @override

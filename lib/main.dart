@@ -1,7 +1,5 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'playMonstrosity.dart';
+import 'main_monster_screen.dart';
 import 'utils.dart';
 import 'monsterDB.dart';
 
@@ -264,7 +262,7 @@ class _GlobalGameState extends State<GlobalGame> {
                   ],
                 )
               : Container(),
-          PlayMonstrosity(
+          MainMonsterScreen(
               gameState:
                   GameState(widget.gameState.allGameMonsters, selectedMonster))
         ],
