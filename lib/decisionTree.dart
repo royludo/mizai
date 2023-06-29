@@ -1,14 +1,15 @@
 // ignore_for_file: prefer_adjacent_string_concatenation, prefer_interpolation_to_compose_strings
 
 import 'package:flutter/material.dart';
+import 'package:mizai/main.dart';
 import 'package:mizai/playMonstrosity.dart';
 import 'utils.dart';
 import 'monstrositySpecials.dart';
 
 abstract class MonsterDecisionStep extends StatelessWidget {
-  const MonsterDecisionStep({super.key, required this.monster});
+  const MonsterDecisionStep({super.key, required this.gameState});
 
-  final StatefulMonster monster;
+  final GameState gameState;
   //final Set<DecisionKey> decisions;
 
   void initiateAttackProcess(
@@ -23,27 +24,28 @@ abstract class MonsterDecisionStep extends StatelessWidget {
           if (monster.isSpecificAttackAllowedNow(i) &&
               !monster.specificSpeAttackRequireDecision(i)) {
             return monster.makeSpecialAttack(
-                context, EndOfAction(monster: monster), commonPreamble, i);
+                context, EndOfAction(gameState: gameState), commonPreamble, i);
           }
         }
         // at this point we are sure we need a decision for the special attack
         // else the attack would have been made already
         return MonstrositySpecialDecision(
-            monster: monster, preamble: commonPreamble);
+            gameState: gameState, preamble: commonPreamble);
       } else {
         // spe attack not possible, revert to basic one
         return monster.makeBasicAttack(
-            context, EndOfAction(monster: monster), commonPreamble);
+            context, EndOfAction(gameState: gameState), commonPreamble);
       }
     }));
   }
 }
 
 class CheckInExtremis extends MonsterDecisionStep {
-  const CheckInExtremis({super.key, required super.monster});
+  const CheckInExtremis({super.key, required super.gameState});
 
   @override
   Widget build(BuildContext context) {
+    var monster = gameState.currentMonster;
     //stdout.writeln("inextremis with decisions: $decisions");
     return Scaffold(
         appBar: AppBar(
@@ -59,7 +61,7 @@ class CheckInExtremis extends MonsterDecisionStep {
                   case AIType.monstrosity:
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) {
-                      return EnnemyInMelee(monster: monster);
+                      return EnnemyInMelee(gameState: gameState);
                     }));
                   case AIType.ravager:
                     throw Exception("Ravager tree not implemented yet");
@@ -73,10 +75,11 @@ class CheckInExtremis extends MonsterDecisionStep {
 }
 
 class EnnemyInMelee extends MonsterDecisionStep {
-  const EnnemyInMelee({super.key, required super.monster});
+  const EnnemyInMelee({super.key, required super.gameState});
 
   @override
   Widget build(BuildContext context) {
+    var monster = gameState.currentMonster;
     //stdout.writeln("ennemyInMelee with decisions: $decisions");
     return Scaffold(
         appBar: AppBar(
@@ -92,7 +95,7 @@ class EnnemyInMelee extends MonsterDecisionStep {
                     monster.decisionsMemory.add(DecisionKey.ennemyInMelee);
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) {
-                      return AllEnnemyAttackedPreviously(monster: monster);
+                      return AllEnnemyAttackedPreviously(gameState: gameState);
                     }));
                   },
                   child: const Text("Yes")),
@@ -101,7 +104,7 @@ class EnnemyInMelee extends MonsterDecisionStep {
                     monster.decisionsMemory.add(DecisionKey.noEnnemyInMelee);
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) {
-                      return EnnemyInMovementRange(monster: monster);
+                      return EnnemyInMovementRange(gameState: gameState);
                     }));
                   },
                   child: const Text("No"))
@@ -112,10 +115,11 @@ class EnnemyInMelee extends MonsterDecisionStep {
 }
 
 class AllEnnemyAttackedPreviously extends MonsterDecisionStep {
-  const AllEnnemyAttackedPreviously({super.key, required super.monster});
+  const AllEnnemyAttackedPreviously({super.key, required super.gameState});
 
   @override
   Widget build(BuildContext context) {
+    var monster = gameState.currentMonster;
     //stdout.writeln("AllEnnemyAttackedPreviously with decisions: $decisions");
     return Scaffold(
         appBar: AppBar(
@@ -133,7 +137,7 @@ class AllEnnemyAttackedPreviously extends MonsterDecisionStep {
                         .add(DecisionKey.allPreviouslyAttacked);
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) {
-                      return WhereIsLowestHP(monster: monster);
+                      return WhereIsLowestHP(gameState: gameState);
                     }));
                   },
                   child: const Text("Yes")),
@@ -154,10 +158,11 @@ class AllEnnemyAttackedPreviously extends MonsterDecisionStep {
 }
 
 class WhereIsLowestHP extends MonsterDecisionStep {
-  const WhereIsLowestHP({super.key, required super.monster});
+  const WhereIsLowestHP({super.key, required super.gameState});
 
   @override
   Widget build(BuildContext context) {
+    var monster = gameState.currentMonster;
     //stdout.writeln("WhereIsLowestHP with decisions: $decisions");
     return Scaffold(
         appBar: AppBar(
@@ -187,7 +192,7 @@ class WhereIsLowestHP extends MonsterDecisionStep {
                             builder: (_) => monster.makeBasicAttack(
                                 context,
                                 //decisions,
-                                EndOfAction(monster: monster),
+                                EndOfAction(gameState: gameState),
                                 "The monster moves up to its full movement distance to attack the " +
                                     "enemy with the lowest HP. If tied, determine randomly.")));
                   },
@@ -199,10 +204,11 @@ class WhereIsLowestHP extends MonsterDecisionStep {
 }
 
 class EnnemyInMovementRange extends MonsterDecisionStep {
-  const EnnemyInMovementRange({super.key, required super.monster});
+  const EnnemyInMovementRange({super.key, required super.gameState});
 
   @override
   Widget build(BuildContext context) {
+    var monster = gameState.currentMonster;
     //stdout.writeln("ennemyInMelee with decisions: $decisions");
     return Scaffold(
         appBar: AppBar(
@@ -228,7 +234,7 @@ class EnnemyInMovementRange extends MonsterDecisionStep {
                     monster.decisionsMemory.add(DecisionKey.noEnemyInRange);
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) {
-                      return EnemyInLineOfSight(monster: monster);
+                      return EnemyInLineOfSight(gameState: gameState);
                     }));
                   },
                   child: const Text("No"))
@@ -239,10 +245,11 @@ class EnnemyInMovementRange extends MonsterDecisionStep {
 }
 
 class EnemyInLineOfSight extends MonsterDecisionStep {
-  const EnemyInLineOfSight({super.key, required super.monster});
+  const EnemyInLineOfSight({super.key, required super.gameState});
 
   @override
   Widget build(BuildContext context) {
+    var monster = gameState.currentMonster;
     //stdout.writeln("ennemyInMelee with decisions: $decisions");
     return Scaffold(
         appBar: AppBar(
@@ -260,14 +267,14 @@ class EnemyInLineOfSight extends MonsterDecisionStep {
                         context,
                         MaterialPageRoute(
                             builder: (_) => GenericSimpleStep(
-                                monster: monster,
+                                gameState: gameState,
                                 title: const Text("Maximum move"),
                                 bodyMessage: const Text(
                                     "Move and use an extra move action instead of an attack to be " +
                                         "within melee range or as close as possible of as many enemies " +
                                         "as possible that can be seen."),
                                 decisionForMemory: DecisionKey.doubleMove,
-                                nextStep: EndOfAction(monster: monster),
+                                nextStep: EndOfAction(gameState: gameState),
                                 buttonMessage: const Text("Continue"))));
                   },
                   child: const Text("Yes")),
@@ -278,7 +285,8 @@ class EnemyInLineOfSight extends MonsterDecisionStep {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (_) => NoEnemyVisible(monster: monster)));
+                            builder: (_) =>
+                                NoEnemyVisible(gameState: gameState)));
                   },
                   child: const Text("No"))
             ],
@@ -288,10 +296,11 @@ class EnemyInLineOfSight extends MonsterDecisionStep {
 }
 
 class NoEnemyVisible extends MonsterDecisionStep {
-  const NoEnemyVisible({super.key, required super.monster});
+  const NoEnemyVisible({super.key, required super.gameState});
 
   @override
   Widget build(BuildContext context) {
+    var monster = gameState.currentMonster;
     //stdout.writeln("inextremis with decisions: $decisions");
     return Scaffold(
         appBar: AppBar(
@@ -308,14 +317,14 @@ class NoEnemyVisible extends MonsterDecisionStep {
                     context,
                     MaterialPageRoute(
                         builder: (_) => GenericSimpleStep(
-                            monster: monster,
+                            gameState: gameState,
                             title: const Text("Normal move"),
                             bodyMessage: const Text(
                                 "Move to be within melee range or as close as " +
                                     "possible of as many enemies " +
                                     "as possible that can be seen."),
                             decisionForMemory: DecisionKey.normalMove,
-                            nextStep: EndOfAction(monster: monster),
+                            nextStep: EndOfAction(gameState: gameState),
                             buttonMessage: const Text("Continue"))));
               },
               child: const Text("One or more enemy was revealed")),
@@ -325,12 +334,12 @@ class NoEnemyVisible extends MonsterDecisionStep {
                     context,
                     MaterialPageRoute(
                         builder: (_) => GenericSimpleStep(
-                            monster: monster,
+                            gameState: gameState,
                             title: const Text("Random move"),
                             bodyMessage: const Text(
                                 "Move in a random direction up to full movement distance."),
                             decisionForMemory: DecisionKey.randomMove,
-                            nextStep: EndOfAction(monster: monster),
+                            nextStep: EndOfAction(gameState: gameState),
                             buttonMessage: const Text("Continue"))));
               },
               child: const Text("Spot failed, or no Hidden enemy around"))
@@ -342,7 +351,7 @@ class NoEnemyVisible extends MonsterDecisionStep {
 class GenericSimpleStep extends MonsterDecisionStep {
   const GenericSimpleStep(
       {super.key,
-      required super.monster,
+      required super.gameState,
       required this.title,
       required this.bodyMessage,
       required this.decisionForMemory,
@@ -367,7 +376,7 @@ class GenericSimpleStep extends MonsterDecisionStep {
           bodyMessage,
           ElevatedButton(
               onPressed: () {
-                monster.decisionsMemory.add(decisionForMemory);
+                gameState.currentMonster.decisionsMemory.add(decisionForMemory);
                 Navigator.push(
                     context, MaterialPageRoute(builder: (_) => nextStep));
               },
@@ -377,10 +386,11 @@ class GenericSimpleStep extends MonsterDecisionStep {
 }
 
 class EndOfAction extends MonsterDecisionStep {
-  const EndOfAction({super.key, required super.monster});
+  const EndOfAction({super.key, required super.gameState});
 
   @override
   Widget build(BuildContext context) {
+    var monster = gameState.currentMonster;
     //stdout.writeln("endofaction with decisions: $decisions");
 
     String text;
@@ -414,7 +424,7 @@ class EndOfAction extends MonsterDecisionStep {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (_) => EnnemyInMelee(monster: monster)));
+                          builder: (_) => EnnemyInMelee(gameState: gameState)));
                 } else {
                   // END OF ACTIVATION
                   // clean monster memory
@@ -427,7 +437,7 @@ class EndOfAction extends MonsterDecisionStep {
                   Navigator.pushAndRemoveUntil(
                       context,
                       MaterialPageRoute(
-                          builder: (_) => PlayMonstrosity(monster: monster)),
+                          builder: (_) => GlobalGame(gameState: gameState)),
                       (route) => false);
                 }
               },

@@ -390,3 +390,18 @@ class StatefulMonster {
         ]));
   }
 }
+
+class GameState {
+  final List<StatefulMonster> allGameMonsters;
+  final StatefulMonster currentMonster;
+
+  GameState(this.allGameMonsters, this.currentMonster);
+
+  bool isSoloGame() {
+    return allGameMonsters.length == 1;
+  }
+
+  bool isMultiplayerGame() {
+    return allGameMonsters.length > 1;
+  }
+}

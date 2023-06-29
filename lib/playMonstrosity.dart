@@ -3,9 +3,9 @@ import 'utils.dart';
 import 'decisionTree.dart';
 
 class PlayMonstrosity extends StatefulWidget {
-  const PlayMonstrosity({super.key, required this.monster});
+  const PlayMonstrosity({super.key, required this.gameState});
 
-  final StatefulMonster monster;
+  final GameState gameState;
   //final Set<DecisionKey> previousDecisions;
 
   @override
@@ -18,82 +18,79 @@ class _PlayMonstrosityState extends State<PlayMonstrosity> {
     widget.monster.phase == 1
         ? decisions.add(DecisionKey.phase1)
         : decisions.add(DecisionKey.phase2);*/
+    StatefulMonster monster = widget.gameState.currentMonster;
 
     // temporarily add activation trigger to monster decisionsMemory
     // activation will be recorded when it is finished, at the end of action
     switch (triggerType) {
       case ActivationTriggerType.firstInitiative:
-        widget.monster.decisionsMemory
-            .add(DecisionKey.activatedWithFirstInitiative);
+        monster.decisionsMemory.add(DecisionKey.activatedWithFirstInitiative);
         break;
       case ActivationTriggerType.secondInitiative:
-        widget.monster.decisionsMemory
-            .add(DecisionKey.activatedWithSecondInitiative);
+        monster.decisionsMemory.add(DecisionKey.activatedWithSecondInitiative);
         break;
       case ActivationTriggerType.special:
-        widget.monster.decisionsMemory.add(DecisionKey.activatedWithSpecial);
+        monster.decisionsMemory.add(DecisionKey.activatedWithSpecial);
         break;
     }
 
     Navigator.push(context, MaterialPageRoute(builder: (context) {
-      if (widget.monster.isInExtremis) {
-        return CheckInExtremis(monster: widget.monster);
+      if (monster.isInExtremis) {
+        return CheckInExtremis(gameState: widget.gameState);
       } else {
-        return EnnemyInMelee(monster: widget.monster);
+        return EnnemyInMelee(gameState: widget.gameState);
       }
     }));
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
+    StatefulMonster monster = widget.gameState.currentMonster;
+    return
+        /*appBar: AppBar(
         title: const Text("Play"),
         backgroundColor: Theme.of(context).colorScheme.primary,
-      ),
-      body: Column(children: [
-        Text(widget.monster.desc.fullName),
-        Text("Phase ${widget.monster.phase}"),
-        SwitchListTile(
-          title: const Text('In Extremis'),
-          value: widget.monster.isInExtremis,
-          onChanged: (bool value) {
-            setState(() {
-              widget.monster.isInExtremis = value;
-            });
-          },
-          secondary: const Icon(Icons.warning_amber_sharp),
-        ),
-        Text(
-            "${widget.monster.getActivationCountThisTurn()} / 3 activations this turn"),
+      ),*/
         Column(children: [
-          const Text("Monster will activate when"),
-          ElevatedButton(
-              onPressed: widget.monster.activationTriggers
-                          .contains(ActivationTriggerType.firstInitiative) ||
-                      widget.monster.maxActivationReached()
-                  ? null
-                  : () =>
-                      activateMonster(ActivationTriggerType.firstInitiative),
-              child: Text(
-                  "Initiative ${widget.monster.desc.getAcuityFromPhase(widget.monster.phase)}")),
-          ElevatedButton(
-              onPressed: widget.monster.activationTriggers
-                          .contains(ActivationTriggerType.secondInitiative) ||
-                      widget.monster.maxActivationReached()
-                  ? null
-                  : () =>
-                      activateMonster(ActivationTriggerType.secondInitiative),
-              child: Text(
-                  "Initiative ${widget.monster.desc.getAcuityFromPhase(widget.monster.phase) - 10}")),
-          ElevatedButton(
-              onPressed: widget.monster.maxActivationReached()
-                  ? null
-                  : () => activateMonster(ActivationTriggerType.special),
-              child: const Text("Suffered critical hit"))
-        ]),
+      Text(monster.desc.fullName),
+      Text("Phase ${monster.phase}"),
+      SwitchListTile(
+        title: const Text('In Extremis'),
+        value: monster.isInExtremis,
+        onChanged: (bool value) {
+          setState(() {
+            monster.isInExtremis = value;
+          });
+        },
+        secondary: const Icon(Icons.warning_amber_sharp),
+      ),
+      Text("${monster.getActivationCountThisTurn()} / 3 activations this turn"),
+      Column(children: [
+        const Text("Monster will activate when"),
+        ElevatedButton(
+            onPressed: monster.activationTriggers
+                        .contains(ActivationTriggerType.firstInitiative) ||
+                    monster.maxActivationReached()
+                ? null
+                : () => activateMonster(ActivationTriggerType.firstInitiative),
+            child: Text(
+                "Initiative ${monster.desc.getAcuityFromPhase(monster.phase)}")),
+        ElevatedButton(
+            onPressed: monster.activationTriggers
+                        .contains(ActivationTriggerType.secondInitiative) ||
+                    monster.maxActivationReached()
+                ? null
+                : () => activateMonster(ActivationTriggerType.secondInitiative),
+            child: Text(
+                "Initiative ${monster.desc.getAcuityFromPhase(monster.phase) - 10}")),
+        ElevatedButton(
+            onPressed: monster.maxActivationReached()
+                ? null
+                : () => activateMonster(ActivationTriggerType.special),
+            child: const Text("Suffered critical hit"))
       ]),
-      floatingActionButton: widget.monster.endOfTurnPossible()
+    ]);
+    /*floatingActionButton: widget.monster.endOfTurnPossible()
           ? FloatingActionButton.extended(
               onPressed: () {
                 setState(() {
@@ -102,7 +99,7 @@ class _PlayMonstrosityState extends State<PlayMonstrosity> {
               },
               label: const Text("End Turn"),
             )
-          : null,
-    );
+          : null,*/
+    //);
   }
 }

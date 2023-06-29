@@ -4,12 +4,13 @@ import 'decisionTree.dart';
 
 class MonstrositySpecialDecision extends MonsterDecisionStep {
   const MonstrositySpecialDecision(
-      {super.key, required super.monster, required this.preamble});
+      {super.key, required super.gameState, required this.preamble});
 
   final String preamble;
 
   @override
   Widget build(BuildContext context) {
+    var monster = gameState.currentMonster;
     //stdout.writeln("AllEnnemyAttackedPreviously with decisions: $decisions");
     var preamblePosition = monster.desc.specialAttackQuestions.preamblePosition;
     var questionForAttack =
@@ -37,7 +38,7 @@ class MonstrositySpecialDecision extends MonsterDecisionStep {
                             MaterialPageRoute(
                                 builder: (context) => monster.makeSpecialAttack(
                                     context,
-                                    EndOfAction(monster: monster),
+                                    EndOfAction(gameState: gameState),
                                     preamble,
                                     i)));
                       },
@@ -49,7 +50,7 @@ class MonstrositySpecialDecision extends MonsterDecisionStep {
                             MaterialPageRoute(
                                 builder: (context) => monster.makeBasicAttack(
                                     context,
-                                    EndOfAction(monster: monster),
+                                    EndOfAction(gameState: gameState),
                                     preamble)));
                       },
                       child: const Text("No"))

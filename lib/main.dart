@@ -128,13 +128,20 @@ class _MyHomePageState extends State<MyHomePage> {
     if (monstersAlreadyInGame.isNotEmpty) {
       floatingButtons.add(FloatingActionButton(
         onPressed: () {
+          List<StatefulMonster> allMonsterList = [];
+          for (var monsterFullName in monstersAlreadyInGame) {
+            allMonsterList.add(StatefulMonster(
+                monsterDBWithNameKeys[monsterFullName]!,
+                currentPhaseSelected + 1));
+          }
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) {
-              StatefulMonster m = StatefulMonster(
+            MaterialPageRoute(
+                builder: (context) {
+                  /*StatefulMonster m = StatefulMonster(
                   monsterDBWithNameKeys[monstersAlreadyInGame.first]!,
-                  currentPhaseSelected + 1);
-              switch (m.desc.aiType) {
+                  currentPhaseSelected + 1);*/
+                  /*switch (m.desc.aiType) {
                 case AIType.monstrosity:
                   return PlayMonstrosity(
                     monster: m,
@@ -142,9 +149,18 @@ class _MyHomePageState extends State<MyHomePage> {
                   );
                 default:
                   throw Exception("Other AI not implemented");
-              }
-            }),
-          );
+              }*/
+
+                  return GlobalGame(
+                      gameState: GameState(allMonsterList, allMonsterList.first)
+                      /*currentMonster: allMonsterList.first*/
+                      );
+                },
+                settings: const RouteSettings(name: "gameScreen")),
+          ) /*.then((_) {
+            setState(() {});
+          })*/
+              ;
         },
         heroTag: 'buttonProceed',
         child: const Icon(Icons.arrow_forward),
@@ -190,6 +206,75 @@ class _MyHomePageState extends State<MyHomePage> {
         spacing: 10,
         children: floatingButtons,
       ),
+    );
+  }
+}
+
+class GlobalGame extends StatefulWidget {
+  const GlobalGame({super.key, required this.gameState});
+
+  final GameState
+      gameState; // won't have up to date current monster, is in state
+
+  @override
+  State<GlobalGame> createState() => _GlobalGameState();
+}
+
+class _GlobalGameState extends State<GlobalGame> {
+  int selectedMonsterCode = -1;
+  late StatefulMonster selectedMonster;
+
+  @override
+  void initState() {
+    super.initState();
+    selectedMonster = widget.gameState.currentMonster;
+    selectedMonsterCode = selectedMonster.desc.code;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Play"),
+        backgroundColor: Theme.of(context).colorScheme.primary,
+      ),
+      body: Column(
+        children: [
+          Row(
+            children: [
+              const Text("Controlling"),
+              DropdownButton(
+                value: selectedMonsterCode,
+                items: widget.gameState.allGameMonsters.map((m) {
+                  return DropdownMenuItem(
+                      value: m.desc.code, child: Text(m.desc.shortName));
+                }).toList(),
+                onChanged: (int? value) {
+                  // This is called when the user selects an item.
+                  setState(() {
+                    selectedMonsterCode = value!;
+                    selectedMonster = widget.gameState.allGameMonsters
+                        .firstWhere((m) => m.desc.code == selectedMonsterCode);
+                  });
+                },
+              )
+            ],
+          ),
+          PlayMonstrosity(
+              gameState:
+                  GameState(widget.gameState.allGameMonsters, selectedMonster))
+        ],
+      ),
+      floatingActionButton: selectedMonster.endOfTurnPossible()
+          ? FloatingActionButton.extended(
+              onPressed: () {
+                setState(() {
+                  selectedMonster.endTurn();
+                });
+              },
+              label: const Text("End Turn"),
+            )
+          : null,
     );
   }
 }
