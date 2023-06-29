@@ -38,7 +38,7 @@ final Map<int, MonsterDescription> monsterDB = {
         Attack(
             "Psionic Disruption",
             "Whenever a team member attempts to use a Psionic power of any kind " +
-                "they must pass a FOR check {0}." +
+                "they must pass a FOR check {0}. " +
                 "Failure => the power fails and the action is wasted.",
             [(18, 22)],
             AttackType.passive)

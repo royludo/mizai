@@ -231,6 +231,37 @@ class _GlobalGameState extends State<GlobalGame> {
 
   @override
   Widget build(BuildContext context) {
+    // build reminder section
+    List<Widget> reminderSection = [];
+    reminderSection.add(
+      const Padding(
+          padding: EdgeInsets.only(top: 20, bottom: 5),
+          child: Text("Reminders")),
+    );
+    for (var monster in widget.gameState.allGameMonsters) {
+      reminderSection.add(const Divider(
+        indent: 50,
+        endIndent: 50,
+      ));
+      widget.gameState.isMultiplayerGame()
+          ? reminderSection.add(Text(
+              monster.desc.fullName,
+              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+            ))
+          : null;
+      for (var passiveAbility in monster.desc.passiveAbilities) {
+        reminderSection.add(Padding(
+            padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+            child: Text.rich(TextSpan(children: [
+              TextSpan(
+                  text: "${passiveAbility.name}: ",
+                  style: const TextStyle(fontWeight: FontWeight.bold)),
+              TextSpan(text: passiveAbility.interpolatedText(monster.phase))
+            ]))));
+        //reminderSection.add(Text(passiveAbility.text));
+      }
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("Play"),
@@ -238,34 +269,37 @@ class _GlobalGameState extends State<GlobalGame> {
       ),
       body: Column(
         children: [
-          // make drop down available only when more than 1 monster
-          widget.gameState.isMultiplayerGame()
-              ? Row(
-                  children: [
-                    const Text("Controlling"),
-                    DropdownButton(
-                      value: selectedMonsterCode,
-                      items: widget.gameState.allGameMonsters.map((m) {
-                        return DropdownMenuItem(
-                            value: m.desc.code, child: Text(m.desc.shortName));
-                      }).toList(),
-                      onChanged: (int? value) {
-                        // This is called when the user selects an item.
-                        setState(() {
-                          selectedMonsterCode = value!;
-                          selectedMonster = widget.gameState.allGameMonsters
-                              .firstWhere(
-                                  (m) => m.desc.code == selectedMonsterCode);
-                        });
-                      },
+              // make drop down available only when more than 1 monster
+              widget.gameState.isMultiplayerGame()
+                  ? Row(
+                      children: [
+                        const Text("Controlling"),
+                        const SizedBox(width: 10),
+                        DropdownButton(
+                          value: selectedMonsterCode,
+                          items: widget.gameState.allGameMonsters.map((m) {
+                            return DropdownMenuItem(
+                                value: m.desc.code,
+                                child: Text(m.desc.shortName));
+                          }).toList(),
+                          onChanged: (int? value) {
+                            // This is called when the user selects an item.
+                            setState(() {
+                              selectedMonsterCode = value!;
+                              selectedMonster = widget.gameState.allGameMonsters
+                                  .firstWhere((m) =>
+                                      m.desc.code == selectedMonsterCode);
+                            });
+                          },
+                        )
+                      ],
                     )
-                  ],
-                )
-              : Container(),
-          MainMonsterScreen(
-              gameState:
-                  GameState(widget.gameState.allGameMonsters, selectedMonster))
-        ],
+                  : Container(),
+              MainMonsterScreen(
+                  gameState: GameState(
+                      widget.gameState.allGameMonsters, selectedMonster)),
+            ] +
+            reminderSection,
       ),
       floatingActionButton: selectedMonster.endOfTurnPossible()
           ? FloatingActionButton.extended(
