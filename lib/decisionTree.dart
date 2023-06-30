@@ -46,12 +46,11 @@ class CheckInExtremis extends MonsterDecisionStep {
   Widget build(BuildContext context) {
     var monster = gameState.currentMonster;
     //stdout.writeln("inextremis with decisions: $decisions");
-    return Scaffold(
-        appBar: AppBar(
-          title: const Text("In Extremis"),
-        ),
-        body: Column(children: [
-          Text(
+    return GenericChoiceStep(
+        gameState: gameState,
+        title: "In Extremis",
+        content: Column(children: [
+          SimpleQuestionText(
               "The ${monster.desc.fullName} is In Extremis. It suffers 2D6 damage and will take an extra action!"),
           ElevatedButton(
               onPressed: () {
@@ -79,13 +78,13 @@ class EnnemyInMelee extends MonsterDecisionStep {
   Widget build(BuildContext context) {
     var monster = gameState.currentMonster;
     //stdout.writeln("ennemyInMelee with decisions: $decisions");
-    return Scaffold(
-        appBar: AppBar(
-          title: const Text("Situation A"),
-        ),
-        body: Column(children: [
-          const Text("Is there any ennemy in melee range?"),
+    return GenericChoiceStep(
+        gameState: gameState,
+        title: "Situation A",
+        content: Column(children: [
+          const SimpleQuestionText("Is there any ennemy in melee range?"),
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               ElevatedButton(
                   onPressed: () {
@@ -118,14 +117,15 @@ class AllEnnemyAttackedPreviously extends MonsterDecisionStep {
   Widget build(BuildContext context) {
     var monster = gameState.currentMonster;
     //stdout.writeln("AllEnnemyAttackedPreviously with decisions: $decisions");
-    return Scaffold(
-        appBar: AppBar(
-          title: const Text("Situation B"),
-        ),
-        body: Column(children: [
-          const Text("Have ALL the ennemies in melee range been previously " +
-              "attacked during the last activation?"),
+    return GenericChoiceStep(
+        gameState: gameState,
+        title: "Situation B",
+        content: Column(children: [
+          const SimpleQuestionText(
+              "Have ALL the ennemies in melee range been previously " +
+                  "attacked during the last activation?"),
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               ElevatedButton(
                   onPressed: () {
@@ -160,14 +160,14 @@ class WhereIsLowestHP extends MonsterDecisionStep {
   Widget build(BuildContext context) {
     var monster = gameState.currentMonster;
     //stdout.writeln("WhereIsLowestHP with decisions: $decisions");
-    return Scaffold(
-        appBar: AppBar(
-          title: const Text("Situation C"),
-        ),
-        body: Column(children: [
-          const Text("Where is the ennemy with the lowest HP? " +
+    return GenericChoiceStep(
+        gameState: gameState,
+        title: "Situation C",
+        content: Column(children: [
+          const SimpleQuestionText("Where is the ennemy with the lowest HP? " +
               "(Ignore ennemies outside movement range)"),
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               ElevatedButton(
                   onPressed: () {
@@ -205,13 +205,14 @@ class EnnemyInMovementRange extends MonsterDecisionStep {
   Widget build(BuildContext context) {
     var monster = gameState.currentMonster;
     //stdout.writeln("ennemyInMelee with decisions: $decisions");
-    return Scaffold(
-        appBar: AppBar(
-          title: const Text("Situation D"),
-        ),
-        body: Column(children: [
-          const Text("Is any ennemy reachable within movement range?"),
+    return GenericChoiceStep(
+        gameState: gameState,
+        title: "Situation D",
+        content: Column(children: [
+          const SimpleQuestionText(
+              "Is any ennemy reachable within movement range?"),
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               ElevatedButton(
                   onPressed: () {
@@ -245,13 +246,14 @@ class EnemyInLineOfSight extends MonsterDecisionStep {
   Widget build(BuildContext context) {
     var monster = gameState.currentMonster;
     //stdout.writeln("ennemyInMelee with decisions: $decisions");
-    return Scaffold(
-        appBar: AppBar(
-          title: const Text("Situation E"),
-        ),
-        body: Column(children: [
-          const Text("Is any ennemy in line of sight and visible?"),
+    return GenericChoiceStep(
+        gameState: gameState,
+        title: "Situation E",
+        content: Column(children: [
+          const SimpleQuestionText(
+              "Is any ennemy in line of sight and visible?"),
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               ElevatedButton(
                   onPressed: () {
@@ -262,7 +264,7 @@ class EnemyInLineOfSight extends MonsterDecisionStep {
                             builder: (_) => GenericSimpleStep(
                                 gameState: gameState,
                                 title: const Text("Maximum move"),
-                                bodyMessage: const Text(
+                                bodyMessage: const SimpleQuestionText(
                                     "Move and use an extra move action instead of an attack to be " +
                                         "within melee range or as close as possible of as many enemies " +
                                         "as possible that can be seen."),
@@ -295,12 +297,11 @@ class NoEnemyVisible extends MonsterDecisionStep {
   Widget build(BuildContext context) {
     var monster = gameState.currentMonster;
     //stdout.writeln("inextremis with decisions: $decisions");
-    return Scaffold(
-        appBar: AppBar(
-          title: const Text("Situation F"),
-        ),
-        body: Column(children: [
-          const Text(
+    return GenericChoiceStep(
+        gameState: gameState,
+        title: "Situation F",
+        content: Column(children: [
+          const SimpleQuestionText(
               "If there are Hidden enemies, use an action to try to reveal them."),
           ElevatedButton(
               onPressed: () {
@@ -311,7 +312,7 @@ class NoEnemyVisible extends MonsterDecisionStep {
                         builder: (_) => GenericSimpleStep(
                             gameState: gameState,
                             title: const Text("Normal move"),
-                            bodyMessage: const Text(
+                            bodyMessage: const SimpleQuestionText(
                                 "Move to be within melee range or as close as " +
                                     "possible of as many enemies " +
                                     "as possible that can be seen."),
@@ -320,6 +321,9 @@ class NoEnemyVisible extends MonsterDecisionStep {
                             buttonMessage: const Text("Continue"))));
               },
               child: const Text("One or more enemy was revealed")),
+          const SizedBox(
+            height: 10,
+          ),
           ElevatedButton(
               onPressed: () {
                 Navigator.push(
@@ -328,7 +332,7 @@ class NoEnemyVisible extends MonsterDecisionStep {
                         builder: (_) => GenericSimpleStep(
                             gameState: gameState,
                             title: const Text("Random move"),
-                            bodyMessage: const Text(
+                            bodyMessage: const SimpleQuestionText(
                                 "Move in a random direction up to full movement distance."),
                             decisionForMemory: DecisionKey.randomMove,
                             nextStep: EndOfAction(gameState: gameState),
@@ -336,6 +340,29 @@ class NoEnemyVisible extends MonsterDecisionStep {
               },
               child: const Text("Spot failed, or no Hidden enemy around"))
         ]));
+  }
+}
+
+class GenericChoiceStep extends MonsterDecisionStep {
+  const GenericChoiceStep(
+      {super.key,
+      required super.gameState,
+      required this.title,
+      required this.content});
+
+  final String title;
+  final Widget content;
+
+  @override
+  Widget build(BuildContext context) {
+    //var monster = gameState.currentMonster;
+    //stdout.writeln("AllEnnemyAttackedPreviously with decisions: $decisions");
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(title),
+      ),
+      body: EverythingCenteredWidget(child: content),
+    );
   }
 }
 
@@ -363,16 +390,19 @@ class GenericSimpleStep extends MonsterDecisionStep {
         appBar: AppBar(
           title: title,
         ),
-        body: Column(children: [
-          bodyMessage,
-          ElevatedButton(
-              onPressed: () {
-                gameState.currentMonster.decisionsMemory.add(decisionForMemory);
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (_) => nextStep));
-              },
-              child: buttonMessage)
-        ]));
+        body: EverythingCenteredWidget(
+          child: Column(children: [
+            bodyMessage,
+            ElevatedButton(
+                onPressed: () {
+                  gameState.currentMonster.decisionsMemory
+                      .add(decisionForMemory);
+                  Navigator.push(
+                      context, MaterialPageRoute(builder: (_) => nextStep));
+                },
+                child: buttonMessage)
+          ]),
+        ));
   }
 }
 
@@ -397,8 +427,9 @@ class EndOfAction extends MonsterDecisionStep {
         appBar: AppBar(
           title: const Text("End of action"),
         ),
-        body: Column(children: [
-          Text(text),
+        body: EverythingCenteredWidget(
+            child: Column(children: [
+          SimpleQuestionText(text),
           ElevatedButton(
               onPressed: () {
                 // clean decision set, keep important stuff
@@ -432,6 +463,6 @@ class EndOfAction extends MonsterDecisionStep {
                 }
               },
               child: const Text("Continue"))
-        ]));
+        ])));
   }
 }

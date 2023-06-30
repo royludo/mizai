@@ -341,7 +341,8 @@ class StatefulMonster {
         appBar: AppBar(
           title: const Text("Basic monster attacks"),
         ),
-        body: Column(children: [
+        body: EverythingCenteredWidget(
+            child: Column(children: [
           preamblePosition == SpeAttackPreamblePosition.onAllAttacks ||
                   preamblePosition == SpeAttackPreamblePosition.onBasicOnly
               ? Text(preamble)
@@ -363,7 +364,7 @@ class StatefulMonster {
                 }));
               },
               child: const Text("Continue"))
-        ]));
+        ])));
   }
 
   Widget makeSpecialAttack(BuildContext context, Widget endPoint,
@@ -380,7 +381,8 @@ class StatefulMonster {
         appBar: AppBar(
           title: const Text("Special monster attacks"),
         ),
-        body: Column(children: [
+        body: EverythingCenteredWidget(
+            child: Column(children: [
           preamblePosition == SpeAttackPreamblePosition.onAllAttacks
               ? Text(preamble)
               : Container(),
@@ -401,7 +403,7 @@ class StatefulMonster {
                 }));
               },
               child: const Text("Continue"))
-        ]));
+        ])));
   }
 }
 
@@ -417,5 +419,36 @@ class GameState {
 
   bool isMultiplayerGame() {
     return allGameMonsters.length > 1;
+  }
+}
+
+class EverythingCenteredWidget extends StatelessWidget {
+  const EverythingCenteredWidget({super.key, required this.child});
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    //var monster = gameState.currentMonster;
+    //stdout.writeln("AllEnnemyAttackedPreviously with decisions: $decisions");
+    return Center(
+        child: Container(
+      constraints: const BoxConstraints(maxWidth: 600),
+      child: child,
+    ));
+  }
+}
+
+class SimpleQuestionText extends StatelessWidget {
+  const SimpleQuestionText(this.data, {super.key});
+
+  final String data;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.all(10),
+      child: Text(data),
+    );
   }
 }

@@ -174,7 +174,8 @@ class _MyHomePageState extends State<MyHomePage> {
         title: const Text("Add monster"),
         //backgroundColor: Theme.of(context).colorScheme.primary,
       ),
-      body: Column(children: <Widget>[
+      body: EverythingCenteredWidget(
+          child: Column(children: <Widget>[
         Padding(
             padding: const EdgeInsets.symmetric(vertical: 10),
             child: FittedBox(
@@ -223,7 +224,7 @@ class _MyHomePageState extends State<MyHomePage> {
           onPressed: onMonsterButtonPressed,
           children: const <Widget>[Text("Monster 1"), Text("Monster 2")],
         ),*/
-      ]),
+      ])),
       floatingActionButton: Wrap(
         spacing: 10,
         children: floatingButtons,
@@ -273,8 +274,9 @@ class _GlobalGameState extends State<GlobalGame> {
               style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
             ))
           : null;
+      List<Widget> passives = [];
       for (var passiveAbility in monster.desc.passiveAbilities) {
-        reminderSection.add(Padding(
+        passives.add(Padding(
             padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
             child: Text.rich(TextSpan(children: [
               TextSpan(
@@ -284,13 +286,18 @@ class _GlobalGameState extends State<GlobalGame> {
             ]))));
         //reminderSection.add(Text(passiveAbility.text));
       }
+      reminderSection.add(Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: passives,
+      ));
     }
 
     return Scaffold(
       appBar: AppBar(
         title: const Text("Play"),
       ),
-      body: Column(
+      body: EverythingCenteredWidget(
+          child: Column(
         children: [
               // make drop down available only when more than 1 monster
               widget.gameState.isMultiplayerGame()
@@ -323,7 +330,7 @@ class _GlobalGameState extends State<GlobalGame> {
                       widget.gameState.allGameMonsters, selectedMonster)),
             ] +
             reminderSection,
-      ),
+      )),
       floatingActionButton: selectedMonster.endOfTurnPossible()
           ? FloatingActionButton.extended(
               onPressed: () {

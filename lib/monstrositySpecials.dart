@@ -22,13 +22,15 @@ class MonstrositySpecialDecision extends MonsterDecisionStep {
             appBar: AppBar(
               title: Text("${monster.desc.shortName} special attack $i"),
             ),
-            body: Column(children: [
+            body: EverythingCenteredWidget(
+                child: Column(children: [
               // use preamble as part of checking range condition, else it's weird
               // situation where we check 12" before moving and making attack
               preamblePosition == SpeAttackPreamblePosition.onQuestion
-                  ? Text("$preamble ${questionForAttack[i]!}")
-                  : Text(questionForAttack[i]!),
+                  ? SimpleQuestionText("$preamble ${questionForAttack[i]!}")
+                  : SimpleQuestionText(questionForAttack[i]!),
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   ElevatedButton(
                       onPressed: () {
@@ -55,7 +57,7 @@ class MonstrositySpecialDecision extends MonsterDecisionStep {
                       child: const Text("No"))
                 ],
               )
-            ]));
+            ])));
       }
     }
     throw Exception("${monster.desc.shortName} special attack not found");
