@@ -159,10 +159,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       );
                 },
                 settings: const RouteSettings(name: "gameScreen")),
-          ) /*.then((_) {
-            setState(() {});
-          })*/
-              ;
+          );
         },
         heroTag: 'buttonProceed',
         child: const Icon(Icons.arrow_forward),
@@ -292,6 +289,58 @@ class _GlobalGameState extends State<GlobalGame> {
       ));
     }
 
+    // dynamic floatingactionbutton list
+    List<FloatingActionButton> floatingButtons = [
+      // here we kill the monster
+      FloatingActionButton.extended(
+        heroTag: 'buttonKillMonster',
+        onPressed: () {
+          // only 1 monster remaining, game is done, victory
+          if (widget.gameState.allGameMonsters.length == 1) {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) => AlertDialog(
+                title: const Text('Victory!'),
+                content: const Text(
+                    'The monster was defeated. You may still have time to finish your objectives.'),
+                actions: <Widget>[
+                  TextButton(
+                    onPressed: () => // back to home, purge navigation
+                        Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                                builder: (_) => const MyHomePage()),
+                            (route) => false),
+                    child: const Text('To Main Menu'),
+                  ),
+                ],
+              ),
+            );
+          } else {
+            // still some monsters remaining
+            setState(() {
+              widget.gameState.allGameMonsters.remove(selectedMonster);
+              selectedMonster = widget.gameState.allGameMonsters.first;
+              selectedMonsterCode = selectedMonster.desc.code;
+            });
+          }
+        },
+        label: const Text("Monster killed"),
+      )
+    ];
+
+    if (selectedMonster.endOfTurnPossible()) {
+      floatingButtons.add(FloatingActionButton.extended(
+        heroTag: 'buttonEndTurn',
+        onPressed: () {
+          setState(() {
+            selectedMonster.endTurn();
+          });
+        },
+        label: const Text("End Turn"),
+      ));
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("Play"),
@@ -331,16 +380,10 @@ class _GlobalGameState extends State<GlobalGame> {
             ] +
             reminderSection,
       )),
-      floatingActionButton: selectedMonster.endOfTurnPossible()
-          ? FloatingActionButton.extended(
-              onPressed: () {
-                setState(() {
-                  selectedMonster.endTurn();
-                });
-              },
-              label: const Text("End Turn"),
-            )
-          : null,
+      floatingActionButton: Wrap(
+        spacing: 10,
+        children: floatingButtons,
+      ),
     );
   }
 }

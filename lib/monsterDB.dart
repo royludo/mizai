@@ -341,7 +341,7 @@ final Map<int, MonsterDescription> monsterDB = {
       [
         Attack(
             "Nightmare Visions (Psionic)",
-            "Whenever an enemy activates within 12\", if they are making" +
+            "Whenever an enemy activates within 12\", if they are making " +
                 "a stat check to clear a condition with the Psionic keyword " +
                 "they must roll twice and use the lower result.",
             [],
