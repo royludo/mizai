@@ -96,37 +96,42 @@ class _MainMonsterScreenState extends State<MainMonsterScreen> {
             monster.isInExtremis = value;
           });
         },
-        secondary: const Icon(Icons.warning_amber_sharp),
+        secondary:
+            monster.isInExtremis ? const Icon(Icons.warning_amber_sharp) : null,
       ),
       Text("${monster.getActivationCountThisTurn()} / 3 activations this turn"),
       Column(children: [
         const Text("Monster will activate when"),
-        SizedBox(height: 10),
-        Wrap(spacing: 10, direction: Axis.horizontal, children: [
-          ElevatedButton(
-              onPressed: monster.activationTriggers
-                          .contains(ActivationTriggerType.firstInitiative) ||
-                      monster.maxActivationReached()
-                  ? null
-                  : () =>
-                      activateMonster(ActivationTriggerType.firstInitiative),
-              child: Text(
-                  "Initiative ${monster.desc.getAcuityFromPhase(monster.phase)}")),
-          ElevatedButton(
-              onPressed: monster.activationTriggers
-                          .contains(ActivationTriggerType.secondInitiative) ||
-                      monster.maxActivationReached()
-                  ? null
-                  : () =>
-                      activateMonster(ActivationTriggerType.secondInitiative),
-              child: Text(
-                  "Initiative ${monster.desc.getAcuityFromPhase(monster.phase) - 10}")),
-          ElevatedButton(
-              onPressed: monster.maxActivationReached()
-                  ? null
-                  : () => activateMonster(ActivationTriggerType.special),
-              child: Text(extraActivationButtonText))
-        ])
+        const SizedBox(height: 10),
+        Wrap(
+            spacing: 8,
+            direction: Axis.vertical,
+            crossAxisAlignment: WrapCrossAlignment.center,
+            children: [
+              ElevatedButton(
+                  onPressed: monster.activationTriggers.contains(
+                              ActivationTriggerType.firstInitiative) ||
+                          monster.maxActivationReached()
+                      ? null
+                      : () => activateMonster(
+                          ActivationTriggerType.firstInitiative),
+                  child: Text(
+                      "Initiative ${monster.desc.getAcuityFromPhase(monster.phase)}")),
+              ElevatedButton(
+                  onPressed: monster.activationTriggers.contains(
+                              ActivationTriggerType.secondInitiative) ||
+                          monster.maxActivationReached()
+                      ? null
+                      : () => activateMonster(
+                          ActivationTriggerType.secondInitiative),
+                  child: Text(
+                      "Initiative ${monster.desc.getAcuityFromPhase(monster.phase) - 10}")),
+              ElevatedButton(
+                  onPressed: monster.maxActivationReached()
+                      ? null
+                      : () => activateMonster(ActivationTriggerType.special),
+                  child: Text(extraActivationButtonText))
+            ])
       ]),
     ]);
     /*floatingActionButton: widget.monster.endOfTurnPossible()

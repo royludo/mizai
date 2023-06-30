@@ -21,7 +21,6 @@ class MonstrositySpecialDecision extends MonsterDecisionStep {
         return Scaffold(
             appBar: AppBar(
               title: Text("${monster.desc.shortName} special attack $i"),
-              backgroundColor: Theme.of(context).colorScheme.primary,
             ),
             body: Column(children: [
               // use preamble as part of checking range condition, else it's weird

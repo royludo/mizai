@@ -49,7 +49,6 @@ class CheckInExtremis extends MonsterDecisionStep {
     return Scaffold(
         appBar: AppBar(
           title: const Text("In Extremis"),
-          backgroundColor: Theme.of(context).colorScheme.primary,
         ),
         body: Column(children: [
           Text(
@@ -83,7 +82,6 @@ class EnnemyInMelee extends MonsterDecisionStep {
     return Scaffold(
         appBar: AppBar(
           title: const Text("Situation A"),
-          backgroundColor: Theme.of(context).colorScheme.primary,
         ),
         body: Column(children: [
           const Text("Is there any ennemy in melee range?"),
@@ -123,7 +121,6 @@ class AllEnnemyAttackedPreviously extends MonsterDecisionStep {
     return Scaffold(
         appBar: AppBar(
           title: const Text("Situation B"),
-          backgroundColor: Theme.of(context).colorScheme.primary,
         ),
         body: Column(children: [
           const Text("Have ALL the ennemies in melee range been previously " +
@@ -166,7 +163,6 @@ class WhereIsLowestHP extends MonsterDecisionStep {
     return Scaffold(
         appBar: AppBar(
           title: const Text("Situation C"),
-          backgroundColor: Theme.of(context).colorScheme.primary,
         ),
         body: Column(children: [
           const Text("Where is the ennemy with the lowest HP? " +
@@ -212,7 +208,6 @@ class EnnemyInMovementRange extends MonsterDecisionStep {
     return Scaffold(
         appBar: AppBar(
           title: const Text("Situation D"),
-          backgroundColor: Theme.of(context).colorScheme.primary,
         ),
         body: Column(children: [
           const Text("Is any ennemy reachable within movement range?"),
@@ -253,7 +248,6 @@ class EnemyInLineOfSight extends MonsterDecisionStep {
     return Scaffold(
         appBar: AppBar(
           title: const Text("Situation E"),
-          backgroundColor: Theme.of(context).colorScheme.primary,
         ),
         body: Column(children: [
           const Text("Is any ennemy in line of sight and visible?"),
@@ -304,7 +298,6 @@ class NoEnemyVisible extends MonsterDecisionStep {
     return Scaffold(
         appBar: AppBar(
           title: const Text("Situation F"),
-          backgroundColor: Theme.of(context).colorScheme.primary,
         ),
         body: Column(children: [
           const Text(
@@ -369,7 +362,6 @@ class GenericSimpleStep extends MonsterDecisionStep {
     return Scaffold(
         appBar: AppBar(
           title: title,
-          backgroundColor: Theme.of(context).colorScheme.primary,
         ),
         body: Column(children: [
           bodyMessage,
@@ -404,7 +396,6 @@ class EndOfAction extends MonsterDecisionStep {
     return Scaffold(
         appBar: AppBar(
           title: const Text("End of action"),
-          backgroundColor: Theme.of(context).colorScheme.primary,
         ),
         body: Column(children: [
           Text(text),

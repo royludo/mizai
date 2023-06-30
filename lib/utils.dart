@@ -340,7 +340,6 @@ class StatefulMonster {
     return Scaffold(
         appBar: AppBar(
           title: const Text("Basic monster attacks"),
-          backgroundColor: Theme.of(context).colorScheme.primary,
         ),
         body: Column(children: [
           preamblePosition == SpeAttackPreamblePosition.onAllAttacks ||
@@ -380,7 +379,6 @@ class StatefulMonster {
     return Scaffold(
         appBar: AppBar(
           title: const Text("Special monster attacks"),
-          backgroundColor: Theme.of(context).colorScheme.primary,
         ),
         body: Column(children: [
           preamblePosition == SpeAttackPreamblePosition.onAllAttacks

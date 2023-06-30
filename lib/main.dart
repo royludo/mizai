@@ -18,7 +18,11 @@ class MyApp extends StatelessWidget {
       /*theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.pink),
           useMaterial3: true),*/
-      theme: ThemeData.dark(),
+      theme: ThemeData.dark().copyWith(
+        colorScheme: const ColorScheme.dark().copyWith(
+            primary: const Color.fromARGB(255, 214, 189, 106),
+            secondary: const Color.fromARGB(255, 228, 213, 163)),
+      ),
       home: const MyHomePage(),
     );
   }
@@ -168,29 +172,49 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Add monster"),
-        backgroundColor: Theme.of(context).colorScheme.primary,
+        //backgroundColor: Theme.of(context).colorScheme.primary,
       ),
       body: Column(children: <Widget>[
-        FittedBox(
-            child: ElevatedButton(
-                onPressed: () {
-                  // simply reload homepage and purge navigation
-                  // TODO ask confirmation
-                  Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(builder: (_) => MyHomePage()),
-                      (route) => false);
-                },
-                child: const Row(
-                  children: [Text("Reset game"), Icon(Icons.restart_alt)],
-                ))),
-        const Text("Phase"),
-        ToggleButtons(
-          isSelected: phaseSelectStates,
-          onPressed: onPhaseButtonPressed,
-          children: const <Widget>[Text("One"), Text("Two")],
+        Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10),
+            child: FittedBox(
+                child: ElevatedButton(
+                    onPressed: () {
+                      // simply reload homepage and purge navigation
+                      // TODO ask confirmation
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(builder: (_) => MyHomePage()),
+                          (route) => false);
+                    },
+                    child: const Row(
+                      children: [Text("Reset game"), Icon(Icons.restart_alt)],
+                    )))),
+        const Divider(
+          thickness: 4,
+          indent: 5,
+          endIndent: 5,
         ),
-        const Text("Monster"),
+        const Text(
+          "Phase",
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+        ),
+        Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10),
+            child: ToggleButtons(
+              isSelected: phaseSelectStates,
+              onPressed: onPhaseButtonPressed,
+              children: const <Widget>[Text("One"), Text("Two")],
+            )),
+        const Divider(
+          thickness: 4,
+          indent: 5,
+          endIndent: 5,
+        ),
+        const Text(
+          "Monster",
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+        ),
         Column(
           children: monsterWidgetList,
         )
@@ -265,7 +289,6 @@ class _GlobalGameState extends State<GlobalGame> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Play"),
-        backgroundColor: Theme.of(context).colorScheme.primary,
       ),
       body: Column(
         children: [
