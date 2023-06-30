@@ -58,7 +58,7 @@ class CheckInExtremis extends MonsterDecisionStep {
                   case AIType.monstrosity:
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) {
-                      return EnnemyInMelee(gameState: gameState);
+                      return EnemyInMelee(gameState: gameState);
                     }));
                   case AIType.ravager:
                     throw Exception("Ravager tree not implemented yet");
@@ -66,57 +66,57 @@ class CheckInExtremis extends MonsterDecisionStep {
                     throw Exception("Stalker tree not implemented yet");
                 }
               },
-              child: const Text("Continue"))
+              child: const ButtonText("Continue"))
         ]));
   }
 }
 
-class EnnemyInMelee extends MonsterDecisionStep {
-  const EnnemyInMelee({super.key, required super.gameState});
+class EnemyInMelee extends MonsterDecisionStep {
+  const EnemyInMelee({super.key, required super.gameState});
 
   @override
   Widget build(BuildContext context) {
     var monster = gameState.currentMonster;
-    //stdout.writeln("ennemyInMelee with decisions: $decisions");
+    //stdout.writeln("enemyInMelee with decisions: $decisions");
     return GenericChoiceStep(
         gameState: gameState,
         title: "Situation A",
         content: Column(children: [
-          const SimpleQuestionText("Is there any ennemy in melee range?"),
+          const SimpleQuestionText("Is there any enemy in melee range?"),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               ElevatedButton(
                   onPressed: () {
-                    monster.decisionsMemory.add(DecisionKey.ennemyInMelee);
+                    monster.decisionsMemory.add(DecisionKey.enemyInMelee);
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) {
-                      return AllEnnemyAttackedPreviously(gameState: gameState);
+                      return AllEnemyAttackedPreviously(gameState: gameState);
                     }));
                   },
-                  child: const Text("Yes")),
+                  child: const ButtonText("Yes")),
               ElevatedButton(
                   onPressed: () {
-                    monster.decisionsMemory.add(DecisionKey.noEnnemyInMelee);
+                    monster.decisionsMemory.add(DecisionKey.noEnemyInMelee);
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) {
-                      return EnnemyInMovementRange(gameState: gameState);
+                      return EnemyInMovementRange(gameState: gameState);
                     }));
                   },
-                  child: const Text("No"))
+                  child: const ButtonText("No"))
             ],
           )
         ]));
   }
 }
 
-class AllEnnemyAttackedPreviously extends MonsterDecisionStep {
-  const AllEnnemyAttackedPreviously({super.key, required super.gameState});
+class AllEnemyAttackedPreviously extends MonsterDecisionStep {
+  const AllEnemyAttackedPreviously({super.key, required super.gameState});
 
   @override
   Widget build(BuildContext context) {
     var monster = gameState.currentMonster;
-    //stdout.writeln("AllEnnemyAttackedPreviously with decisions: $decisions");
+    //stdout.writeln("AllEnemyAttackedPreviously with decisions: $decisions");
     return GenericChoiceStep(
         gameState: gameState,
         title: "Situation B",
@@ -136,17 +136,17 @@ class AllEnnemyAttackedPreviously extends MonsterDecisionStep {
                       return WhereIsLowestHP(gameState: gameState);
                     }));
                   },
-                  child: const Text("Yes")),
+                  child: const ButtonText("Yes")),
               ElevatedButton(
                   onPressed: () {
                     monster.decisionsMemory
                         .add(DecisionKey.somePreviouslyNotAttacked);
                     const String commonPreamble =
-                        "Target ennemy that was not attacked before and with " +
+                        "Target enemy that was not attacked before and with " +
                             "the lowest HP. If tied, determine randomly.";
                     initiateAttackProcess(context, monster, commonPreamble);
                   },
-                  child: const Text("No, one or more was not attacked"))
+                  child: const ButtonText("No, one or more was not attacked"))
             ],
           )
         ]));
@@ -164,7 +164,7 @@ class WhereIsLowestHP extends MonsterDecisionStep {
         gameState: gameState,
         title: "Situation C",
         content: Column(children: [
-          const SimpleQuestionText("Where is the ennemy with the lowest HP? " +
+          const SimpleQuestionText("Where is the enemy with the lowest HP? " +
               "(Ignore ennemies outside movement range)"),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -173,10 +173,10 @@ class WhereIsLowestHP extends MonsterDecisionStep {
                   onPressed: () {
                     monster.decisionsMemory.add(DecisionKey.lowestHPInMelee);
                     const String commonPreamble =
-                        "Target ennemy with lowest HP. If tied, determine randomly.";
+                        "Target enemy with lowest HP. If tied, determine randomly.";
                     initiateAttackProcess(context, monster, commonPreamble);
                   },
-                  child: const Text("Already in melee")),
+                  child: const ButtonText("Already in melee")),
               ElevatedButton(
                   onPressed: () {
                     monster.decisionsMemory
@@ -191,26 +191,26 @@ class WhereIsLowestHP extends MonsterDecisionStep {
                                 "The monster moves up to its full movement distance to attack the " +
                                     "enemy with the lowest HP. If tied, determine randomly.")));
                   },
-                  child: const Text("Reachable within movement range"))
+                  child: const ButtonText("Reachable within movement range"))
             ],
           )
         ]));
   }
 }
 
-class EnnemyInMovementRange extends MonsterDecisionStep {
-  const EnnemyInMovementRange({super.key, required super.gameState});
+class EnemyInMovementRange extends MonsterDecisionStep {
+  const EnemyInMovementRange({super.key, required super.gameState});
 
   @override
   Widget build(BuildContext context) {
     var monster = gameState.currentMonster;
-    //stdout.writeln("ennemyInMelee with decisions: $decisions");
+    //stdout.writeln("enemyInMelee with decisions: $decisions");
     return GenericChoiceStep(
         gameState: gameState,
         title: "Situation D",
         content: Column(children: [
           const SimpleQuestionText(
-              "Is any ennemy reachable within movement range?"),
+              "Is any enemy reachable within movement range?"),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -223,7 +223,7 @@ class EnnemyInMovementRange extends MonsterDecisionStep {
                             "enemy with the lowest HP. If tied, determine randomly.";
                     initiateAttackProcess(context, monster, commonPreamble);
                   },
-                  child: const Text("Yes")),
+                  child: const ButtonText("Yes")),
               ElevatedButton(
                   onPressed: () {
                     monster.decisionsMemory.add(DecisionKey.noEnemyInRange);
@@ -232,7 +232,7 @@ class EnnemyInMovementRange extends MonsterDecisionStep {
                       return EnemyInLineOfSight(gameState: gameState);
                     }));
                   },
-                  child: const Text("No"))
+                  child: const ButtonText("No"))
             ],
           )
         ]));
@@ -245,13 +245,13 @@ class EnemyInLineOfSight extends MonsterDecisionStep {
   @override
   Widget build(BuildContext context) {
     var monster = gameState.currentMonster;
-    //stdout.writeln("ennemyInMelee with decisions: $decisions");
+    //stdout.writeln("enemyInMelee with decisions: $decisions");
     return GenericChoiceStep(
         gameState: gameState,
         title: "Situation E",
         content: Column(children: [
           const SimpleQuestionText(
-              "Is any ennemy in line of sight and visible?"),
+              "Is any enemy in line of sight and visible?"),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -270,9 +270,9 @@ class EnemyInLineOfSight extends MonsterDecisionStep {
                                         "as possible that can be seen."),
                                 decisionForMemory: DecisionKey.doubleMove,
                                 nextStep: EndOfAction(gameState: gameState),
-                                buttonMessage: const Text("Continue"))));
+                                buttonMessage: const ButtonText("Continue"))));
                   },
-                  child: const Text("Yes")),
+                  child: const ButtonText("Yes")),
               ElevatedButton(
                   onPressed: () {
                     monster.decisionsMemory
@@ -283,7 +283,7 @@ class EnemyInLineOfSight extends MonsterDecisionStep {
                             builder: (_) =>
                                 NoEnemyVisible(gameState: gameState)));
                   },
-                  child: const Text("No"))
+                  child: const ButtonText("No"))
             ],
           )
         ]));
@@ -318,9 +318,9 @@ class NoEnemyVisible extends MonsterDecisionStep {
                                     "as possible that can be seen."),
                             decisionForMemory: DecisionKey.normalMove,
                             nextStep: EndOfAction(gameState: gameState),
-                            buttonMessage: const Text("Continue"))));
+                            buttonMessage: const ButtonText("Continue"))));
               },
-              child: const Text("One or more enemy was revealed")),
+              child: const ButtonText("One or more enemy was revealed")),
           const SizedBox(
             height: 10,
           ),
@@ -336,9 +336,9 @@ class NoEnemyVisible extends MonsterDecisionStep {
                                 "Move in a random direction up to full movement distance."),
                             decisionForMemory: DecisionKey.randomMove,
                             nextStep: EndOfAction(gameState: gameState),
-                            buttonMessage: const Text("Continue"))));
+                            buttonMessage: const ButtonText("Continue"))));
               },
-              child: const Text("Spot failed, or no Hidden enemy around"))
+              child: const ButtonText("Spot failed, or no Hidden enemy around"))
         ]));
   }
 }
@@ -356,7 +356,7 @@ class GenericChoiceStep extends MonsterDecisionStep {
   @override
   Widget build(BuildContext context) {
     //var monster = gameState.currentMonster;
-    //stdout.writeln("AllEnnemyAttackedPreviously with decisions: $decisions");
+    //stdout.writeln("AllEnemyAttackedPreviously with decisions: $decisions");
     return Scaffold(
       appBar: AppBar(
         title: Text(title),
@@ -445,7 +445,7 @@ class EndOfAction extends MonsterDecisionStep {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (_) => EnnemyInMelee(gameState: gameState)));
+                          builder: (_) => EnemyInMelee(gameState: gameState)));
                 } else {
                   // END OF ACTIVATION
                   // clean monster memory
@@ -462,7 +462,7 @@ class EndOfAction extends MonsterDecisionStep {
                       (route) => false);
                 }
               },
-              child: const Text("Continue"))
+              child: const ButtonText("Continue"))
         ])));
   }
 }

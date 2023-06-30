@@ -11,7 +11,7 @@ class MonstrositySpecialDecision extends MonsterDecisionStep {
   @override
   Widget build(BuildContext context) {
     var monster = gameState.currentMonster;
-    //stdout.writeln("AllEnnemyAttackedPreviously with decisions: $decisions");
+    //stdout.writeln("AllEnemyAttackedPreviously with decisions: $decisions");
     var preamblePosition = monster.desc.specialAttackQuestions.preamblePosition;
     var questionForAttack =
         monster.desc.specialAttackQuestions.questionForAttack;
@@ -43,7 +43,7 @@ class MonstrositySpecialDecision extends MonsterDecisionStep {
                                     preamble,
                                     i)));
                       },
-                      child: const Text("Yes")),
+                      child: const ButtonText("Yes")),
                   ElevatedButton(
                       onPressed: () {
                         Navigator.push(
@@ -54,7 +54,7 @@ class MonstrositySpecialDecision extends MonsterDecisionStep {
                                     EndOfAction(gameState: gameState),
                                     preamble)));
                       },
-                      child: const Text("No"))
+                      child: const ButtonText("No"))
                 ],
               )
             ])));

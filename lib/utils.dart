@@ -163,8 +163,8 @@ class MonsterDescription {
 }
 
 enum DecisionKey {
-  ennemyInMelee,
-  noEnnemyInMelee,
+  enemyInMelee,
+  noEnemyInMelee,
   allPreviouslyAttacked,
   somePreviouslyNotAttacked,
   lowestHPInMelee,
@@ -345,11 +345,22 @@ class StatefulMonster {
             child: Column(children: [
           preamblePosition == SpeAttackPreamblePosition.onAllAttacks ||
                   preamblePosition == SpeAttackPreamblePosition.onBasicOnly
-              ? Text(preamble)
+              ? SimpleQuestionText(preamble)
               : Container(),
-          const Text("ATTACK"),
-          Text(desc.attacks[0].name),
-          Text(desc.attacks[0].interpolatedText(phase)),
+          const Divider(
+            indent: 5,
+            endIndent: 5,
+          ),
+          /*const Text("<< ATTACK >>",
+              style: TextStyle(fontWeight: FontWeight.bold)),*/
+          const SizedBox(
+            height: 10,
+          ),
+          Text(
+            "ATTACK: ${desc.attacks[0].name}",
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+          ),
+          SimpleQuestionText(desc.attacks[0].interpolatedText(phase)),
           ElevatedButton(
               onPressed: () {
                 //decisions.add(DecisionKey.madeBasicAttack);
@@ -363,7 +374,7 @@ class StatefulMonster {
                   return endPoint;
                 }));
               },
-              child: const Text("Continue"))
+              child: const ButtonText("Continue"))
         ])));
   }
 
@@ -384,11 +395,24 @@ class StatefulMonster {
         body: EverythingCenteredWidget(
             child: Column(children: [
           preamblePosition == SpeAttackPreamblePosition.onAllAttacks
-              ? Text(preamble)
+              ? SimpleQuestionText(preamble)
               : Container(),
-          const Text("ATTACK"),
-          Text(attack.name),
-          Text(attack.interpolatedText(phase)),
+          // also remove cosmetic divider if no preamble is there
+          preamblePosition == SpeAttackPreamblePosition.onAllAttacks
+              ? const Divider(
+                  indent: 5,
+                  endIndent: 5,
+                )
+              : Container(),
+          const SizedBox(
+            height: 10,
+          ),
+          Text(
+            "ATTACK: ${attack.name}",
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+          ),
+          //SimpleQuestionText(attack.name),
+          SimpleQuestionText(attack.interpolatedText(phase)),
           ElevatedButton(
               onPressed: () {
                 //decisions.add(attackNumber);
@@ -402,7 +426,7 @@ class StatefulMonster {
                   return endPoint;
                 }));
               },
-              child: const Text("Continue"))
+              child: const ButtonText("Continue"))
         ])));
   }
 }
@@ -430,7 +454,7 @@ class EverythingCenteredWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //var monster = gameState.currentMonster;
-    //stdout.writeln("AllEnnemyAttackedPreviously with decisions: $decisions");
+    //stdout.writeln("AllEnemyAttackedPreviously with decisions: $decisions");
     return Center(
         child: Container(
       constraints: const BoxConstraints(maxWidth: 600),
@@ -448,7 +472,24 @@ class SimpleQuestionText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.all(10),
-      child: Text(data),
+      child: Text(
+        data,
+        style: const TextStyle(fontSize: 16),
+      ),
+    );
+  }
+}
+
+class ButtonText extends StatelessWidget {
+  const ButtonText(this.data, {super.key});
+
+  final String data;
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      data,
+      style: const TextStyle(fontSize: 18),
     );
   }
 }

@@ -40,7 +40,7 @@ class _MainMonsterScreenState extends State<MainMonsterScreen> {
           if (monster.isInExtremis) {
             return CheckInExtremis(gameState: widget.gameState);
           } else {
-            return EnnemyInMelee(gameState: widget.gameState);
+            return EnemyInMelee(gameState: widget.gameState);
           }
         }));
         break;
@@ -90,6 +90,7 @@ class _MainMonsterScreenState extends State<MainMonsterScreen> {
       ),
       SwitchListTile(
         title: const Text('In Extremis'),
+        activeColor: Colors.red,
         value: monster.isInExtremis,
         onChanged: (bool value) {
           setState(() {

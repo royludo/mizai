@@ -64,7 +64,7 @@ final Map<int, MonsterDescription> monsterDB = {
             AttackType.normal),
         Attack(
             "Grab and Drop",
-            "Move to an ennemy within 6\", make 1x attack " +
+            "Move to an enemy within 6\", make 1x attack " +
                 "(Melee, Combat, 1D6 damage). Target must pass Dex check {0}. " +
                 "Failure => suffer damage of 12\" fall, monster stays in contact. " +
                 "Success => monster flies to highest elevation with remaining movement. " +
