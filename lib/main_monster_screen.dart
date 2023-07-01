@@ -14,10 +14,6 @@ class MainMonsterScreen extends StatefulWidget {
 
 class _MainMonsterScreenState extends State<MainMonsterScreen> {
   void activateMonster(ActivationTriggerType triggerType) {
-    /*Set<DecisionKey> decisions = {};
-    widget.monster.phase == 1
-        ? decisions.add(DecisionKey.phase1)
-        : decisions.add(DecisionKey.phase2);*/
     StatefulMonster monster = widget.gameState.currentMonster;
 
     // temporarily add activation trigger to monster decisionsMemory
@@ -34,20 +30,28 @@ class _MainMonsterScreenState extends State<MainMonsterScreen> {
         break;
     }
 
+    // TODO refactor this once everythin AI is implemented
     switch (monster.desc.aiType) {
       case AIType.monstrosity:
         Navigator.push(context, MaterialPageRoute(builder: (context) {
           if (monster.isInExtremis) {
             return CheckInExtremis(gameState: widget.gameState);
           } else {
-            return EnemyInMelee(gameState: widget.gameState);
+            return getStartingPoint(context, monster, widget.gameState);
           }
         }));
         break;
       case AIType.ravager:
-        throw Exception("Ravager not implemented yet");
+        Navigator.push(context, MaterialPageRoute(builder: (context) {
+          if (monster.isInExtremis) {
+            return CheckInExtremis(gameState: widget.gameState);
+          } else {
+            return getStartingPoint(context, monster, widget.gameState);
+          }
+        }));
+
       case AIType.stalker:
-        throw Exception("Stalker not implemented yet");
+        throw Exception("Stalker not implemented yet"); // TODO
     }
   }
 
@@ -135,16 +139,5 @@ class _MainMonsterScreenState extends State<MainMonsterScreen> {
             ])
       ]),
     ]);
-    /*floatingActionButton: widget.monster.endOfTurnPossible()
-          ? FloatingActionButton.extended(
-              onPressed: () {
-                setState(() {
-                  widget.monster.endTurn();
-                });
-              },
-              label: const Text("End Turn"),
-            )
-          : null,*/
-    //);
   }
 }

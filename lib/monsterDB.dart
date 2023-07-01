@@ -406,5 +406,57 @@ final Map<int, MonsterDescription> monsterDB = {
       {
         1: ([1], [])
       },
-      SpecialAttackQuestions({}, SpeAttackPreamblePosition.onBasicOnly))
+      SpecialAttackQuestions({}, SpeAttackPreamblePosition.onBasicOnly)),
+  25: MonsterDescription(
+      "Helion Beam Chaser",
+      "Helion B.C.",
+      24,
+      28,
+      AIType.ravager,
+      [
+        Attack(
+            "Helo Blast",
+            "2x attacks (Ranged, Combat, Energy, 2D6+4 damage). " +
+                "If hit, target must pass a DEX check {0}. " +
+                "Failure => Blinded.",
+            [(21, 25)],
+            AttackType.normal),
+        Attack(
+            "Wave of Heat",
+            "All enemies within 12\" must pass a FOR check {0}. " +
+                "Failure => Stunned.",
+            [(21, 25)],
+            AttackType.area),
+        Attack(
+            "Reflecting Blast",
+            "The closest enemy must pass a DEX check {0}. " +
+                "Failure => 4D6+6 damage and Stunned.",
+            [(23, 27)],
+            AttackType.normal),
+      ],
+      MonsterSpecies.helion,
+      25,
+      122,
+      [
+        Attack(
+            "Energy Resistance",
+            "Reduces all damage from attacks with the Energy type by half (rounding down).",
+            [],
+            AttackType.passive),
+        Attack(
+            "Heat Aura",
+            "Any team member that ends their movement within 6\" of the monster " +
+                "suffers 3D6 Energy damage.",
+            [],
+            AttackType.passive)
+      ],
+      {
+        1: ([1], []),
+        2: ([], [])
+      },
+      SpecialAttackQuestions({
+        1: "Are there 2 or more enemies within 12\"?",
+        2: "Did the monster suffer Energy damage since it last activated, " +
+            "and is there 0 or 1 enemy within 12\"?"
+      }, SpeAttackPreamblePosition.onBasicOnly)),
 };

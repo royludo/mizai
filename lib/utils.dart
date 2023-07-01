@@ -194,7 +194,9 @@ enum MonsterSpecies {
   centarian,
   talmak,
   deranger,
-  terraformer
+  terraformer,
+
+  helion
 }
 
 class StatefulMonster {

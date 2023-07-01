@@ -292,6 +292,7 @@ class _GlobalGameState extends State<GlobalGame> {
     // dynamic floatingactionbutton list
     List<FloatingActionButton> floatingButtons = [
       // here we kill the monster
+      // TODO ask confirmation
       FloatingActionButton.extended(
         heroTag: 'buttonKillMonster',
         onPressed: () {
