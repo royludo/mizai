@@ -181,7 +181,13 @@ enum DecisionKey {
   randomMove,
   activatedWithFirstInitiative,
   activatedWithSecondInitiative,
-  activatedWithSpecial
+  activatedWithSpecial,
+  // ravagers things
+  noAreaAttackPossible,
+  willMakeAreaAttack,
+  willNOTMakeAreaAttack,
+  yesToAreaAttackQuestion,
+  noToAreaAttackQuestion,
 }
 
 enum ActivationTriggerType { firstInitiative, secondInitiative, special }
@@ -210,6 +216,11 @@ class StatefulMonster {
   Set<DecisionKey> decisionsMemory = {};
   List<ActivationTriggerType> activationTriggers = [];
   bool hasMovedBefore = false;
+
+  /// deferred attack occur with ravagers as their AI may make them do stuff
+  /// after attacking, and the decision for which attack to make was
+  /// done way before
+  int deferredAttackIndex = -1;
 
   StatefulMonster(this.desc, this.phase);
 

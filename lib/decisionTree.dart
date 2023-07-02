@@ -5,6 +5,7 @@ import 'package:mizai/main.dart';
 import 'utils.dart';
 import 'monstrositySpecials.dart';
 import 'monstrosity_decision_tree.dart' as monstrosity_tree;
+import 'ravager_decision_tree.dart' as ravager_tree;
 
 /// get the first screen of the decision tree of the specific monster
 /// doesn't take in extremis into account
@@ -18,7 +19,7 @@ Widget getStartingPoint(
         return monster.makeBasicAttack(context,
             EndOfAction(gameState: gameState), "Target enemy who just missed.");
       } else {
-        throw Exception("Ravager tree not implemented yet"); // TODO
+        return ravager_tree.EnemyInMelee(gameState: gameState);
       }
     case AIType.stalker:
       throw Exception("Stalker tree not implemented yet"); // TODO
@@ -31,7 +32,7 @@ abstract class MonsterDecisionStep extends StatelessWidget {
   final GameState gameState;
   //final Set<DecisionKey> decisions;
 
-  void initiateAttackProcess(
+  void initiateGeneralAttackProcess(
       BuildContext context, StatefulMonster monster, String commonPreamble) {
     Navigator.push(context, MaterialPageRoute(builder: (context) {
       if (monster.isSpecialAttackPossible(false) &&
@@ -48,7 +49,7 @@ abstract class MonsterDecisionStep extends StatelessWidget {
         }
         // at this point we are sure we need a decision for the special attack
         // else the attack would have been made already
-        return MonstrositySpecialDecision(
+        return SimpleSpecialDecision(
             gameState: gameState, preamble: commonPreamble);
       } else {
         // spe attack not possible, revert to basic one

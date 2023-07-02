@@ -75,7 +75,8 @@ class AllEnemyAttackedPreviously extends MonsterDecisionStep {
                     const String commonPreamble =
                         "Target enemy that was not attacked before and with " +
                             "the lowest HP. If tied, determine randomly.";
-                    initiateAttackProcess(context, monster, commonPreamble);
+                    initiateGeneralAttackProcess(
+                        context, monster, commonPreamble);
                   },
                   child: const ButtonText("No, one or more was not attacked"))
             ],
@@ -105,7 +106,8 @@ class WhereIsLowestHP extends MonsterDecisionStep {
                     monster.decisionsMemory.add(DecisionKey.lowestHPInMelee);
                     const String commonPreamble =
                         "Target enemy with lowest HP. If tied, determine randomly.";
-                    initiateAttackProcess(context, monster, commonPreamble);
+                    initiateGeneralAttackProcess(
+                        context, monster, commonPreamble);
                   },
                   child: const ButtonText("Already in melee")),
               ElevatedButton(
@@ -152,7 +154,8 @@ class EnemyInMovementRange extends MonsterDecisionStep {
                     const String commonPreamble =
                         "The monster moves up to its full movement distance to attack the " +
                             "enemy with the lowest HP. If tied, determine randomly.";
-                    initiateAttackProcess(context, monster, commonPreamble);
+                    initiateGeneralAttackProcess(
+                        context, monster, commonPreamble);
                   },
                   child: const ButtonText("Yes")),
               ElevatedButton(

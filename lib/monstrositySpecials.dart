@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:mizai/utils.dart';
 import 'decisionTree.dart';
 
-class MonstrositySpecialDecision extends MonsterDecisionStep {
-  const MonstrositySpecialDecision(
+class SimpleSpecialDecision extends MonsterDecisionStep {
+  const SimpleSpecialDecision(
       {super.key, required super.gameState, required this.preamble});
 
   final String preamble;
