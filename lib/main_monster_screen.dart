@@ -84,7 +84,7 @@ class _MainMonsterScreenState extends State<MainMonsterScreen> {
       ),
       Text(
         monster.desc.fullName,
-        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
       ),
       Text("Phase ${monster.phase}"),
       const Divider(
@@ -92,6 +92,32 @@ class _MainMonsterScreenState extends State<MainMonsterScreen> {
         indent: 5,
         endIndent: 5,
       ),
+      ElevatedButton(
+          onPressed: () {
+            showDialog(
+                context: context,
+                builder: (BuildContext context) => AlertDialog(
+                        title: const Text('Info'),
+                        content: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              SelectableText("veryFirstAttack: ${monster.veryFirstAttack}\n" +
+                                  "nextAttackIndex: ${monster.nextAttackIndex}\n" +
+                                  "decisionsMemory: ${monster.decisionsMemory}\n" +
+                                  "hasMovedBefore: ${monster.hasMovedBefore}\n" +
+                                  "previousActionAttackIndexes: ${monster.previousActionAttackIndexes}"),
+                            ]),
+                        actions: <Widget>[
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: const Text('Back'),
+                          )
+                        ]));
+          },
+          child: const Text("Internal state")),
       SwitchListTile(
         title: const Text('In Extremis'),
         activeColor: Colors.red,

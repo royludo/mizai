@@ -47,7 +47,9 @@ class EnemyInMelee extends MonsterDecisionStep {
           return MoveAfterNoAreaMelee(gameState: gameState);
         }));
       } else {
-        throw Exception("Not implemented yet"); // TODO
+        Navigator.push(context, MaterialPageRoute(builder: (context) {
+          return EnemyInLineOfSight(gameState: gameState);
+        }));
       }
     }
   }
@@ -192,7 +194,10 @@ class AskAreaSpecialQuestion extends MonsterDecisionStep {
                         return MoveAfterNoAreaMelee(gameState: gameState);
                       }));
                     } else {
-                      throw Exception("Not implemented yet"); // TODO
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return EnemyInLineOfSight(gameState: gameState);
+                      }));
                     }
                   },
                   child: const ButtonText("No"))
@@ -212,24 +217,12 @@ class MakeAreaAttack extends MonsterDecisionStep {
   Widget build(BuildContext context) {
     var monster = gameState.currentMonster;
 
-    if (monster.decisionsMemory.contains(DecisionKey.enemyInMelee)) {
-      if (monster.deferredAttackIndex == 0) {
-        return monster.makeBasicAttack(
-            context, MoveAfterAreaAttack(gameState: gameState), "");
-      } else {
-        return monster.makeSpecialAttack(context,
-            MoveAfterAreaAttack(gameState: gameState), "", attackIndex);
-      }
-    } else if (monster.decisionsMemory.contains(DecisionKey.noEnemyInMelee)) {
-      if (monster.deferredAttackIndex == 0) {
-        return monster.makeBasicAttack(
-            context, MoveAfterAreaAttack(gameState: gameState), "");
-      } else {
-        return monster.makeSpecialAttack(context,
-            MoveAfterAreaAttack(gameState: gameState), "", attackIndex);
-      }
+    if (monster.deferredAttackIndex == 0) {
+      return monster.makeBasicAttack(
+          context, MoveAfterAreaAttack(gameState: gameState), "");
     } else {
-      throw Exception("Monster should have melee or noMelee in its memory");
+      return monster.makeSpecialAttack(
+          context, MoveAfterAreaAttack(gameState: gameState), "", attackIndex);
     }
   }
 }
@@ -245,7 +238,10 @@ class MoveAfterAreaAttack extends MonsterDecisionStep {
       return GenericSimpleStep(
           gameState: gameState,
           title: const Text("Situation B"),
-          bodyMessage: const SimpleQuestionText("move after area attack melee"),
+          bodyMessage: const SimpleQuestionText(
+              "Move its movement distance away from enemy in melee, ending " +
+                  "movement at least 6\" away from all enemies if possible, and ending " +
+                  "in cover if possible."),
           decisionForMemory: DecisionKey.normalMove,
           nextStep: EndOfAction(gameState: gameState),
           buttonMessage: const ButtonText("Continue"));
@@ -253,8 +249,10 @@ class MoveAfterAreaAttack extends MonsterDecisionStep {
       return GenericSimpleStep(
           gameState: gameState,
           title: const Text("Situation C"),
-          bodyMessage:
-              const SimpleQuestionText("move after area attack NO melee"),
+          bodyMessage: const SimpleQuestionText(
+              "Move its movement distance, ending the move at least " +
+                  "6\" away from all enemies if possible, and ending in cover " +
+                  "if possible."),
           decisionForMemory: DecisionKey.normalMove,
           nextStep: EndOfAction(gameState: gameState),
           buttonMessage: const ButtonText("Continue"));
@@ -292,5 +290,166 @@ class MoveAfterNoAreaMelee extends MonsterDecisionStep {
                 child: const ButtonText("Continue"))
           ]),
         ));
+  }
+}
+
+class EnemyInLineOfSight extends MonsterDecisionStep {
+  const EnemyInLineOfSight({super.key, required super.gameState});
+
+  @override
+  Widget build(BuildContext context) {
+    var monster = gameState.currentMonster;
+    //stdout.writeln("enemyInMelee with decisions: $decisions");
+    return GenericChoiceStep(
+        gameState: gameState,
+        title: "Situation E",
+        content: Column(children: [
+          const SimpleQuestionText(
+              "Is any enemy in line of sight and visible?"),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              ElevatedButton(
+                  onPressed: () {
+                    monster.decisionsMemory.add(DecisionKey.enemyInLineOfSight);
+                    Navigator.push(context, MaterialPageRoute(builder: (_) {
+                      return Container();
+                      // TODO
+                    }));
+                  },
+                  child: const ButtonText("Yes")),
+              ElevatedButton(
+                  onPressed: () {
+                    monster.decisionsMemory
+                        .add(DecisionKey.noEnemyInLineOfSight);
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) =>
+                                AreAllEnemiesHidden(gameState: gameState)));
+                  },
+                  child: const ButtonText("No"))
+            ],
+          )
+        ]));
+  }
+}
+
+class AreAllEnemiesHidden extends MonsterDecisionStep {
+  const AreAllEnemiesHidden({super.key, required super.gameState});
+
+  @override
+  Widget build(BuildContext context) {
+    //stdout.writeln("inextremis with decisions: $decisions");
+    return GenericChoiceStep(
+        gameState: gameState,
+        title: "Situation F",
+        content: Column(children: [
+          const SimpleQuestionText("Are all enemies hidden?"),
+          Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+            ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (_) => RevealHiddenEnemies(
+                                gameState: gameState,
+                              )));
+                },
+                child: const ButtonText("Yes")),
+            const SizedBox(
+              height: 10,
+            ),
+            ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (_) => MinMoveAndAttack(
+                                gameState: gameState,
+                              )));
+                },
+                child: const ButtonText("No"))
+          ])
+        ]));
+  }
+}
+
+class MinMoveAndAttack extends MonsterDecisionStep {
+  const MinMoveAndAttack({super.key, required super.gameState});
+
+  @override
+  Widget build(BuildContext context) {
+    var monster = gameState.currentMonster;
+    //stdout.writeln("inextremis with decisions: $decisions");
+    return Scaffold(
+        appBar: AppBar(
+          title: const Text("Situation H"),
+        ),
+        body: EverythingCenteredWidget(
+          child: Column(children: [
+            const SimpleQuestionText(
+                "Move the minimum distance to bring an enemy within line of sight."),
+            ElevatedButton(
+                onPressed: () {
+                  gameState.currentMonster.decisionsMemory
+                      .add(DecisionKey.normalMove);
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (_) => monster.makeBasicAttack(
+                              context, EndOfAction(gameState: gameState), "")));
+                },
+                child: const ButtonText("Continue"))
+          ]),
+        ));
+  }
+}
+
+class RevealHiddenEnemies extends MonsterDecisionStep {
+  const RevealHiddenEnemies({super.key, required super.gameState});
+
+  @override
+  Widget build(BuildContext context) {
+    var monster = gameState.currentMonster;
+    //stdout.writeln("inextremis with decisions: $decisions");
+    return GenericChoiceStep(
+        gameState: gameState,
+        title: "Situation G",
+        content: Column(children: [
+          const SimpleQuestionText("Try to spot Hidden enemies if you can."),
+          ElevatedButton(
+              onPressed: () {
+                monster.decisionsMemory.add(DecisionKey.enemyInLineOfSight);
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (_) => monster.makeBasicAttack(
+                            context,
+                            EndOfAction(gameState: gameState),
+                            "Target the closest revealed enemy.")));
+              },
+              child: const ButtonText("One or more enemy was revealed")),
+          const SizedBox(
+            height: 10,
+          ),
+          ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (_) => GenericSimpleStep(
+                            gameState: gameState,
+                            title: const Text("Normal move"),
+                            bodyMessage: const SimpleQuestionText(
+                                "Move to the closest terrain that could provide " +
+                                    "cover and/or block line of sight to the last " +
+                                    "known enemy location."),
+                            decisionForMemory: DecisionKey.normalMove,
+                            nextStep: EndOfAction(gameState: gameState),
+                            buttonMessage: const ButtonText("Continue"))));
+              },
+              child: const ButtonText("Spot failed, or no Hidden enemy around"))
+        ]));
   }
 }
