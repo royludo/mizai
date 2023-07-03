@@ -186,6 +186,7 @@ class AskAreaSpecialQuestion extends MonsterDecisionStep {
                         .add(DecisionKey.noToAreaAttackQuestion);
                     monster.decisionsMemory
                         .add(DecisionKey.willNOTMakeAreaAttack);
+                    monster.attackIndexesExcludedForAction.add(attackIndex);
 
                     if (monster.decisionsMemory
                         .contains(DecisionKey.enemyInMelee)) {
@@ -312,10 +313,17 @@ class EnemyInLineOfSight extends MonsterDecisionStep {
               ElevatedButton(
                   onPressed: () {
                     monster.decisionsMemory.add(DecisionKey.enemyInLineOfSight);
-                    Navigator.push(context, MaterialPageRoute(builder: (_) {
-                      return Container();
-                      // TODO
-                    }));
+
+                    if (monster.hasMovedBefore) {
+                      initiateGeneralAttackProcess(
+                          context, monster, "Target the closest enemy.");
+                    } else {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) =>
+                                  MoveAndAttack(gameState: gameState)));
+                    }
                   },
                   child: const ButtonText("Yes")),
               ElevatedButton(
@@ -451,5 +459,35 @@ class RevealHiddenEnemies extends MonsterDecisionStep {
               },
               child: const ButtonText("Spot failed, or no Hidden enemy around"))
         ]));
+  }
+}
+
+class MoveAndAttack extends MonsterDecisionStep {
+  const MoveAndAttack({super.key, required super.gameState});
+
+  @override
+  Widget build(BuildContext context) {
+    var monster = gameState.currentMonster;
+    //stdout.writeln("inextremis with decisions: $decisions");
+    return Scaffold(
+        appBar: AppBar(
+          title: const Text("Situation I"),
+        ),
+        body: EverythingCenteredWidget(
+          child: Column(children: [
+            const SimpleQuestionText(
+                "Move up to its full movement distance to cover, if possible. " +
+                    "If no such cover is available, move its full movement " +
+                    "distance away from the closest enemy."),
+            ElevatedButton(
+                onPressed: () {
+                  gameState.currentMonster.decisionsMemory
+                      .add(DecisionKey.normalMove);
+                  initiateGeneralAttackProcess(
+                      context, monster, "Target closest enemy.");
+                },
+                child: const ButtonText("Continue"))
+          ]),
+        ));
   }
 }

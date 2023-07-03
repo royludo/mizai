@@ -458,5 +458,5 @@ final Map<int, MonsterDescription> monsterDB = {
         1: "Are there 2 or more enemies within 12\"?",
         2: "Did the monster suffer Energy damage since it last activated, " +
             "and is there 0 or 1 enemy within 12\"?"
-      }, SpeAttackPreamblePosition.onBasicOnly)),
+      }, SpeAttackPreamblePosition.onAllAttacks)),
 };

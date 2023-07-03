@@ -221,6 +221,7 @@ class StatefulMonster {
   /// after attacking, and the decision for which attack to make was
   /// done way before
   int deferredAttackIndex = -1;
+  List<int> attackIndexesExcludedForAction = [];
 
   StatefulMonster(this.desc, this.phase);
 
@@ -261,6 +262,11 @@ class StatefulMonster {
   }
 
   bool isSpecificAttackAllowedNow(int specialAttackIndex) {
+    if (attackIndexesExcludedForAction.isNotEmpty &&
+        attackIndexesExcludedForAction.contains(specialAttackIndex)) {
+      return false;
+    }
+
     (List<int>, List<int>) rec =
         desc.specialAttacksConditions[specialAttackIndex]!;
     var forbiddenList = rec.$1;
@@ -326,6 +332,8 @@ class StatefulMonster {
     decisionsMemory.remove(DecisionKey.normalMove);
     decisionsMemory.remove(DecisionKey.doubleMove);
     decisionsMemory.remove(DecisionKey.randomMove);
+
+    attackIndexesExcludedForAction.clear();
   }
 
   void endActivation() {
