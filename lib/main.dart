@@ -213,14 +213,17 @@ class _MyHomePageState extends State<MyHomePage> {
           "Monster",
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
         ),
-        Column(
-          children: monsterWidgetList,
-        )
-        /*ToggleButtons(
-          isSelected: monsterSelectStates,
-          onPressed: onMonsterButtonPressed,
-          children: const <Widget>[Text("Monster 1"), Text("Monster 2")],
-        ),*/
+        Expanded(
+            // expanded is required to make listview work
+            child: Padding(
+                padding: const EdgeInsets.only(bottom: 80),
+                child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: monsterWidgetList.length,
+                    prototypeItem: monsterWidgetList.first,
+                    itemBuilder: ((context, index) {
+                      return monsterWidgetList[index];
+                    }))))
       ])),
       floatingActionButton: Wrap(
         spacing: 10,
@@ -257,7 +260,7 @@ class _GlobalGameState extends State<GlobalGame> {
     List<Widget> reminderSection = [];
     reminderSection.add(
       const Padding(
-          padding: EdgeInsets.only(top: 20, bottom: 5),
+          padding: EdgeInsets.only(top: 10, bottom: 5),
           child: Text("Reminders")),
     );
     for (var monster in widget.gameState.allGameMonsters) {
@@ -288,6 +291,10 @@ class _GlobalGameState extends State<GlobalGame> {
         children: passives,
       ));
     }
+    ListView scrollableReminderSection = ListView(
+      shrinkWrap: true,
+      children: [Column(children: reminderSection)],
+    );
 
     // dynamic floatingactionbutton list
     List<FloatingActionButton> floatingButtons = [
@@ -349,37 +356,41 @@ class _GlobalGameState extends State<GlobalGame> {
       body: EverythingCenteredWidget(
           child: Column(
         children: [
-              // make drop down available only when more than 1 monster
-              widget.gameState.isMultiplayerGame()
-                  ? Row(
-                      children: [
-                        const Text("Controlling"),
-                        const SizedBox(width: 10),
-                        DropdownButton(
-                          value: selectedMonsterCode,
-                          items: widget.gameState.allGameMonsters.map((m) {
-                            return DropdownMenuItem(
-                                value: m.desc.code,
-                                child: Text(m.desc.shortName));
-                          }).toList(),
-                          onChanged: (int? value) {
-                            // This is called when the user selects an item.
-                            setState(() {
-                              selectedMonsterCode = value!;
-                              selectedMonster = widget.gameState.allGameMonsters
-                                  .firstWhere((m) =>
-                                      m.desc.code == selectedMonsterCode);
-                            });
-                          },
-                        )
-                      ],
+          // make drop down available only when more than 1 monster
+          widget.gameState.isMultiplayerGame()
+              ? Row(
+                  children: [
+                    const Text("Controlling"),
+                    const SizedBox(width: 10),
+                    DropdownButton(
+                      value: selectedMonsterCode,
+                      items: widget.gameState.allGameMonsters.map((m) {
+                        return DropdownMenuItem(
+                            value: m.desc.code, child: Text(m.desc.shortName));
+                      }).toList(),
+                      onChanged: (int? value) {
+                        // This is called when the user selects an item.
+                        setState(() {
+                          selectedMonsterCode = value!;
+                          selectedMonster = widget.gameState.allGameMonsters
+                              .firstWhere(
+                                  (m) => m.desc.code == selectedMonsterCode);
+                        });
+                      },
                     )
-                  : Container(),
-              MainMonsterScreen(
-                  gameState: GameState(
-                      widget.gameState.allGameMonsters, selectedMonster)),
-            ] +
-            reminderSection,
+                  ],
+                )
+              : Container(),
+          MainMonsterScreen(
+              gameState:
+                  GameState(widget.gameState.allGameMonsters, selectedMonster)),
+          Expanded(
+              // expanded is required to make listview work
+              child: Padding(
+            padding: const EdgeInsets.only(bottom: 80, top: 10),
+            child: scrollableReminderSection,
+          ))
+        ],
       )),
       floatingActionButton: Wrap(
         spacing: 10,
