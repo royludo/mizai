@@ -300,7 +300,8 @@ final Map<int, MonsterDescription> monsterDB = {
       {
         1: ([1], [])
       },
-      SpecialAttackQuestions({}, SpeAttackPreamblePosition.onBasicOnly)),
+      SpecialAttackQuestions({1: "Are there 1 or more enemy within 12\""},
+          SpeAttackPreamblePosition.onBasicOnly)),
   21: MonsterDescription(
       "Deranger",
       "Deranger",
@@ -359,7 +360,7 @@ final Map<int, MonsterDescription> monsterDB = {
         2: ([2], [1])
       },
       SpecialAttackQuestions({
-        1: "",
+        1: "Are there 1 or more enemy within 12\"",
         2: "Are there 1 or more enemy within 12\" either Stunned or Blinded?"
       }, SpeAttackPreamblePosition.onBasicOnly)),
   22: MonsterDescription(
@@ -406,7 +407,8 @@ final Map<int, MonsterDescription> monsterDB = {
       {
         1: ([1], [])
       },
-      SpecialAttackQuestions({}, SpeAttackPreamblePosition.onBasicOnly)),
+      SpecialAttackQuestions({1: "Are there 1 or more enemy within 12\""},
+          SpeAttackPreamblePosition.onBasicOnly)),
   25: MonsterDescription(
       "Helion Beam Chaser",
       "Helion B.C.",
@@ -459,6 +461,212 @@ final Map<int, MonsterDescription> monsterDB = {
         2: "Did the monster suffer Energy damage since it last activated, " +
             "and is there 0 or 1 enemy within 12\"?"
       }, SpeAttackPreamblePosition.onAllAttacks)),
+  31: MonsterDescription(
+      "Tarskyth",
+      "Tarskyth",
+      26,
+      30,
+      AIType.ravager,
+      [
+        Attack(
+            "Penetrating Pinions",
+            "3x attacks (Ranged, Combat, 1D6+3 damage). " +
+                "If hit, target must pass a FOR check {0}. " +
+                "Failure => Poisoned and Stunned.",
+            [(22, 26)],
+            AttackType.normal),
+        Attack(
+            "Explosion of Spines",
+            "All enemies within 18\" must pass a FOR check {0}. " +
+                "Failure => Poisoned.",
+            [(17, 21)],
+            AttackType.area),
+        Attack(
+            "Restraining Spines",
+            "The 2 closest enemies must pass a DEX check {0}. " +
+                "Failure => Restrained.",
+            [(20, 24)],
+            AttackType.normal),
+      ],
+      MonsterSpecies.tarskyth,
+      31,
+      123,
+      [
+        Attack(
+            "Sharp Vision",
+            "Whenever the Tarskyth makes an Acuity check to spot a Hidden " +
+                "enemy, it may roll twice and select the best result.",
+            [],
+            AttackType.passive),
+      ],
+      {
+        1: ([1], []),
+        2: ([], [1])
+      },
+      SpecialAttackQuestions({
+        1: "Are there 2 or more enemies within 18\"?",
+        2: "Are there 2 or more enemies within 18\"?"
+      }, SpeAttackPreamblePosition.onAllAttacks)),
+  32: MonsterDescription(
+      "Ichor Spitter",
+      "I. Spitter",
+      20,
+      24,
+      AIType.ravager,
+      [
+        Attack(
+            "Acidic Spit",
+            "1x attacks (Ranged, Combat, 3D6+4 damage). " +
+                "If hit, target must pass a DEX check {0}. " +
+                "Failure => Blinded.",
+            [(21, 25)],
+            AttackType.normal),
+        Attack(
+            "Acid Spray",
+            "All enemies within 12\" must pass a DEX check {0}. " +
+                "Failure => 2D6+2 damage and Blinded.",
+            [(20, 24)],
+            AttackType.area),
+      ],
+      MonsterSpecies.ichor,
+      32,
+      124,
+      [
+        Attack("Potent Acid", "Ignore cover when making ranged attacks.", [],
+            AttackType.passive),
+        Attack(
+            "Acidic Defense",
+            "Whenever the Ichor Spitter suffers Weapon damage, " +
+                "all enemies within 6\" suffer 1D6 damage.",
+            [],
+            AttackType.passive)
+      ],
+      {
+        1: ([1], [])
+      },
+      SpecialAttackQuestions({
+        1: "Are there 2 or more enemies within 12\"?",
+      }, SpeAttackPreamblePosition.onAllAttacks)),
+  33: MonsterDescription(
+      "Spine Flinger",
+      "S. Flinger",
+      20,
+      24,
+      AIType.ravager,
+      [
+        Attack(
+            "Spine Fling",
+            "2x attacks (Ranged, Combat, 2D6+1 damage). " +
+                "If hit, target must pass a DEX check {0}. " +
+                "Failure => Restrained.",
+            [(21, 25)],
+            AttackType.normal),
+        Attack(
+            "Wrenching Impalement",
+            "Move adjacent to the Restrained enemy and that enemy must " +
+                "pass a FOR check {0}. " +
+                "Failure => 4D6 damage and Stunned.",
+            [(22, 26)],
+            AttackType.normal),
+        Attack(
+            "Spine Spray",
+            "All enemies within 12\" must pass a DEX check {0}. " +
+                "Failure => 2D6 damage and Restrained.",
+            [(21, 25)],
+            AttackType.area),
+      ],
+      MonsterSpecies.spine,
+      33,
+      125,
+      [
+        Attack(
+            "Spine Defenses",
+            "Whenever the Spine Flinger suffers damage " +
+                "from a Weapon attack, it reduces that damage by 2.",
+            [],
+            AttackType.passive),
+        Attack(
+            "Spinal Impalement",
+            "When attempting to clear a condition " +
+                "caused by a Spine Flinger, team members suffer a -2 penalty to " +
+                "the stat check.",
+            [],
+            AttackType.passive)
+      ],
+      {
+        1: ([1], []),
+        2: ([2], [])
+      },
+      SpecialAttackQuestions({
+        1: "Is there a Restrained enemy within 12\"?",
+        2: "Is there 1 or more enemies within 12\" AND has the Spine Flinger " +
+            "been critically hit since its last activation?"
+      }, SpeAttackPreamblePosition.onAllAttacks)),
+  /*35: MonsterDescription(
+      // something wrong, despite area check doing correctly on basic attack
+      "Pulsar",
+      "Pulsar",
+      20,
+      23,
+      AIType.ravager,
+      [
+        Attack(
+            "Pulse Wave (Psionic)",
+            "All enemies within 12\" must pass a FOR check {0}. " +
+                "Failure => 1D6 damage and Stunned.",
+            [(18, 22)],
+            AttackType.area),
+        Attack(
+            "Focusing Wave",
+            "Target the closest Stunned enemy. If tied, choose randomly. " +
+                "1x attack (Ranged, Psionic, 4D6+2 damage). " +
+                "If attack scores a critical hit, target must pass a FOR check {0}. " +
+                "Failure => Out of Action.",
+            [(25, 29)],
+            AttackType.normal),
+        Attack(
+            "Chaos Suggestion",
+            "All enemies within 12\" that are Stunned must pass a FOR check {0}. " +
+                "Failure => next time that enemy activates, " +
+                "if they do not clear the Stunned condition, they must use their " +
+                "attack action and determine their target randomly from all targets " +
+                "they can see, whether friend or foe.",
+            [(20, 24)],
+            AttackType.area),
+      ],
+      MonsterSpecies.pulsar,
+      35,
+      127,
+      [
+        Attack(
+            "Mental Defenses",
+            "Whenever an enemy utilizes any ability with the " +
+                "Psionic keyword while within 12\" of the Pulsar, they suffer 1D6 damage. " +
+                "In addition, whenever the Pulsar makes a stat check to avoid or " +
+                "clear a condition caused by an attack with the Psionic keyword, the " +
+                "Pulsar rolls the stat check twice and selects the highest result.",
+            [],
+            AttackType.passive),
+        Attack(
+            "Derangement",
+            "If an enemy activates within 12\" of the Pulsar and is " +
+                "under the effect of any condition, they move randomly. Determine a " +
+                "random direction and move the enemy their full movement distance " +
+                "in a straight line in that direction. If this would carry the model into " +
+                "Dangerous terrain, or cause it to fall, roll for those effects as normal.",
+            [],
+            AttackType.passive)
+      ],
+      {
+        1: ([1], []),
+        2: ([], [1])
+      },
+      SpecialAttackQuestions({
+        0: "Is there 1 or more enemy within 12\"?",
+        1: "Is there 1 or more Stunned enemy within 12\"?",
+        2: "Is there 1 or more Stunned enemy within 12\"?"
+      }, SpeAttackPreamblePosition.onAllAttacks)),
+      */
   41: MonsterDescription(
       "Yvenian Shocker",
       "Yvenian S.",

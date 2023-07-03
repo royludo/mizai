@@ -95,9 +95,16 @@ class EnemyInMelee extends MonsterDecisionStep {
 
   bool isAreaAttackStartingToBePossible = false;
   int chosenPotentialAreaAttackIndex = -1;
-  // first check if basic requirements to make any special attack is met
+
+  if (monster.desc.attacks[0].type == AttackType.area) {
+    // case where area attack is a Basic attack
+    // then area attack is always available basically
+    isAreaAttackStartingToBePossible = true;
+    chosenPotentialAreaAttackIndex = 0;
+  }
+  // check if basic requirements to make any special attack is met
   // Warning: basic attack may be an area attack!
-  if (monster.isSpecialAttackPossible(false) &&
+  else if (monster.isSpecialAttackPossible(false) &&
       monster.isAnySpecialAttackAllowedNow()) {
     // loop gathers area attacks that are possible
     List<int> multiplePossibleAreaAttackIndexes = [];
@@ -134,11 +141,6 @@ class EnemyInMelee extends MonsterDecisionStep {
             multiplePossibleAreaAttackIndexes.first;
       }
     }
-  } else if (monster.desc.attacks[0].type == AttackType.area) {
-    // case where area attack is a Basic attack
-    // then area attack is always available basically
-    isAreaAttackStartingToBePossible = true;
-    chosenPotentialAreaAttackIndex = 0;
   }
 
   return (isAreaAttackStartingToBePossible, chosenPotentialAreaAttackIndex);

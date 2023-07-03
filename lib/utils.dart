@@ -203,6 +203,11 @@ enum MonsterSpecies {
   terraformer,
 
   helion,
+  tarskyth,
+  ichor,
+  spine,
+
+  pulsar,
 
   yvenian,
 }
