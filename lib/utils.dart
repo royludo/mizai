@@ -202,7 +202,9 @@ enum MonsterSpecies {
   deranger,
   terraformer,
 
-  helion
+  helion,
+
+  yvenian,
 }
 
 class StatefulMonster {

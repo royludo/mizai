@@ -459,4 +459,51 @@ final Map<int, MonsterDescription> monsterDB = {
         2: "Did the monster suffer Energy damage since it last activated, " +
             "and is there 0 or 1 enemy within 12\"?"
       }, SpeAttackPreamblePosition.onAllAttacks)),
+  41: MonsterDescription(
+      "Yvenian Shocker",
+      "Yvenian S.",
+      22,
+      25,
+      AIType.ravager,
+      [
+        Attack(
+            "Shocking Blast",
+            "2x attacks (Ranged, Combat, Energy, 2D6+1 damage). " +
+                "If hit, target must pass a DEX check {0}. " +
+                "Failure => Blinded.",
+            [(20, 24)],
+            AttackType.normal),
+      ],
+      MonsterSpecies.yvenian,
+      41,
+      128,
+      [
+        Attack(
+            "Energy Defenses",
+            // let user keep track of this
+            "Whenever the Yvenian Shocker is hit by an attack with the Energy " +
+                "keyword, it reduces all damage suffered by half (rounding down). " +
+                "In addition, increase the number of attacks it makes with its Voltage " +
+                "Blast attack (see below) by one during its next activation.",
+            [],
+            AttackType.passive),
+        Attack(
+            "Voltage Rejoinder",
+            "If the Yvenian Shocker is critically hit by any attack, increase " +
+                "the damage during its next activation by 2D6. This is cumulative " +
+                "if the Yvenian Shocker suffers multiple critical hits between its " +
+                "activations, but the bonus applies only to attacks made during its " +
+                "next activation.",
+            [],
+            AttackType.passive),
+        Attack(
+            "Shocking Conclusion",
+            "Whenever the Yvenian Shocker is In Extremis, all enemies within " +
+                "12\" suffer damage equal to the In Extremis damage rolled by " +
+                "the Yvenian Shocker.",
+            [],
+            AttackType.passive)
+      ],
+      {},
+      SpecialAttackQuestions({}, SpeAttackPreamblePosition.onAllAttacks)),
 };
