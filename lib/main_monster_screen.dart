@@ -30,29 +30,27 @@ class _MainMonsterScreenState extends State<MainMonsterScreen> {
         break;
     }
 
-    // TODO refactor this once everythin AI is implemented
-    switch (monster.desc.aiType) {
-      case AIType.monstrosity:
-        Navigator.push(context, MaterialPageRoute(builder: (context) {
+    Navigator.push(context, MaterialPageRoute(builder: (context) {
+      switch (monster.desc.aiType) {
+        case AIType.monstrosity:
           if (monster.isInExtremis) {
             return CheckInExtremis(gameState: widget.gameState);
           } else {
             return getStartingPoint(context, monster, widget.gameState);
           }
-        }));
-        break;
-      case AIType.ravager:
-        Navigator.push(context, MaterialPageRoute(builder: (context) {
+        case AIType.ravager:
           if (monster.isInExtremis) {
             return CheckInExtremis(gameState: widget.gameState);
           } else {
             return getStartingPoint(context, monster, widget.gameState);
           }
-        }));
-
-      case AIType.stalker:
-        throw Exception("Stalker not implemented yet"); // TODO
-    }
+        case AIType.stalker:
+          throw Exception("Stalker not implemented yet"); // TODO
+      }
+    })).then((_) =>
+        // need to clear memory else there is a bug when going back after
+        // starting an activation, where memory will contain decision of activation.
+        monster.decisionsMemory.clear());
   }
 
   @override
