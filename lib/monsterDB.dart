@@ -617,7 +617,7 @@ final Map<int, MonsterDescription> monsterDB = {
         Attack(
             "Scatter Shot",
             "1x attack (Ranged, Combat, Energy, 2D6+2 damage) against each " +
-                "enemy within 18\" that can be seen." +
+                "enemy within 18\" that can be seen. " +
                 "If hit, target must pass a DEX check {0}. " +
                 "Failure => {Blinded.}",
             [(20, 24)],
@@ -815,8 +815,8 @@ final Map<int, MonsterDescription> monsterDB = {
         Attack(
             "Final Detonation",
             "All enemies within 24\" must pass a DEX check {0}. " +
-                "Failure => 5D6+3 damage. Once this attack is resolved, " +
-                "the Cannonade is Out of Action and Removed from Play.",
+                "Failure => {5D6+3 damage. Once this attack is resolved, " +
+                "the Cannonade is Out of Action and Removed from Play.}",
             [(20, 24)],
             // would be an area attack, but this attack is special
             // avoid making it interfere with the normal AI tree

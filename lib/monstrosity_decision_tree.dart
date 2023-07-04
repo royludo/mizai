@@ -55,8 +55,10 @@ class AllEnemyAttackedPreviously extends MonsterDecisionStep {
           const SimpleQuestionText(
               "Have ALL the ennemies in melee range been previously " +
                   "attacked during the last activation?"),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          Wrap(
+            alignment: WrapAlignment.spaceEvenly,
+            runSpacing: 10,
+            spacing: 20,
             children: [
               ElevatedButton(
                   onPressed: () {
@@ -98,8 +100,10 @@ class WhereIsLowestHP extends MonsterDecisionStep {
         content: Column(children: [
           const SimpleQuestionText("Where is the enemy with the lowest HP? " +
               "(Ignore ennemies outside movement range)"),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          Wrap(
+            alignment: WrapAlignment.spaceEvenly,
+            runSpacing: 10,
+            spacing: 10,
             children: [
               ElevatedButton(
                   onPressed: () {

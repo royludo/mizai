@@ -125,9 +125,26 @@ class _MainMonsterScreenState extends State<MainMonsterScreen> {
             monster.isInExtremis = value;
           });
         },
-        secondary:
-            monster.isInExtremis ? const Icon(Icons.warning_amber_sharp) : null,
+        secondary: monster.isInExtremis
+            ? const Icon(Icons.warning_amber_sharp)
+            : const Icon(Icons.health_and_safety_outlined),
       ),
+      // hidden switch, only matters for stalkers
+      monster.desc.aiType == AIType.stalker
+          ? SwitchListTile(
+              title: const Text('Hidden'),
+              activeColor: Colors.deepPurpleAccent,
+              value: monster.isHidden,
+              onChanged: (bool value) {
+                setState(() {
+                  monster.isHidden = value;
+                });
+              },
+              secondary: monster.isHidden
+                  ? const Icon(Icons.visibility_off_outlined)
+                  : const Icon(Icons.visibility_outlined),
+            )
+          : Container(),
       Text("${monster.getActivationCountThisTurn()} / 3 activations this turn"),
       Column(children: [
         const Text("Monster will activate when"),

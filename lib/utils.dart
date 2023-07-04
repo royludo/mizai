@@ -221,6 +221,7 @@ class StatefulMonster {
   List<int> currentActionAttackIndexes = [];
   List<int> previousActionAttackIndexes = [];
   bool isInExtremis = false;
+  bool isHidden = false;
   Set<DecisionKey> decisionsMemory = {};
   List<ActivationTriggerType> activationTriggers = [];
   bool hasMovedBefore = false;
