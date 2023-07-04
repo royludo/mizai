@@ -13,14 +13,14 @@ final Map<int, MonsterDescription> monsterDB = {
         Attack(
             "Ripping Claws",
             "2x attacks (Melee, Combat, 2D6+3 damage). " +
-                "If hit, target must pass a Dex check {0}. " +
-                "Failure => Restrained.",
+                "If hit, target must pass a DEX check {0}. " +
+                "Failure => {Restrained.}",
             [(20, 24)],
             AttackType.normal),
         Attack(
             "Keening Shriek",
-            "All team members within 12\" must pass a For check {0}. " +
-                "Failure => suffer 2D6 damage and Stunned.",
+            "All team members within 12\" must pass a FOR check {0}. " +
+                "Failure => {2D6 damage and Stunned.}",
             [(21, 25)],
             AttackType.area)
       ],
@@ -32,7 +32,7 @@ final Map<int, MonsterDescription> monsterDB = {
             "Sonic Murmurs",
             "Whenever the monster suffers damage from " +
                 "a weapon attack, all enemies within 12\" must pass a FOR check {0}. " +
-                "Failure => suffer 2D6 damage and Stunned.",
+                "Failure => 2D6 damage and Stunned.",
             [(20, 24)],
             AttackType.passive),
         Attack(
@@ -58,18 +58,18 @@ final Map<int, MonsterDescription> monsterDB = {
         Attack(
             "Claw Swipes",
             "2x attacks (Melee, Combat, 2D6+1 damage). " +
-                "If hit, target must pass a For check {0}. " +
-                "Failure => Poisoned.",
+                "If hit, target must pass a FOR check {0}. " +
+                "Failure => {Poisoned.}",
             [(21, 25)],
             AttackType.normal),
         Attack(
             "Grab and Drop",
             "Move to an enemy within 6\", make 1x attack " +
-                "(Melee, Combat, 1D6 damage). Target must pass Dex check {0}. " +
-                "Failure => suffer damage of 12\" fall, monster stays in contact. " +
-                "Success => monster flies to highest elevation with remaining movement. " +
+                "(Melee, Combat, 1D6 damage). Target must pass DEX check {0}. " +
+                "Failure => {Suffer damage of 12\" fall, monster stays in contact.} " +
+                "Success => {Monster flies to highest elevation with remaining movement. " +
                 "If no higher elevation in range, monster will move away from target and " +
-                "all other ennemies.",
+                "all other ennemies.}",
             [(24, 28)],
             AttackType.normal)
       ],
@@ -115,14 +115,14 @@ final Map<int, MonsterDescription> monsterDB = {
         Attack(
             "Crushing Fists",
             "2x attacks (Melee, Combat, 3D6 damage). " +
-                "If hit, target must pass a For check {0}. " +
-                "Failure => Stunned.",
+                "If hit, target must pass a FOR check {0}. " +
+                "Failure => {Stunned.}",
             [(21, 25)],
             AttackType.normal),
         Attack(
             "Shockwave",
-            "All team members within 6\" must pass a For check {0}. " +
-                "Failure => suffer 2D6 damage and Stunned.",
+            "All team members within 6\" must pass a FOR check {0}. " +
+                "Failure => {2D6 damage and Stunned.}",
             [(21, 25)],
             AttackType.area),
         Attack(
@@ -171,20 +171,20 @@ final Map<int, MonsterDescription> monsterDB = {
             "Grabbing Limbs",
             "2x attacks (Melee, Combat, 1D6+4 damage). " +
                 "Each attack targets a different team member if possible. " +
-                "If hit, targets must pass a Dex check {0}. " +
-                "Failure => Restrained.",
+                "If hit, targets must pass a DEX check {0}. " +
+                "Failure => {Restrained.}",
             [(23, 27)],
             AttackType.normal),
         Attack(
             "Chewing Frenzy",
-            "Restrained target must pass a For check {0}. " +
-                "Failure => suffer 4D6 damage and Stunned.",
+            "Restrained target must pass a FOR check {0}. " +
+                "Failure => {4D6 damage and Stunned.}",
             [(24, 28)],
             AttackType.normal),
         Attack(
             "Consume All",
-            "Stunned target must pass a For check {0}. " +
-                "Failure => suffer 8D6 damage and the monster heals 4d6 damage.",
+            "Stunned target must pass a FOR check {0}. " +
+                "Failure => {8D6 damage and the monster heals 4D6 damage.}",
             [(25, 29)],
             AttackType.normal)
       ],
@@ -217,14 +217,14 @@ final Map<int, MonsterDescription> monsterDB = {
         Attack(
             "Destructive Limbs",
             "3x attacks (Melee, Combat, 1D6+6 damage). " +
-                "If hit, target must pass a For check {0}. " +
-                "Failure => Stunned.",
+                "If hit, target must pass a FOR check {0}. " +
+                "Failure => {Stunned.}",
             [(22, 26)],
             AttackType.normal),
         Attack(
             "Mutilating Wave",
-            "All team members within 6\" must pass a For check {0}. " +
-                "Failure => suffer 2D6+2 damage and Poisoned.",
+            "All team members within 6\" must pass a FOR check {0}. " +
+                "Failure => {2D6+2 damage and Poisoned.}",
             [(22, 26)],
             AttackType.area)
       ],
@@ -246,7 +246,7 @@ final Map<int, MonsterDescription> monsterDB = {
         Attack(
             "Reverberating Destruction",
             "Whenever the monster is damaged by a Weapon attack, " +
-                "all team members within 3\" must pass a For check {0}. " +
+                "all team members within 3\" must pass a FOR check {0}. " +
                 "Failure => suffer 2D6 damage.",
             [(19, 23)],
             AttackType.passive)
@@ -266,14 +266,14 @@ final Map<int, MonsterDescription> monsterDB = {
         Attack(
             "Psionic Claws (Psionic)",
             "1x attack (Melee, Combat, Psionic, 4D6+2 damage). " +
-                "If hit, target must pass a For check {0}. " +
-                "Failure => suffer 2D6 damage and Stunned.",
+                "If hit, target must pass a FOR check {0}. " +
+                "Failure => {2D6 damage and Stunned.}",
             [(18, 22)],
             AttackType.normal),
         Attack(
             "Psionic Wave (Psionic)",
-            "All team members within 12\" must pass a Dex check {0}. " +
-                "Failure => suffer 3D6 damage and Blinded.",
+            "All team members within 12\" must pass a DEX check {0}. " +
+                "Failure => {3D6 damage and Blinded.}",
             [(18, 22)],
             AttackType.area)
       ],
@@ -285,7 +285,7 @@ final Map<int, MonsterDescription> monsterDB = {
             "Twisted Creature (Psionic)",
             "Whenever the monster suffers damage from a Weapon attack, it " +
                 "suffers 1D6 additional damage and " +
-                "all team members within 18\" must pass a For check {0}." +
+                "all team members within 18\" must pass a FOR check {0}." +
                 "Failure => suffer 2D6 damage.",
             [(18, 22)],
             AttackType.passive),
@@ -312,27 +312,27 @@ final Map<int, MonsterDescription> monsterDB = {
         Attack(
             "Psionic Lash (Psionic)",
             "3x attacks (Melee, Combat, Psionic, 1D6+2 damage). " +
-                "If hit, target must pass a Dex check {0}. " +
-                "Failure => Blinded.",
+                "If hit, target must pass a DEX check {0}. " +
+                "Failure => {Blinded.}",
             [(18, 22)],
             AttackType.normal),
         Attack(
             "Nightmare Pulse (Psionic)",
-            "All team members within 12\" must pass a For check {0}. " +
-                "Failure => suffer 2D6+2 damage and Stunned.",
+            "All team members within 12\" must pass a FOR check {0}. " +
+                "Failure => {2D6+2 damage and Stunned.}",
             [(19, 23)],
             AttackType.area),
         Attack(
             "Deepened Nightmares (Psionic)",
-            "Target enemy within 12\" who is either Stunned or Blinded must pass a For check {0}. " +
-                "Failure => suffer 5D6 damage and immediately move 12\" " +
+            "Target enemy within 12\" who is either Stunned or Blinded must pass a FOR check {0}. " +
+                "Failure => {5D6 damage and immediately move 12\" " +
                 "directly away from the Deranger. If this movement would carry " +
                 "the enemy into Difficult terrain (or up a vertical surface), " +
                 "they must pay for that additional movement as normal. If this " +
                 "movement would carry the enemy into Dangerous terrain, they will " +
                 "suffer any consequences of that as normal. If this movement would " +
                 "move them off of a horizontal surface that is elevated, they will " +
-                "fall and suffer damage as normal, with no chance to reduce it.",
+                "fall and suffer damage as normal, with no chance to reduce it.}",
             [(20, 24)],
             AttackType.normal)
       ],
@@ -373,14 +373,14 @@ final Map<int, MonsterDescription> monsterDB = {
         Attack(
             "Rending Claws",
             "2x attacks (Melee, Combat, 2D6+1 damage). " +
-                "If hit, target must pass a For check {0}. " +
-                "Failure => 3D6 damage and Stunned.",
+                "If hit, target must pass a FOR check {0}. " +
+                "Failure => {3D6 damage and Stunned.}",
             [(17, 21)],
             AttackType.normal),
         Attack(
             "Earth Eruption",
-            "All team members within 12\" must pass a Dex check {0}. " +
-                "Failure => suffer 1D6 damage and Restrained.",
+            "All team members within 12\" must pass a DEX check {0}. " +
+                "Failure => {1D6 damage and Restrained.}",
             [(18, 22)],
             AttackType.area),
       ],
@@ -420,19 +420,19 @@ final Map<int, MonsterDescription> monsterDB = {
             "Helo Blast",
             "2x attacks (Ranged, Combat, Energy, 2D6+4 damage). " +
                 "If hit, target must pass a DEX check {0}. " +
-                "Failure => Blinded.",
+                "Failure => {Blinded.}",
             [(21, 25)],
             AttackType.normal),
         Attack(
             "Wave of Heat",
             "All enemies within 12\" must pass a FOR check {0}. " +
-                "Failure => Stunned.",
+                "Failure => {Stunned.}",
             [(21, 25)],
             AttackType.area),
         Attack(
             "Reflecting Blast",
             "The closest enemy must pass a DEX check {0}. " +
-                "Failure => 4D6+6 damage and Stunned.",
+                "Failure => {4D6+6 damage and Stunned.}",
             [(23, 27)],
             AttackType.normal),
       ],
@@ -472,19 +472,19 @@ final Map<int, MonsterDescription> monsterDB = {
             "Penetrating Pinions",
             "3x attacks (Ranged, Combat, 1D6+3 damage). " +
                 "If hit, target must pass a FOR check {0}. " +
-                "Failure => Poisoned and Stunned.",
+                "Failure => {Poisoned and Stunned.}",
             [(22, 26)],
             AttackType.normal),
         Attack(
             "Explosion of Spines",
             "All enemies within 18\" must pass a FOR check {0}. " +
-                "Failure => Poisoned.",
+                "Failure => {Poisoned.}",
             [(17, 21)],
             AttackType.area),
         Attack(
             "Restraining Spines",
             "The 2 closest enemies must pass a DEX check {0}. " +
-                "Failure => Restrained.",
+                "Failure => {Restrained.}",
             [(20, 24)],
             AttackType.normal),
       ],
@@ -518,13 +518,13 @@ final Map<int, MonsterDescription> monsterDB = {
             "Acidic Spit",
             "1x attacks (Ranged, Combat, 3D6+4 damage). " +
                 "If hit, target must pass a DEX check {0}. " +
-                "Failure => Blinded.",
+                "Failure => {Blinded.}",
             [(21, 25)],
             AttackType.normal),
         Attack(
             "Acid Spray",
             "All enemies within 12\" must pass a DEX check {0}. " +
-                "Failure => 2D6+2 damage and Blinded.",
+                "Failure => {2D6+2 damage and Blinded.}",
             [(20, 24)],
             AttackType.area),
       ],
@@ -558,20 +558,20 @@ final Map<int, MonsterDescription> monsterDB = {
             "Spine Fling",
             "2x attacks (Ranged, Combat, 2D6+1 damage). " +
                 "If hit, target must pass a DEX check {0}. " +
-                "Failure => Restrained.",
+                "Failure => {Restrained.}",
             [(21, 25)],
             AttackType.normal),
         Attack(
             "Wrenching Impalement",
             "Move adjacent to the Restrained enemy and that enemy must " +
                 "pass a FOR check {0}. " +
-                "Failure => 4D6 damage and Stunned.",
+                "Failure => {4D6 damage and Stunned.}",
             [(22, 26)],
             AttackType.normal),
         Attack(
             "Spine Spray",
             "All enemies within 12\" must pass a DEX check {0}. " +
-                "Failure => 2D6 damage and Restrained.",
+                "Failure => {2D6 damage and Restrained.}",
             [(21, 25)],
             AttackType.area),
       ],
@@ -619,15 +619,15 @@ final Map<int, MonsterDescription> monsterDB = {
             "1x attack (Ranged, Combat, Energy, 2D6+2 damage) against each " +
                 "enemy within 18\" that can be seen." +
                 "If hit, target must pass a DEX check {0}. " +
-                "Failure => Blinded.",
+                "Failure => {Blinded.}",
             [(20, 24)],
             AttackType.area),
         Attack(
             "Restraining Shot",
             "The closest enemy in line of sight must pass a DEX check {0}. " +
-                "Failure => 3D6 damage and Restrained. " +
+                "Failure => {3D6 damage and Restrained. " +
                 "In addition, each time the target attempts to clear " +
-                "this Restrained condition and fails, it suffers 3D6 damage",
+                "this Restrained condition and fails, it suffers 3D6 damage.}",
             [(24, 28)],
             AttackType.normal),
       ],
@@ -657,7 +657,7 @@ final Map<int, MonsterDescription> monsterDB = {
       SpecialAttackQuestions(
           {1: "Are there 2 or more enemies within 18\"?", 2: ""},
           SpeAttackPreamblePosition.onAllAttacks)),
-  /*35: MonsterDescription(
+  /*35: MonsterDescription( // TODO solve pulsar
       // something wrong, despite area check doing correctly on basic attack
       "Pulsar",
       "Pulsar",
@@ -733,7 +733,7 @@ final Map<int, MonsterDescription> monsterDB = {
             "Shocking Blast",
             "2x attacks (Ranged, Combat, Energy, 2D6+1 damage). " +
                 "If hit, target must pass a DEX check {0}. " +
-                "Failure => Blinded.",
+                "Failure => {Blinded.}",
             [(20, 24)],
             AttackType.normal),
       ],
@@ -780,15 +780,15 @@ final Map<int, MonsterDescription> monsterDB = {
             "Blast",
             "1x attack (Ranged, Combat, Energy, 4D6+3 damage). " +
                 "If hit, target must pass a FOR check {0}. " +
-                "Failure => Stunned. In addition, if the attack hits, all " +
+                "Failure => {Stunned. In addition, if the attack hits, all " +
                 "enemies within 6\" of the target must pass a DEX " +
-                "check {0} or suffer 2D6+1 damage.",
+                "check {0} or suffer 2D6+1 damage.}",
             [(20, 24)],
             AttackType.normal),
         Attack(
             "Leveling Blast",
             "All enemies within 12\" must pass a DEX check {0}. " +
-                "Failure => 1D6+6 damage and Blinded.",
+                "Failure => {1D6+6 damage and Blinded.}",
             [(20, 24)],
             AttackType.area),
         Attack(
@@ -796,7 +796,7 @@ final Map<int, MonsterDescription> monsterDB = {
             // typo in the rules here +20
             "1x attack (Ranged, Combat, Energy, 3D6+5 damage). " +
                 "If hit, target must pass a FOR check {0}. " +
-                "Failure => Stunned.",
+                "Failure => {Stunned.}",
             [(22, 26)],
             AttackType.normal),
         // last attack is special, special case in code, listed in the passives

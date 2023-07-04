@@ -89,6 +89,7 @@ class EnemyInMelee extends MonsterDecisionStep {
 
 /// if area attack not possible, attackIndex will be -1
 /// else is possible, attackIndex is set to the first area attack
+/// TODO should probably return more than 1 attack if cannot decide
 (bool, int) basicChecksForAreaAttack(GameState gameState) {
   var monster = gameState.currentMonster;
   //stdout.writeln("enemyInMelee with decisions: $decisions");
@@ -170,6 +171,8 @@ class AskAreaSpecialQuestion extends MonsterDecisionStep {
             children: [
               ElevatedButton(
                   onPressed: () {
+                    // for pulsar, branch here to check the 2 different area attacks
+                    // and ask one more question
                     monster.decisionsMemory
                         .add(DecisionKey.yesToAreaAttackQuestion);
                     monster.decisionsMemory.add(DecisionKey.willMakeAreaAttack);
