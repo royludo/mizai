@@ -173,6 +173,7 @@ enum DecisionKey {
   madeSpecialAttack1,
   madeSpecialAttack2,
   inExtremisSecondAction,
+  inExtremisThirdAction, // for navite warrior only
   noEnemyInRange,
   enemyInLineOfSight,
   noEnemyInLineOfSight,
@@ -206,7 +207,7 @@ enum MonsterSpecies {
   tarskyth,
   ichor,
   spine,
-
+  navite,
   pulsar,
 
   yvenian,

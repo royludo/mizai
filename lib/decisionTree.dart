@@ -66,12 +66,22 @@ class CheckInExtremis extends MonsterDecisionStep {
   Widget build(BuildContext context) {
     var monster = gameState.currentMonster;
     //stdout.writeln("inextremis with decisions: $decisions");
+
+    String inExtremisDamage = "2D6";
+    if (monster.desc.species == MonsterSpecies.navite) {
+      inExtremisDamage = "4D6";
+    }
+    String extraActionsAmount = "an extra action";
+    if (monster.desc.species == MonsterSpecies.navite) {
+      extraActionsAmount = "2 extra actions";
+    }
+
     return GenericChoiceStep(
         gameState: gameState,
         title: "In Extremis",
         content: Column(children: [
           SimpleQuestionText(
-              "The ${monster.desc.fullName} is In Extremis. It suffers 2D6 damage and will take an extra action!"),
+              "The ${monster.desc.fullName} is In Extremis. It suffers $inExtremisDamage damage and will take $extraActionsAmount!"),
           ElevatedButton(
               onPressed: () {
                 Navigator.push(context, MaterialPageRoute(builder: (_) {
@@ -221,6 +231,11 @@ class EndOfAction extends MonsterDecisionStep {
         !monster.decisionsMemory.contains(DecisionKey.inExtremisSecondAction)) {
       text =
           "First monster action is finished. It will now take an extra action.";
+    } else if (monster.desc.species == MonsterSpecies.navite &&
+        monster.isInExtremis &&
+        !monster.decisionsMemory.contains(DecisionKey.inExtremisThirdAction)) {
+      text =
+          "Second monster action is finished. It will now take another extra action.";
     } else {
       text = "Monster action is finished.";
     }
@@ -243,6 +258,18 @@ class EndOfAction extends MonsterDecisionStep {
                   // new extra action
                   monster.decisionsMemory
                       .add(DecisionKey.inExtremisSecondAction);
+                  monster.endAction();
+
+                  Navigator.push(context, MaterialPageRoute(builder: (_) {
+                    return getStartingPoint(context, monster, gameState);
+                  }));
+                } else if (monster.desc.species == MonsterSpecies.navite &&
+                    monster.isInExtremis &&
+                    !monster.decisionsMemory
+                        .contains(DecisionKey.inExtremisThirdAction)) {
+                  // another extra action for navite warrior
+                  monster.decisionsMemory
+                      .add(DecisionKey.inExtremisThirdAction);
                   monster.endAction();
 
                   Navigator.push(context, MaterialPageRoute(builder: (_) {

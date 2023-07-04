@@ -602,6 +602,61 @@ final Map<int, MonsterDescription> monsterDB = {
         2: "Is there 1 or more enemies within 12\" AND has the Spine Flinger " +
             "been critically hit since its last activation?"
       }, SpeAttackPreamblePosition.onAllAttacks)),
+  34: MonsterDescription(
+      "Navite Warrior",
+      "Navite W.",
+      17,
+      22,
+      AIType.ravager,
+      [
+        Attack(
+            "Focused Shot",
+            "1x attack (Ranged, Combat, Energy, 3D6+3 damage).",
+            [],
+            AttackType.normal),
+        Attack(
+            "Scatter Shot",
+            "1x attack (Ranged, Combat, Energy, 2D6+2 damage) against each " +
+                "enemy within 18\" that can be seen." +
+                "If hit, target must pass a DEX check {0}. " +
+                "Failure => Blinded.",
+            [(20, 24)],
+            AttackType.area),
+        Attack(
+            "Restraining Shot",
+            "The closest enemy in line of sight must pass a DEX check {0}. " +
+                "Failure => 3D6 damage and Restrained. " +
+                "In addition, each time the target attempts to clear " +
+                "this Restrained condition and fails, it suffers 3D6 damage",
+            [(24, 28)],
+            AttackType.normal),
+      ],
+      MonsterSpecies.navite,
+      34,
+      126,
+      [
+        Attack(
+            "Shock Trooper",
+            "At the start of every activation, auto-clear one condition " +
+                "(if multiple conditions, choose randomly). " +
+                "The Navite Warrior can still attempt to clear another condition as " +
+                "normal.",
+            [],
+            AttackType.passive),
+        Attack(
+            "True Frenzy",
+            "2 additional actions when In Extremis, suffers 4D6 damage instead " +
+                "of 2D6.",
+            [],
+            AttackType.passive)
+      ],
+      {
+        1: ([1], []),
+        2: ([], [1])
+      },
+      SpecialAttackQuestions(
+          {1: "Are there 2 or more enemies within 18\"?", 2: ""},
+          SpeAttackPreamblePosition.onAllAttacks)),
   /*35: MonsterDescription(
       // something wrong, despite area check doing correctly on basic attack
       "Pulsar",
