@@ -84,9 +84,22 @@ class CheckInExtremis extends MonsterDecisionStep {
               "The ${monster.desc.fullName} is In Extremis. It suffers $inExtremisDamage damage and will take $extraActionsAmount!"),
           ElevatedButton(
               onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (_) {
-                  return getStartingPoint(context, monster, gameState);
-                }));
+                // special case for cannonade here, as it self destructs
+                if (monster.desc.species == MonsterSpecies.cannonade) {
+                  Navigator.push(context, MaterialPageRoute(builder: (_) {
+                    return monster.makeSpecialAttack(
+                        context,
+                        EndOfAction(gameState: gameState),
+                        "",
+                        0, // <- attack index is useless here
+                        // cannonade final attack is listed in the passives
+                        monster.desc.passiveAbilities[1]);
+                  }));
+                } else {
+                  Navigator.push(context, MaterialPageRoute(builder: (_) {
+                    return getStartingPoint(context, monster, gameState);
+                  }));
+                }
               },
               child: const ButtonText("Continue"))
         ]));
@@ -228,7 +241,8 @@ class EndOfAction extends MonsterDecisionStep {
 
     String text;
     if (monster.isInExtremis &&
-        !monster.decisionsMemory.contains(DecisionKey.inExtremisSecondAction)) {
+        !monster.decisionsMemory.contains(DecisionKey.inExtremisSecondAction) &&
+        monster.desc.species != MonsterSpecies.cannonade) {
       text =
           "First monster action is finished. It will now take an extra action.";
     } else if (monster.desc.species == MonsterSpecies.navite &&
@@ -254,7 +268,8 @@ class EndOfAction extends MonsterDecisionStep {
 
                 if (monster.isInExtremis &&
                     !monster.decisionsMemory
-                        .contains(DecisionKey.inExtremisSecondAction)) {
+                        .contains(DecisionKey.inExtremisSecondAction) &&
+                    monster.desc.species != MonsterSpecies.cannonade) {
                   // new extra action
                   monster.decisionsMemory
                       .add(DecisionKey.inExtremisSecondAction);

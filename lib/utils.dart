@@ -209,8 +209,8 @@ enum MonsterSpecies {
   spine,
   navite,
   pulsar,
-
   yvenian,
+  cannonade,
 }
 
 class StatefulMonster {
@@ -408,13 +408,22 @@ class StatefulMonster {
   }
 
   Widget makeSpecialAttack(BuildContext context, Widget endPoint,
-      String preamble, int specialAttackIndex) {
+      String preamble, int specialAttackIndex,
+      [Attack? overrideAttack]) {
     if (specialAttackIndex < 0 || specialAttackIndex >= desc.attacks.length) {
       // index out of range
       throw Exception(
           "Special attack index out of range. Index: $specialAttackIndex while array has length ${desc.attacks.length}");
     }
-    Attack attack = desc.attacks[specialAttackIndex];
+
+    Attack attack;
+    if (overrideAttack != null) {
+      // special case for cannonade
+      attack = overrideAttack;
+    } else {
+      attack = desc.attacks[specialAttackIndex];
+    }
+
     var preamblePosition = desc.specialAttackQuestions.preamblePosition;
 
     return Scaffold(

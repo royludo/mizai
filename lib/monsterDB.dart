@@ -769,4 +769,68 @@ final Map<int, MonsterDescription> monsterDB = {
       ],
       {},
       SpecialAttackQuestions({}, SpeAttackPreamblePosition.onAllAttacks)),
+  42: MonsterDescription(
+      "Cannonade",
+      "Cannonade",
+      22,
+      24,
+      AIType.ravager,
+      [
+        Attack(
+            "Blast",
+            "1x attack (Ranged, Combat, Energy, 4D6+3 damage). " +
+                "If hit, target must pass a FOR check {0}. " +
+                "Failure => Stunned. In addition, if the attack hits, all " +
+                "enemies within 6\" of the target must pass a DEX " +
+                "check {0} or suffer 2D6+1 damage.",
+            [(20, 24)],
+            AttackType.normal),
+        Attack(
+            "Leveling Blast",
+            "All enemies within 12\" must pass a DEX check {0}. " +
+                "Failure => 1D6+6 damage and Blinded.",
+            [(20, 24)],
+            AttackType.area),
+        Attack(
+            "Disrupting Blast",
+            // typo in the rules here +20
+            "1x attack (Ranged, Combat, Energy, 3D6+5 damage). " +
+                "If hit, target must pass a FOR check {0}. " +
+                "Failure => Stunned.",
+            [(22, 26)],
+            AttackType.normal),
+        // last attack is special, special case in code, listed in the passives
+      ],
+      MonsterSpecies.cannonade,
+      42,
+      129,
+      [
+        Attack(
+            "Explosive Engine",
+            "Whenever the Cannonade suffers damage " +
+                "from a Weapon attack, all enemies within 12\" of the Cannonade " +
+                "suffer 1D6 damage.",
+            [],
+            AttackType.passive),
+        Attack(
+            "Final Detonation",
+            "All enemies within 24\" must pass a DEX check {0}. " +
+                "Failure => 5D6+3 damage. Once this attack is resolved, " +
+                "the Cannonade is Out of Action and Removed from Play.",
+            [(20, 24)],
+            // would be an area attack, but this attack is special
+            // avoid making it interfere with the normal AI tree
+            AttackType.passive),
+      ],
+      {
+        1: ([1], []),
+        2: ([2], []),
+        3: ([], [])
+      },
+      SpecialAttackQuestions({
+        1: "Are there 2 or more enemies within 12\"?",
+        2: "Is there only one enemy within 12\"?",
+        // that question should never be reached, will be treated as special case in code
+        //3: "Is it In Extremis?"
+      }, SpeAttackPreamblePosition.onAllAttacks)),
 };
