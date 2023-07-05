@@ -657,8 +657,7 @@ final Map<int, MonsterDescription> monsterDB = {
       SpecialAttackQuestions(
           {1: "Are there 2 or more enemies within 18\"?", 2: ""},
           SpeAttackPreamblePosition.onAllAttacks)),
-  /*35: MonsterDescription( // TODO solve pulsar
-      // something wrong, despite area check doing correctly on basic attack
+  35: MonsterDescription(
       "Pulsar",
       "Pulsar",
       20,
@@ -668,7 +667,7 @@ final Map<int, MonsterDescription> monsterDB = {
         Attack(
             "Pulse Wave (Psionic)",
             "All enemies within 12\" must pass a FOR check {0}. " +
-                "Failure => 1D6 damage and Stunned.",
+                "Failure => {1D6 damage and Stunned.}",
             [(18, 22)],
             AttackType.area),
         Attack(
@@ -676,16 +675,16 @@ final Map<int, MonsterDescription> monsterDB = {
             "Target the closest Stunned enemy. If tied, choose randomly. " +
                 "1x attack (Ranged, Psionic, 4D6+2 damage). " +
                 "If attack scores a critical hit, target must pass a FOR check {0}. " +
-                "Failure => Out of Action.",
+                "Failure => {Out of Action.}",
             [(25, 29)],
             AttackType.normal),
         Attack(
             "Chaos Suggestion",
             "All enemies within 12\" that are Stunned must pass a FOR check {0}. " +
-                "Failure => next time that enemy activates, " +
+                "Failure => {Next time that enemy activates, " +
                 "if they do not clear the Stunned condition, they must use their " +
                 "attack action and determine their target randomly from all targets " +
-                "they can see, whether friend or foe.",
+                "they can see, whether friend or foe.}",
             [(20, 24)],
             AttackType.area),
       ],
@@ -721,7 +720,6 @@ final Map<int, MonsterDescription> monsterDB = {
         1: "Is there 1 or more Stunned enemy within 12\"?",
         2: "Is there 1 or more Stunned enemy within 12\"?"
       }, SpeAttackPreamblePosition.onAllAttacks)),
-      */
   41: MonsterDescription(
       "Yvenian Shocker",
       "Yvenian S.",

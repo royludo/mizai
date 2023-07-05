@@ -485,6 +485,7 @@ class GameState {
   }
 }
 
+/// very outer widget used across the app
 class EverythingCenteredWidget extends StatelessWidget {
   const EverythingCenteredWidget({super.key, required this.child});
 

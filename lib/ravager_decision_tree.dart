@@ -19,22 +19,20 @@ class EnemyInMelee extends MonsterDecisionStep {
         basicChecksForAreaAttack(gameState);
 
     if (areaAttackMaybePossible) {
-      if (monster.specificSpeAttackRequireDecision(potentialAreaAttackIndex)) {
+      if (monster
+          .specificSpeAttackRequireDecision(potentialAreaAttackIndex.first)) {
         // here area attack might still not be possible if question is negative
         Navigator.push(context, MaterialPageRoute(builder: (context) {
           return AskAreaSpecialQuestion(
             gameState: gameState,
-            attackIndex: potentialAreaAttackIndex,
+            attackIndexes: potentialAreaAttackIndex,
           );
         }));
       } else {
-        // see Pulsar
-        monster.decisionsMemory.add(DecisionKey.willMakeAreaAttack);
-        monster.deferredAttackIndex = potentialAreaAttackIndex;
-        Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return MakeAreaAttack(
-              gameState: gameState, attackIndex: potentialAreaAttackIndex);
-        }));
+        // case should never happen, area attacks should always have a question
+        // associated to them
+        throw Exception(
+            "Case of area attack with no question, should not happen.");
       }
     } else {
       // only case where we are sure area attack will NOT happen
@@ -87,71 +85,48 @@ class EnemyInMelee extends MonsterDecisionStep {
   }
 }
 
-/// if area attack not possible, attackIndex will be -1
-/// else is possible, attackIndex is set to the first area attack
-/// TODO should probably return more than 1 attack if cannot decide
-(bool, int) basicChecksForAreaAttack(GameState gameState) {
+/// if area attack not possible, potentialAreaAttackIndexes will be empty
+/// else is possible, attackIndex is set to highest index first
+(bool, List<int>) basicChecksForAreaAttack(GameState gameState) {
   var monster = gameState.currentMonster;
   //stdout.writeln("enemyInMelee with decisions: $decisions");
 
   bool isAreaAttackStartingToBePossible = false;
-  int chosenPotentialAreaAttackIndex = -1;
+  List<int> potentialAreaAttackIndexes = [];
 
+  // if basic attack is area, then it is always possible so auto add to list
   if (monster.desc.attacks[0].type == AttackType.area) {
-    // case where area attack is a Basic attack
-    // then area attack is always available basically
     isAreaAttackStartingToBePossible = true;
-    chosenPotentialAreaAttackIndex = 0;
+    potentialAreaAttackIndexes.add(0);
   }
+
   // check if basic requirements to make any special attack is met
-  // Warning: basic attack may be an area attack!
-  else if (monster.isSpecialAttackPossible(false) &&
+  if (monster.isSpecialAttackPossible(false) &&
       monster.isAnySpecialAttackAllowedNow()) {
     // loop gathers area attacks that are possible
-    List<int> multiplePossibleAreaAttackIndexes = [];
     for (var i = 1; i < monster.desc.attacks.length; i++) {
       if (monster.isSpecificAttackAllowedNow(i) &&
           monster.desc.attacks[i].type == AttackType.area) {
-        multiplePossibleAreaAttackIndexes.add(i);
-      }
-    }
-
-    if (multiplePossibleAreaAttackIndexes.length == 1) {
-      // easy case, only 1 area attack possible to return
-      isAreaAttackStartingToBePossible = true;
-      chosenPotentialAreaAttackIndex = multiplePossibleAreaAttackIndexes.first;
-    } else if (multiplePossibleAreaAttackIndexes.length > 1) {
-      // multiple area attacks are allowed here
-      // use the nextAttack of the monster to choose
-
-      if (multiplePossibleAreaAttackIndexes.contains(monster.nextAttackIndex)) {
-        // because of the contains we are sure the loop will find something
-        for (var areaAttackIndex in multiplePossibleAreaAttackIndexes) {
-          if (areaAttackIndex == monster.nextAttackIndex) {
-            isAreaAttackStartingToBePossible = true;
-            chosenPotentialAreaAttackIndex = areaAttackIndex;
-            break;
-          }
-        }
-      } else {
-        // maybe nextAttack is not in the possible areaAttacks, never knows
-        // this is the case where the next attack would have been a basic one
-        // then take the first areaAttack that comes
         isAreaAttackStartingToBePossible = true;
-        chosenPotentialAreaAttackIndex =
-            multiplePossibleAreaAttackIndexes.first;
+        potentialAreaAttackIndexes.add(i);
       }
     }
   }
 
-  return (isAreaAttackStartingToBePossible, chosenPotentialAreaAttackIndex);
+  potentialAreaAttackIndexes.sort();
+  potentialAreaAttackIndexes = List.from(potentialAreaAttackIndexes.reversed);
+
+  return (isAreaAttackStartingToBePossible, potentialAreaAttackIndexes);
 }
 
+/// takes an ordered list of attack, from more specific to basic
+/// chain questions to determine which attack can be done
+/// if yes, we make that attack, if no go to next attack until no more
 class AskAreaSpecialQuestion extends MonsterDecisionStep {
   const AskAreaSpecialQuestion(
-      {super.key, required super.gameState, required this.attackIndex});
+      {super.key, required super.gameState, required this.attackIndexes});
 
-  final int attackIndex;
+  final List<int> attackIndexes;
 
   @override
   Widget build(BuildContext context) {
@@ -163,9 +138,10 @@ class AskAreaSpecialQuestion extends MonsterDecisionStep {
 
     return GenericChoiceStep(
         gameState: gameState,
-        title: "${monster.desc.shortName} special attack $attackIndex",
+        title:
+            "${monster.desc.shortName} special attack ${attackIndexes.first}",
         content: Column(children: [
-          SimpleQuestionText(questionsForAttack[attackIndex]!),
+          SimpleQuestionText(questionsForAttack[attackIndexes.first]!),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -176,34 +152,52 @@ class AskAreaSpecialQuestion extends MonsterDecisionStep {
                     monster.decisionsMemory
                         .add(DecisionKey.yesToAreaAttackQuestion);
                     monster.decisionsMemory.add(DecisionKey.willMakeAreaAttack);
-                    monster.deferredAttackIndex = attackIndex;
+                    monster.deferredAttackIndex = attackIndexes.first;
                     // case 2
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) {
                       return MakeAreaAttack(
-                          gameState: gameState, attackIndex: attackIndex);
+                          gameState: gameState,
+                          attackIndex: attackIndexes.first);
                     }));
                   },
                   child: const ButtonText("Yes")),
               ElevatedButton(
                   onPressed: () {
-                    monster.decisionsMemory
-                        .add(DecisionKey.noToAreaAttackQuestion);
-                    monster.decisionsMemory
-                        .add(DecisionKey.willNOTMakeAreaAttack);
-                    monster.attackIndexesExcludedForAction.add(attackIndex);
-
-                    if (monster.decisionsMemory
-                        .contains(DecisionKey.enemyInMelee)) {
+                    // if no and there are more attacks remaining in attackIndexes
+                    // need to go to next attack's question
+                    // if only 1 attack remaining in list, then proceed as normal
+                    if (attackIndexes.length > 1) {
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) {
-                        return MoveAfterNoAreaMelee(gameState: gameState);
+                        return AskAreaSpecialQuestion(
+                            gameState: gameState,
+                            attackIndexes: attackIndexes..removeAt(0));
                       }));
                     } else {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) {
-                        return EnemyInLineOfSight(gameState: gameState);
-                      }));
+                      // only 1 attack remaining, and it is No for it
+
+                      monster.decisionsMemory
+                          .add(DecisionKey.noToAreaAttackQuestion);
+                      monster.decisionsMemory
+                          .add(DecisionKey.willNOTMakeAreaAttack);
+                      // ensure we won't ask the user a question for that same
+                      // attack later in the tree
+                      monster.attackIndexesExcludedForAction
+                          .add(attackIndexes.first);
+
+                      if (monster.decisionsMemory
+                          .contains(DecisionKey.enemyInMelee)) {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) {
+                          return MoveAfterNoAreaMelee(gameState: gameState);
+                        }));
+                      } else {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) {
+                          return EnemyInLineOfSight(gameState: gameState);
+                        }));
+                      }
                     }
                   },
                   child: const ButtonText("No"))
