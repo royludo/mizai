@@ -214,17 +214,9 @@ class _MyHomePageState extends State<MyHomePage> {
           "Monster",
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
         ),
-        Expanded(
-            // expanded is required to make listview work
-            child: Padding(
-                padding: const EdgeInsets.only(bottom: 80),
-                child: ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: monsterWidgetList.length,
-                    prototypeItem: monsterWidgetList.first,
-                    itemBuilder: ((context, index) {
-                      return monsterWidgetList[index];
-                    }))))
+        Padding(
+            padding: const EdgeInsets.only(bottom: 80),
+            child: Column(children: monsterWidgetList)),
       ])),
       floatingActionButton: Wrap(
         spacing: 10,
@@ -292,10 +284,6 @@ class _GlobalGameState extends State<GlobalGame> {
         children: passives,
       ));
     }
-    ListView scrollableReminderSection = ListView(
-      shrinkWrap: true,
-      children: [Column(children: reminderSection)],
-    );
 
     // dynamic floatingactionbutton list
     List<FloatingActionButton> floatingButtons = [
@@ -385,12 +373,10 @@ class _GlobalGameState extends State<GlobalGame> {
           MainMonsterScreen(
               gameState:
                   GameState(widget.gameState.allGameMonsters, selectedMonster)),
-          Expanded(
-              // expanded is required to make listview work
-              child: Padding(
+          Padding(
             padding: const EdgeInsets.only(bottom: 80, top: 10),
-            child: scrollableReminderSection,
-          ))
+            child: Column(children: reminderSection),
+          )
         ],
       )),
       floatingActionButton: Wrap(

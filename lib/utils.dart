@@ -12,11 +12,12 @@ class EverythingCenteredWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     //var monster = gameState.currentMonster;
     //stdout.writeln("AllEnemyAttackedPreviously with decisions: $decisions");
-    return Center(
-        child: Container(
+    return SingleChildScrollView(
+        child: Center(
+            child: Container(
       constraints: const BoxConstraints(maxWidth: 600),
       child: child,
-    ));
+    )));
   }
 }
 
