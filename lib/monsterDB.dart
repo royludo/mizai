@@ -1,6 +1,6 @@
 // ignore_for_file: prefer_adjacent_string_concatenation, prefer_interpolation_to_compose_strings
 
-import 'utils.dart';
+import 'model.dart';
 
 /// formatting rules
 /// Failure and success should be followed by =>

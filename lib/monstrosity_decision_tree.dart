@@ -1,6 +1,7 @@
 import 'decisionTree.dart';
 import 'package:flutter/material.dart';
 import 'utils.dart';
+import 'model.dart';
 
 class EnemyInMelee extends MonsterDecisionStep {
   const EnemyInMelee({super.key, required super.gameState});
