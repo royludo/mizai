@@ -415,6 +415,101 @@ final Map<int, MonsterDescription> monsterDB = {
       },
       SpecialAttackQuestions({1: "Are there 1 or more enemy within 12\""},
           SpeAttackPreamblePosition.onBasicOnly)),
+  23: MonsterDescription(
+      "Warping Crawler",
+      "W. Crawler",
+      25,
+      29,
+      AIType.monstrosity,
+      [
+        Attack(
+            "Stabbing Limbs",
+            "2x attacks (Melee, Combat, 2D6+1 damage). " +
+                "If hit, target must pass a DEX check {0}. " +
+                "Failure => {Restrained.} " +
+                "If possible, the Warping Crawler must make " +
+                "these two attacks against two separate enemy targets within " +
+                "range.",
+            [(19, 23)],
+            AttackType.normal),
+        Attack(
+            "Savored Delicacy",
+            "Teleport to the nearest cover that is not occupied by an enemy. " +
+                "Remove the Restrained enemy from the board and set it up " +
+                "within 1\" of the Warping Crawler's new location. That enemy must " +
+                "pass a FOR check {0}." +
+                "Failure => {4D6 damage and Stunned.} ",
+            [(21, 25)],
+            AttackType.normal),
+      ],
+      MonsterSpecies.crawler,
+      23,
+      120,
+      [
+        Attack(
+            "Teleport",
+            "Instead of moving, the Warping Crawler may teleport " +
+                "to any location it can see.",
+            [],
+            AttackType.passive),
+        Attack(
+            "Surprise Arrival",
+            "Whenever this model teleports within 1\" of any " +
+                "enemy and makes an attack against that enemy, it is a Surprise " +
+                "attack.",
+            [],
+            AttackType.passive)
+      ],
+      {1: ([], [])},
+      SpecialAttackQuestions({1: "Is there a Restrained enemy in melee range?"},
+          SpeAttackPreamblePosition.onBasicOnly)),
+  24: MonsterDescription(
+      "Zelak",
+      "Zelak",
+      24,
+      28,
+      AIType.monstrosity,
+      [
+        Attack(
+            "Piercing Talons",
+            "2x attacks (Melee, Combat, 4D6 damage). " +
+                "If hit, target must pass a FOR check {0}. " +
+                "Failure => {3D6 damage and Poisoned.} ",
+            [(20, 24)],
+            AttackType.normal),
+        Attack(
+            "Torturous Glee",
+            "1x Surprise attack (Melee, Combat, 4D6 damage). " +
+                "If hit, target must pass a FOR check {0}. " +
+                "Failure => {3D6 damage and Poisoned and Stunned.} ",
+            [(21, 25)],
+            AttackType.normal),
+      ],
+      MonsterSpecies.zelak,
+      24,
+      121,
+      [
+        Attack(
+            "Cruel Strikes",
+            "Whenever the Zelak attacks an enemy that " +
+                "is already damaged, reduce the damage dealt by 2D6 but increase " +
+                "the difficulty of the stat check against any condition it causes by 3 " +
+                "(e.g. if the stat check to avoid the condition described is 20, it will " +
+                "be 23 if the target is already damaged).",
+            [],
+            AttackType.passive),
+        Attack(
+            "Gruesome End",
+            "Whenever the Zelak reduces an enemy's Hit " +
+                "Points to 0 and that enemy is put Out of Action, roll twice on the " +
+                "Injury & Death table during the post-game process and apply " +
+                "both results.",
+            [],
+            AttackType.passive)
+      ],
+      {1: ([], [])},
+      SpecialAttackQuestions({1: "Is there a Poisoned enemy in line of sight?"},
+          SpeAttackPreamblePosition.onAllAttacks)),
   25: MonsterDescription(
       "Helion Beam Chaser",
       "Helion B.C.",

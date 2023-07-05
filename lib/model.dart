@@ -137,7 +137,8 @@ enum MonsterSpecies {
   talmak,
   deranger,
   terraformer,
-
+  crawler,
+  zelak,
   helion,
   tarskyth,
   ichor,

@@ -13,7 +13,11 @@ Widget getStartingPoint(
     BuildContext context, StatefulMonster monster, GameState gameState) {
   switch (monster.desc.aiType) {
     case AIType.monstrosity:
-      return monstrosity_tree.EnemyInMelee(gameState: gameState);
+      if (monster.desc.species == MonsterSpecies.zelak) {
+        return monstrosity_tree.ZelakSpecial1(gameState: gameState);
+      } else {
+        return monstrosity_tree.EnemyInMelee(gameState: gameState);
+      }
     case AIType.ravager:
       if (monster.decisionsMemory.contains(DecisionKey.activatedWithSpecial)) {
         return monster.makeBasicAttack(context,

@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_adjacent_string_concatenation, prefer_interpolation_to_compose_strings
+
 import 'decisionTree.dart';
 import 'package:flutter/material.dart';
 import 'utils.dart';
@@ -278,6 +280,105 @@ class NoEnemyVisible extends MonsterDecisionStep {
                             buttonMessage: const ButtonText("Continue"))));
               },
               child: const ButtonText("Spot failed, or no Hidden enemy around"))
+        ]));
+  }
+}
+
+class ZelakSpecial1 extends MonsterDecisionStep {
+  const ZelakSpecial1({super.key, required super.gameState});
+
+  @override
+  Widget build(BuildContext context) {
+    var monster = gameState.currentMonster;
+    //stdout.writeln("enemyInMelee with decisions: $decisions");
+    return GenericChoiceStep(
+        gameState: gameState,
+        title: "Situation Z1",
+        content: Column(children: [
+          const SimpleQuestionText(
+              "Is any Poisoned enemy in line of sight and visible?"),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) =>
+                                ZelakSpecial2(gameState: gameState)));
+                  },
+                  child: const ButtonText("Yes")),
+              ElevatedButton(
+                  onPressed: () {
+                    // revert to normal AI behavior
+                    // exclude the special attack for the remainder of the action
+                    monster.attackIndexesExcludedForAction.add(1);
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) =>
+                                EnemyInMelee(gameState: gameState)));
+                  },
+                  child: const ButtonText("No"))
+            ],
+          )
+        ]));
+  }
+}
+
+class ZelakSpecial2 extends MonsterDecisionStep {
+  const ZelakSpecial2({super.key, required super.gameState});
+
+  @override
+  Widget build(BuildContext context) {
+    var monster = gameState.currentMonster;
+    //stdout.writeln("enemyInMelee with decisions: $decisions");
+    return GenericChoiceStep(
+        gameState: gameState,
+        title: "Situation Z2",
+        content: Column(children: [
+          const SimpleQuestionText(
+              "Is any of those Poisoned enemy reachable within movement range?"),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              ElevatedButton(
+                  onPressed: () {
+                    // attack poisoned enemy, bypassing any normal checks
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => monster.makeSpecialAttack(
+                                context,
+                                EndOfAction(gameState: gameState),
+                                "Target the poisoned enemy. If multiple enemies are " +
+                                    "Poisoned and reachable, target the enemy with the lowest HP.",
+                                1)));
+                  },
+                  child: const ButtonText("Yes")),
+              ElevatedButton(
+                  onPressed: () {
+                    // TODO if enemy out of range, chase poisoned enemy?
+                    // or revert to normal behavior?
+                    // let's chase
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => GenericSimpleStep(
+                                gameState: gameState,
+                                title: const Text("Maximum move"),
+                                bodyMessage: const SimpleQuestionText(
+                                    "Move and use an extra move action instead of an attack to be " +
+                                        "within melee range or as close as possible of the Poisoned enemy. " +
+                                        "If there are multiple Poisoned enemies, chase the one with the lowest HP."),
+                                decisionForMemory: DecisionKey.doubleMove,
+                                nextStep: EndOfAction(gameState: gameState),
+                                buttonMessage: const ButtonText("Continue"))));
+                  },
+                  child: const ButtonText("No"))
+            ],
+          )
         ]));
   }
 }
