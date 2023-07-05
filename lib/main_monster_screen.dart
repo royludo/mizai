@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'utils.dart';
+import 'model.dart';
 import 'decisionTree.dart';
 
 class MainMonsterScreen extends StatefulWidget {
@@ -84,7 +84,7 @@ class _MainMonsterScreenState extends State<MainMonsterScreen> {
         monster.desc.fullName,
         style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
       ),
-      Text("Phase ${monster.phase}"),
+      Text("Phase ${monster.phase} - rules p.${monster.desc.pageReference}"),
       const Divider(
         thickness: 4,
         indent: 5,

@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'utils.dart';
 import 'decisionTree.dart';
+import 'model.dart';
 
 /*
   Ravagers need to defer spe attack potentially long after decision

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'main_monster_screen.dart';
 import 'utils.dart';
 import 'monsterDB.dart';
+import 'model.dart';
 
 void main() {
   runApp(const MyApp());

@@ -5,6 +5,7 @@ import 'package:mizai/main.dart';
 import 'utils.dart';
 import 'monstrosity_decision_tree.dart' as monstrosity_tree;
 import 'ravager_decision_tree.dart' as ravager_tree;
+import 'model.dart';
 
 /// get the first screen of the decision tree of the specific monster
 /// doesn't take in extremis into account

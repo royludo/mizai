@@ -2,6 +2,12 @@
 
 import 'utils.dart';
 
+/// formatting rules
+/// Failure and success should be followed by =>
+/// which should be followed by the consequence section in brackets {}
+/// Area attacks should always have an associated question. Even if no
+/// explicit restriction in the rules, there is an implicit condition
+/// that there should be some target in range.
 final Map<int, MonsterDescription> monsterDB = {
   11: MonsterDescription(
       'Avenkian Shrieking Shock Trooper',
@@ -822,13 +828,67 @@ final Map<int, MonsterDescription> monsterDB = {
       ],
       {
         1: ([1], []),
-        2: ([2], []),
-        3: ([], [])
+        2: ([2], [])
       },
       SpecialAttackQuestions({
         1: "Are there 2 or more enemies within 12\"?",
         2: "Is there only one enemy within 12\"?",
         // that question should never be reached, will be treated as special case in code
         //3: "Is it In Extremis?"
+      }, SpeAttackPreamblePosition.onAllAttacks)),
+  43: MonsterDescription(
+      "Mind Raker",
+      "Mind Raker",
+      24,
+      28,
+      AIType.ravager,
+      [
+        Attack(
+            "Mind Stab",
+            "1x attack (Ranged, Psionic, 1D6+2 damage). " +
+                "If hit, target must pass a FOR check {0}. " +
+                "Failure => {Stunned.}",
+            [(21, 25)],
+            AttackType.normal),
+        Attack(
+            "Visions of Nightmares (Psionic)",
+            "All enemies within 18\" must pass a DEX check {0}. " +
+                "Failure => {2D6 damage and Blinded.}",
+            [(21, 25)],
+            AttackType.area),
+        Attack(
+            "Overwhelming Visions (Psionic)",
+            "All Blinded enemies within 18\" must pass a FOR check {0}. " +
+                "Failure => {2D6+3 damage and Stunned.}",
+            [(24, 28)],
+            AttackType.area),
+      ],
+      MonsterSpecies.raker,
+      43,
+      130,
+      [
+        Attack(
+            "Mental Shielding",
+            "Whenever hit by a non-Psionic attack, reduce damage by 3.",
+            [],
+            AttackType.passive),
+        Attack(
+            "Nightmare to Behold",
+            "When an enemy makes an attack against " +
+                "the Mind Raker while within 6\" of it, that enemy's Combat score is " +
+                "treated as 10, unless that score is already lower than 10. If the enemy " +
+                "is currently under the effect of a condition that would reduce " +
+                "their Combat score, this condition is applied before the determination " +
+                "of 10 or lower is made.",
+            [],
+            AttackType.passive)
+      ],
+      {
+        1: ([1], []),
+        2: ([2], []),
+      },
+      SpecialAttackQuestions({
+        1: "Are there 2 or more enemies within 18\"?",
+        2: "Is there 1 or more Blinded enemy within 18\"?",
       }, SpeAttackPreamblePosition.onAllAttacks)),
 };
