@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_adjacent_string_concatenation, prefer_interpolation_to_compose_strings
 
 import 'package:flutter/material.dart';
-import 'package:mizai/main.dart';
+import 'main_screen_wrapper.dart';
 import 'utils.dart';
 import 'monstrosity_decision_tree.dart' as monstrosity_tree;
 import 'ravager_decision_tree.dart' as ravager_tree;
@@ -307,7 +307,8 @@ class EndOfAction extends MonsterDecisionStep {
                   Navigator.pushAndRemoveUntil(
                       context,
                       MaterialPageRoute(
-                          builder: (_) => GlobalGame(gameState: gameState)),
+                          builder: (_) =>
+                              MainScreenWrapper(gameState: gameState)),
                       (route) => false);
                 }
               },
