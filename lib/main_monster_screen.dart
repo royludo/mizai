@@ -71,12 +71,7 @@ class _MainMonsterScreenState extends State<MainMonsterScreen> {
         break;
     }
 
-    return
-        /*appBar: AppBar(
-        title: const Text("Play"),
-        backgroundColor: Theme.of(context).colorScheme.primary,
-      ),*/
-        Column(children: [
+    return Column(children: [
       const Divider(
         thickness: 4,
         indent: 5,

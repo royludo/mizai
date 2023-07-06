@@ -21,13 +21,15 @@ class MyApp extends StatelessWidget {
             primary: const Color.fromARGB(255, 214, 189, 106),
             secondary: const Color.fromARGB(255, 228, 213, 163)),
       ),
-      home: const MyHomePage(),
+      home: const MyHomePage(alreadyInGameMonsters: []),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
+  const MyHomePage({super.key, required this.alreadyInGameMonsters});
+
+  final List<StatefulMonster> alreadyInGameMonsters;
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -39,7 +41,7 @@ class _MyHomePageState extends State<MyHomePage> {
   int currentPhaseSelected = 0;
   int currentMonsterSelected = 0;
   bool canProceed = false;
-  Set<String> monstersAlreadyInGame = {};
+  Set<String> newlySelectedMonsterSet = {};
   Map<String, bool> monsterSelectStates = Map.fromEntries(monsterDB.entries.map(
     (e) {
       return MapEntry(e.value.fullName, false);
@@ -74,59 +76,54 @@ class _MyHomePageState extends State<MyHomePage> {
     for (var monsterEntry in monsterDB.entries) {
       MonsterDescription monster = monsterEntry.value;
 
-      // enable or disable a monster widget depending if it is already in game
-      void Function(bool?)? f;
-      if (monstersAlreadyInGame.contains(monster.fullName)) {
-        f = null;
-      } else {
-        f = (bool? value) {
-          setState(() {
-            monsterSelectStates[monster.fullName] = value!;
-          });
-        };
-      }
       monsterWidgetList.add(CheckboxListTile(
-          value: monsterSelectStates[monster.fullName],
-          onChanged: f,
+          // add checkmark if monster already in game
+          value: widget.alreadyInGameMonsters
+                  .map((e) => e.desc.fullName)
+                  .contains(monster.fullName)
+              ? true
+              : monsterSelectStates[monster.fullName],
+          // grey out monsters that are already in the game, so user can't remove
+          // them from this screen, they have to be killed
+          enabled: !widget.alreadyInGameMonsters
+              .map((e) => e.desc.fullName)
+              .contains(monster.fullName),
+          onChanged: (value) {
+            setState(() {
+              monsterSelectStates[monster.fullName] = value!;
+              for (var monsterEntry in monsterSelectStates.entries) {
+                if (monsterEntry.value) {
+                  newlySelectedMonsterSet.add(monsterEntry.key);
+                } else {
+                  newlySelectedMonsterSet.remove(monsterEntry.key);
+                }
+              }
+            });
+          },
           title: Text(monster.fullName),
           secondary: Text(monster.getPrintableCode())));
     }
 
     // dynamic floatingactionbutton list
-    List<FloatingActionButton> floatingButtons = [
-      FloatingActionButton(
-        onPressed: () {
-          setState(() {
-            for (var monsterEntry in monsterSelectStates.entries) {
-              if (monsterEntry.value) {
-                monstersAlreadyInGame.add(monsterEntry.key);
-              }
-            }
-          });
-        },
-        heroTag: 'buttonAdd',
-        child: const Icon(Icons.add),
-      )
-    ];
-    if (monstersAlreadyInGame.isNotEmpty) {
+    List<FloatingActionButton> floatingButtons = [];
+    if (newlySelectedMonsterSet.isNotEmpty) {
       floatingButtons.add(FloatingActionButton(
         onPressed: () {
-          List<StatefulMonster> allMonsterList = [];
-          for (var monsterFullName in monstersAlreadyInGame) {
+          List<StatefulMonster> allMonsterList =
+              List.from(widget.alreadyInGameMonsters);
+          for (var monsterFullName in newlySelectedMonsterSet) {
             allMonsterList.add(StatefulMonster(
                 monsterDBWithNameKeys[monsterFullName]!,
                 currentPhaseSelected + 1));
           }
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) {
-                  return MainScreenWrapper(
+          Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(
+                  builder: (_) => MainScreenWrapper(
                       gameState:
-                          GameState(allMonsterList, allMonsterList.first));
-                },
-                settings: const RouteSettings(name: "gameScreen")),
-          );
+                          GameState(allMonsterList, allMonsterList.first)),
+                  settings: const RouteSettings(name: "gameScreen")),
+              (route) => false);
         },
         heroTag: 'buttonProceed',
         child: const Icon(Icons.arrow_forward),
@@ -149,7 +146,9 @@ class _MyHomePageState extends State<MyHomePage> {
                       // TODO ask confirmation
                       Navigator.pushAndRemoveUntil(
                           context,
-                          MaterialPageRoute(builder: (_) => MyHomePage()),
+                          MaterialPageRoute(
+                              builder: (_) =>
+                                  MyHomePage(alreadyInGameMonsters: [])),
                           (route) => false);
                     },
                     child: const Row(

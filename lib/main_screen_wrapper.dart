@@ -85,7 +85,8 @@ class _MainScreenWrapperState extends State<MainScreenWrapper> {
                         Navigator.pushAndRemoveUntil(
                             context,
                             MaterialPageRoute(
-                                builder: (_) => const MyHomePage()),
+                                builder: (_) => const MyHomePage(
+                                    alreadyInGameMonsters: [])),
                             (route) => false),
                     child: const Text('To Main Menu'),
                   ),
@@ -142,31 +143,52 @@ class _MainScreenWrapperState extends State<MainScreenWrapper> {
       body: EverythingCenteredWidget(
           child: Column(
         children: [
-          // make drop down available only when more than 1 monster
-          widget.gameState.isMultiplayerGame()
-              ? Row(
-                  children: [
-                    const Text("Controlling"),
-                    const SizedBox(width: 10),
-                    DropdownButton(
-                      value: selectedMonsterCode,
-                      items: widget.gameState.allGameMonsters.map((m) {
-                        return DropdownMenuItem(
-                            value: m.desc.code, child: Text(m.desc.shortName));
-                      }).toList(),
-                      onChanged: (int? value) {
-                        // This is called when the user selects an item.
-                        setState(() {
-                          selectedMonsterCode = value!;
-                          selectedMonster = widget.gameState.allGameMonsters
-                              .firstWhere(
-                                  (m) => m.desc.code == selectedMonsterCode);
-                        });
-                      },
-                    )
-                  ],
-                )
-              : Container(),
+          // top row of buttons
+          Padding(
+              padding: const EdgeInsets.only(left: 10, right: 10, top: 5),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => MyHomePage(
+                                  alreadyInGameMonsters:
+                                      widget.gameState.allGameMonsters)));
+                    },
+                    child: const Text("Add monster"),
+                  ),
+
+                  // make drop down available only when more than 1 monster
+                  widget.gameState.isMultiplayerGame()
+                      ? Row(children: [
+                          //const SizedBox(width: 10),
+                          const Text("Controlling"),
+                          const SizedBox(width: 10),
+                          DropdownButton(
+                            value: selectedMonsterCode,
+                            items: widget.gameState.allGameMonsters.map((m) {
+                              return DropdownMenuItem(
+                                  value: m.desc.code,
+                                  child: Text(m.desc.shortName));
+                            }).toList(),
+                            onChanged: (int? value) {
+                              // This is called when the user selects an item.
+                              setState(() {
+                                selectedMonsterCode = value!;
+                                selectedMonster = widget
+                                    .gameState.allGameMonsters
+                                    .firstWhere((m) =>
+                                        m.desc.code == selectedMonsterCode);
+                              });
+                            },
+                          )
+                        ])
+                      : Container(),
+                ],
+              )),
           MainMonsterScreen(
             gameState:
                 GameState(widget.gameState.allGameMonsters, selectedMonster),
