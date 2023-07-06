@@ -132,3 +132,23 @@ List<InlineSpan> prettyConsequenceSection(String title, String body) {
     )
   ];
 }
+
+/// this is used to avoid transition animations, as Flutter doesn't provide a way
+/// to remove animations -__-"
+///
+/// see https://stackoverflow.com/a/71636856
+class NoTransitionsBuilder extends PageTransitionsBuilder {
+  const NoTransitionsBuilder();
+
+  @override
+  Widget buildTransitions<T>(
+    PageRoute<T>? route,
+    BuildContext? context,
+    Animation<double> animation,
+    Animation<double> secondaryAnimation,
+    Widget? child,
+  ) {
+    // only return the child without warping it with animations
+    return child!;
+  }
+}

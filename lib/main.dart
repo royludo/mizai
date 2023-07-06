@@ -17,10 +17,14 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'MI3AI',
       theme: ThemeData.dark().copyWith(
-        colorScheme: const ColorScheme.dark().copyWith(
-            primary: const Color.fromARGB(255, 214, 189, 106),
-            secondary: const Color.fromARGB(255, 228, 213, 163)),
-      ),
+          colorScheme: const ColorScheme.dark().copyWith(
+              primary: const Color.fromARGB(255, 214, 189, 106),
+              secondary: const Color.fromARGB(255, 228, 213, 163)),
+          pageTransitionsTheme: const PageTransitionsTheme(builders: {
+            TargetPlatform.macOS: NoTransitionsBuilder(),
+            TargetPlatform.linux: NoTransitionsBuilder(),
+            TargetPlatform.windows: NoTransitionsBuilder()
+          })),
       home: const MyHomePage(alreadyInGameMonsters: []),
     );
   }
