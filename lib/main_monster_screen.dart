@@ -3,9 +3,11 @@ import 'model.dart';
 import 'decisionTree.dart';
 
 class MainMonsterScreen extends StatefulWidget {
-  const MainMonsterScreen({super.key, required this.gameState});
+  const MainMonsterScreen(
+      {super.key, required this.gameState, required this.debugMode});
 
   final GameState gameState;
+  final bool debugMode;
   //final Set<DecisionKey> previousDecisions;
 
   @override
@@ -90,32 +92,34 @@ class _MainMonsterScreenState extends State<MainMonsterScreen> {
         indent: 5,
         endIndent: 5,
       ),
-      ElevatedButton(
-          onPressed: () {
-            showDialog(
-                context: context,
-                builder: (BuildContext context) => AlertDialog(
-                        title: const Text('Info'),
-                        content: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              SelectableText("veryFirstAttack: ${monster.veryFirstAttack}\n" +
-                                  "nextAttackIndex: ${monster.nextAttackIndex}\n" +
-                                  "decisionsMemory: ${monster.decisionsMemory}\n" +
-                                  "hasMovedBefore: ${monster.hasMovedBefore}\n" +
-                                  "previousActionAttackIndexes: ${monster.previousActionAttackIndexes}"),
-                            ]),
-                        actions: <Widget>[
-                          TextButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            child: const Text('Back'),
-                          )
-                        ]));
-          },
-          child: const Text("Internal state")),
+      widget.debugMode
+          ? ElevatedButton(
+              onPressed: () {
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) => AlertDialog(
+                            title: const Text('Info'),
+                            content: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  SelectableText("veryFirstAttack: ${monster.veryFirstAttack}\n" +
+                                      "nextAttackIndex: ${monster.nextAttackIndex}\n" +
+                                      "decisionsMemory: ${monster.decisionsMemory}\n" +
+                                      "hasMovedBefore: ${monster.hasMovedBefore}\n" +
+                                      "previousActionAttackIndexes: ${monster.previousActionAttackIndexes}"),
+                                ]),
+                            actions: <Widget>[
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: const Text('Back'),
+                              )
+                            ]));
+              },
+              child: const Text("Internal state"))
+          : Container(),
       SwitchListTile(
         title: const Text('In Extremis'),
         activeColor: Colors.red,

@@ -239,6 +239,7 @@ class GlobalGame extends StatefulWidget {
 class _GlobalGameState extends State<GlobalGame> {
   int selectedMonsterCode = -1;
   late StatefulMonster selectedMonster;
+  bool debugMode = false;
 
   @override
   void initState() {
@@ -341,6 +342,24 @@ class _GlobalGameState extends State<GlobalGame> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Play"),
+        actions: [
+          PopupMenuButton(onSelected: (value) {
+            setState(() {
+              if (value == 0) {
+                // set debug mode
+                debugMode = !debugMode;
+              }
+            });
+          }, itemBuilder: (context) {
+            return [
+              CheckedPopupMenuItem(
+                checked: debugMode,
+                value: 0,
+                child: const Text('Debug'),
+              ),
+            ];
+          })
+        ],
       ),
       body: EverythingCenteredWidget(
           child: Column(
@@ -371,8 +390,10 @@ class _GlobalGameState extends State<GlobalGame> {
                 )
               : Container(),
           MainMonsterScreen(
-              gameState:
-                  GameState(widget.gameState.allGameMonsters, selectedMonster)),
+            gameState:
+                GameState(widget.gameState.allGameMonsters, selectedMonster),
+            debugMode: debugMode,
+          ),
           Padding(
             padding: const EdgeInsets.only(bottom: 80, top: 10),
             child: Column(children: reminderSection),
