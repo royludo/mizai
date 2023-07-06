@@ -143,13 +143,27 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: ElevatedButton(
                     onPressed: () {
                       // simply reload homepage and purge navigation
-                      // TODO ask confirmation
-                      Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(
-                              builder: (_) =>
-                                  MyHomePage(alreadyInGameMonsters: [])),
-                          (route) => false);
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) => AlertDialog(
+                                  title: const Text('Confirm reset'),
+                                  content: const Text(
+                                      'You are about to reset everything and delete all the monsters of your current game. This cannot be undone. Are you sure?'),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      onPressed: () => Navigator.pushAndRemoveUntil(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (_) => const MyHomePage(
+                                                  alreadyInGameMonsters: [])),
+                                          (route) => false),
+                                      child: const Text('Yes'),
+                                    ),
+                                    TextButton(
+                                      onPressed: () => Navigator.pop(context),
+                                      child: const Text('No'),
+                                    ),
+                                  ]));
                     },
                     child: const Row(
                       children: [Text("Reset game"), Icon(Icons.restart_alt)],

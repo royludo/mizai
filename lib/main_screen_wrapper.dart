@@ -67,7 +67,6 @@ class _MainScreenWrapperState extends State<MainScreenWrapper> {
     // dynamic floatingactionbutton list
     List<FloatingActionButton> floatingButtons = [
       // here we kill the monster
-      // TODO ask confirmation
       FloatingActionButton.extended(
         heroTag: 'buttonKillMonster',
         onPressed: () {
@@ -95,11 +94,32 @@ class _MainScreenWrapperState extends State<MainScreenWrapper> {
             );
           } else {
             // still some monsters remaining
-            setState(() {
-              widget.gameState.allGameMonsters.remove(selectedMonster);
-              selectedMonster = widget.gameState.allGameMonsters.first;
-              selectedMonsterCode = selectedMonster.desc.code;
-            });
+            showDialog(
+              context: context,
+              builder: (BuildContext context) => AlertDialog(
+                  title: const Text('Confirm kill'),
+                  content: const Text(
+                      'You are about to remove a monster with all its current data from the game. This cannot be undone. Are you sure?'),
+                  actions: <Widget>[
+                    TextButton(
+                      onPressed: () {
+                        setState(() {
+                          widget.gameState.allGameMonsters
+                              .remove(selectedMonster);
+                          selectedMonster =
+                              widget.gameState.allGameMonsters.first;
+                          selectedMonsterCode = selectedMonster.desc.code;
+                        });
+                        Navigator.pop(context);
+                      },
+                      child: const Text('Yes'),
+                    ),
+                    TextButton(
+                      onPressed: () => Navigator.pop(context),
+                      child: const Text('No'),
+                    ),
+                  ]),
+            );
           }
         },
         label: const Text("Monster killed"),
