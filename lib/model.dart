@@ -12,15 +12,12 @@ class Attack {
   Attack(this.name, this.text, this.varStats, this.type);
 
   String interpolatedText(int phase) {
-    //stdout.writeln("start interpolate text with phase $phase");
     String result = text.replaceAllMapped(RegExp(r'{(\d)}'), (match) {
       String parsedInt = match.group(1)!;
       int statIndex = int.parse(parsedInt);
       (int, int) statPair = varStats[statIndex];
-      //stdout.writeln(">> ${match.group(0)!} $parsedInt $statIndex $statPair");
       int statToUse;
       phase == 1 ? statToUse = statPair.$1 : statToUse = statPair.$2;
-      //stdout.writeln("use $statToUse");
       return statToUse.toString();
     });
 
@@ -52,7 +49,6 @@ class MonsterDescription {
   final int acuityP1;
   final int acuityP2;
   final AIType aiType;
-  //final Attack basicAttack;
   final List<Attack> attacks;
   final int code;
   final int pageReference;
@@ -150,6 +146,15 @@ enum MonsterSpecies {
   raker,
 }
 
+/// Main monster object of the game
+/// Gets manipulated and modified through added variables to represent
+/// its current state in the game
+/// Has very limited undo possibilities, so going back in the middle
+/// of an action will sometimes make things inconsistent.
+/// Inconsistencies will happen after making an attack.
+/// The developer deems this acceptable. Better let the user have some undo
+/// possibility, and coding a true reversible history for the monster
+/// is too much.
 class StatefulMonster {
   final MonsterDescription desc;
   final int phase; // 1 or 2
@@ -162,11 +167,6 @@ class StatefulMonster {
   Set<DecisionKey> decisionsMemory = {};
   List<ActivationTriggerType> activationTriggers = [];
   bool hasMovedBefore = false;
-
-  /// deferred attack occur with ravagers as their AI may make them do stuff
-  /// after attacking, and the decision for which attack to make was
-  /// done way before
-  int deferredAttackIndex = -1;
   List<int> attackIndexesExcludedForAction = [];
 
   StatefulMonster(this.desc, this.phase);
@@ -196,11 +196,8 @@ class StatefulMonster {
     return activationTriggers.length >= 3;
   }
 
-  bool isSpecialAttackPossible(bool forceBasicAttack) {
-    if (veryFirstAttack || forceBasicAttack) {
-      return false;
-    }
-    return true;
+  bool isSpecialAttackPossible() {
+    return !veryFirstAttack;
   }
 
   bool wasSpecialAttackUsedBefore(int specialAttackIndex) {
@@ -253,10 +250,7 @@ class StatefulMonster {
   }
 
   bool isAnySpecialAttackAllowedNow() {
-    /*stdout.writeln(
-        "check any spec attack with previousIndexes: $previousActivationAttackIndexes");*/
     for (var i = 1; i < desc.attacks.length; i++) {
-      //stdout.writeln("Checking ${desc.attacks[i].name}");
       if (isSpecificAttackAllowedNow(i)) {
         return true;
       }
@@ -318,8 +312,6 @@ class StatefulMonster {
             indent: 5,
             endIndent: 5,
           ),
-          /*const Text("<< ATTACK >>",
-              style: TextStyle(fontWeight: FontWeight.bold)),*/
           const SizedBox(
             height: 10,
           ),
@@ -330,9 +322,9 @@ class StatefulMonster {
           AttackText(desc.attacks[0].interpolatedText(phase)),
           ElevatedButton(
               onPressed: () {
-                //decisions.add(DecisionKey.madeBasicAttack);
-
                 // update monster state
+                // this makes undos inconsistent, as we cannot undo the following changes
+                // let's say this is ok
                 veryFirstAttack = false;
                 nextAttackIndex = 1 % desc.getTotalNumberOfAttacks();
                 currentActionAttackIndexes.add(0);
@@ -387,13 +379,11 @@ class StatefulMonster {
             "ATTACK: ${attack.name}",
             style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
           ),
-          //SimpleQuestionText(attack.name),
           AttackText(attack.interpolatedText(phase)),
           ElevatedButton(
               onPressed: () {
-                //decisions.add(attackNumber);
-
                 // update monster state
+                // make undos inconsistent and it's ok
                 nextAttackIndex =
                     (specialAttackIndex + 1) % desc.getTotalNumberOfAttacks();
                 currentActionAttackIndexes.add(specialAttackIndex);

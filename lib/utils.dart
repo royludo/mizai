@@ -119,15 +119,19 @@ List<InlineSpan> prettyConsequenceSection(String title, String body) {
     WidgetSpan(
       //child: SizedBox(
       child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        // should be vertically aligned to point to 1st line of text...
         const Icon(Icons.subdirectory_arrow_right),
         const SizedBox(
           width: 5,
         ),
         Flexible(
-            child: Text(
-          body,
-          style: const TextStyle(fontSize: 16),
-        )),
+            child: Padding(
+                // is it even possible to align properly on all devices ?
+                padding: const EdgeInsets.only(top: 4),
+                child: Text(
+                  body,
+                  style: const TextStyle(fontSize: 16),
+                ))),
       ]),
     )
   ];

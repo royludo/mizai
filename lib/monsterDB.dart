@@ -100,7 +100,7 @@ final Map<int, MonsterDescription> monsterDB = {
                 "a condition as a result of a Dexterity stat check, they may roll that " +
                 "stat check twice and select the higher result. In addition, at the " +
                 "start of their activation, the Rakire Winged Hunter automatically " +
-                "clears one Dexterity condition without any check necessary (they " +
+                "clears one Dexterity condition (Restrained, Blinded) without any check necessary (they " +
                 "may make an additional check to clear a condition as normal).",
             [(18, 22)],
             AttackType.passive)
@@ -147,7 +147,8 @@ final Map<int, MonsterDescription> monsterDB = {
         Attack(
             "Brute Toughness",
             "Reduce all damage the monster suffers from weapons by 3. " +
-                "The monster automatically clears all Fortitude conditions when it activates.",
+                "The monster automatically clears all Fortitude " +
+                "conditions (Stunned, Poisoned) when it activates.",
             [],
             AttackType.passive),
         Attack(
@@ -291,7 +292,7 @@ final Map<int, MonsterDescription> monsterDB = {
             "Twisted Creature (Psionic)",
             "Whenever the monster suffers damage from a Weapon attack, it " +
                 "suffers 1D6 additional damage and " +
-                "all team members within 18\" must pass a FOR check {0}." +
+                "all team members within 18\" must pass a FOR check {0}. " +
                 "Failure => suffer 2D6 damage.",
             [(18, 22)],
             AttackType.passive),

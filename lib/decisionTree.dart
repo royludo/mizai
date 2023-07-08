@@ -39,7 +39,7 @@ abstract class MonsterDecisionStep extends StatelessWidget {
   void initiateGeneralAttackProcess(
       BuildContext context, StatefulMonster monster, String commonPreamble) {
     Navigator.push(context, MaterialPageRoute(builder: (context) {
-      if (monster.isSpecialAttackPossible(false) &&
+      if (monster.isSpecialAttackPossible() &&
           monster.isAnySpecialAttackAllowedNow()) {
         // first checks say it is possible to have a special attack
         // loop determines first available spe attack that does not

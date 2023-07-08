@@ -102,7 +102,7 @@ class EnemyInMelee extends MonsterDecisionStep {
   }
 
   // check if basic requirements to make any special attack is met
-  if (monster.isSpecialAttackPossible(false) &&
+  if (monster.isSpecialAttackPossible() &&
       monster.isAnySpecialAttackAllowedNow()) {
     // loop gathers area attacks that are possible
     for (var i = 1; i < monster.desc.attacks.length; i++) {
@@ -132,8 +132,6 @@ class AskAreaSpecialQuestion extends MonsterDecisionStep {
   @override
   Widget build(BuildContext context) {
     var monster = gameState.currentMonster;
-    //stdout.writeln("AllEnemyAttackedPreviously with decisions: $decisions");
-    //var preamblePosition = monster.desc.specialAttackQuestions.preamblePosition;
     var questionsForAttack =
         monster.desc.specialAttackQuestions.questionForAttack;
 
@@ -148,12 +146,9 @@ class AskAreaSpecialQuestion extends MonsterDecisionStep {
             children: [
               ElevatedButton(
                   onPressed: () {
-                    // for pulsar, branch here to check the 2 different area attacks
-                    // and ask one more question
                     monster.decisionsMemory
                         .add(DecisionKey.yesToAreaAttackQuestion);
                     monster.decisionsMemory.add(DecisionKey.willMakeAreaAttack);
-                    monster.deferredAttackIndex = attackIndexes.first;
                     // case 2
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) {
@@ -218,7 +213,7 @@ class MakeAreaAttack extends MonsterDecisionStep {
   Widget build(BuildContext context) {
     var monster = gameState.currentMonster;
 
-    if (monster.deferredAttackIndex == 0) {
+    if (attackIndex == 0) {
       return monster.makeBasicAttack(
           context, MoveAfterAreaAttack(gameState: gameState), "");
     } else {
