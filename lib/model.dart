@@ -42,6 +42,21 @@ class SpecialAttackQuestions {
   SpecialAttackQuestions(this.questionForAttack, this.preamblePosition);
 }
 
+class StalkerSpecificAttributes {
+  final (int, int) spotCheck;
+  // does attack index (key) has some requirement for hidden/visible ?
+  // true: attack requires to be hidden or requires to be visible
+  // false: attack doesn't care about hidden status
+  final Map<int, bool> attackHasVisibilityRequirement;
+  // does attack index (key) require monster to be hidden ?
+  // true: attack can only happen if hidden
+  // false: attack can only happen if visible
+  final Map<int, bool> attackRequiresHidden;
+
+  StalkerSpecificAttributes(this.spotCheck, this.attackHasVisibilityRequirement,
+      this.attackRequiresHidden);
+}
+
 class MonsterDescription {
   final String fullName;
   final String shortName;
@@ -60,6 +75,7 @@ class MonsterDescription {
   */
   final Map<int, (List<int>, List<int>)> specialAttacksConditions;
   final SpecialAttackQuestions specialAttackQuestions;
+  final StalkerSpecificAttributes? stalkerAttr;
 
   MonsterDescription(
       this.fullName,
@@ -75,7 +91,8 @@ class MonsterDescription {
       this.pageReference,
       this.passiveAbilities,
       this.specialAttacksConditions,
-      this.specialAttackQuestions);
+      this.specialAttackQuestions,
+      [this.stalkerAttr]);
 
   int getAcuityFromPhase(int phase) {
     if (phase != 1 && phase != 2) {
@@ -90,6 +107,10 @@ class MonsterDescription {
 
   int getTotalNumberOfAttacks() {
     return attacks.length;
+  }
+
+  bool isStalker() {
+    return aiType == AIType.stalker;
   }
 }
 
@@ -144,6 +165,9 @@ enum MonsterSpecies {
   yvenian,
   cannonade,
   raker,
+
+  gzurn,
+  razorlash,
 }
 
 /// Main monster object of the game

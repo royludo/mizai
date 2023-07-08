@@ -5,6 +5,7 @@ import 'main_screen_wrapper.dart';
 import 'utils.dart';
 import 'monstrosity_decision_tree.dart' as monstrosity_tree;
 import 'ravager_decision_tree.dart' as ravager_tree;
+import 'stalker_decision_tree.dart' as stalker_tree;
 import 'model.dart';
 
 /// get the first screen of the decision tree of the specific monster
@@ -26,7 +27,7 @@ Widget getStartingPoint(
         return ravager_tree.EnemyInMelee(gameState: gameState);
       }
     case AIType.stalker:
-      throw Exception("Stalker tree not implemented yet"); // TODO
+      return stalker_tree.EnemyInMelee(gameState: gameState);
   }
 }
 

@@ -987,4 +987,126 @@ final Map<int, MonsterDescription> monsterDB = {
         1: "Are there 2 or more enemies within 18\"?",
         2: "Is there 1 or more Blinded enemy within 18\"?",
       }, SpeAttackPreamblePosition.onAllAttacks)),
+  45: MonsterDescription(
+      "Gzurn Shadow",
+      "Gzurn S.",
+      26,
+      31,
+      AIType.stalker,
+      [
+        Attack(
+            "Shadow Coils",
+            "2x attacks (Melee, Combat, 1D6+3 damage). " +
+                "If hit, target must pass a DEX check {0}. " +
+                "Failure => {Blinded.}",
+            [(22, 26)],
+            AttackType.normal),
+        Attack(
+            "Grasping Shadows",
+            "All enemies within 18\" must pass a DEX check {0}. " +
+                "Failure => {3D6 damage and Blinded.}",
+            [(20, 24)],
+            AttackType.area),
+      ],
+      MonsterSpecies.gzurn,
+      45,
+      133,
+      [
+        Attack(
+            "Shadow Cloak",
+            "When the Gzurn Shadow is set up, and at the " +
+                "start of each round, it automatically becomes Hidden. " +
+                "To spot it, pass ACU check {0}.",
+            [(23, 27)],
+            AttackType.passive),
+        Attack(
+            "One with Darkness",
+            "When an enemy attempts to spot a Gzurn " +
+                "Shadow using an Acuity stat check, they must roll twice and select " +
+                "the lowest result.",
+            [],
+            AttackType.passive),
+        Attack(
+            "Wrap in Night",
+            "If the Gzurn Shadow critically hits an enemy with " +
+                "an attack, that enemy is automatically Blinded.",
+            [],
+            AttackType.passive)
+      ],
+      {
+        1: ([1], []),
+      },
+      SpecialAttackQuestions({
+        1: "Is there 1 or more enemy within 18\"?",
+      }, SpeAttackPreamblePosition.onAllAttacks),
+      StalkerSpecificAttributes(
+        (23, 27),
+        {0: false, 1: true},
+        {1: false},
+      )),
+  51: MonsterDescription(
+      "Razorlash",
+      "Razorlash",
+      20,
+      24,
+      AIType.stalker,
+      [
+        Attack(
+            "Bladed Strikes",
+            "2x attacks (Melee, Combat, 1D6+6 damage). " +
+                "If hit, target must pass a FOR check {0}. " +
+                "Failure => {Poisoned.}",
+            [(21, 25)],
+            AttackType.normal),
+        Attack(
+            "Bladed Frenzy",
+            "4x Surprise attacks (Melee, Combat, 1D6+6 damage). " +
+                "If hit, target must pass a FOR check {0}. " +
+                "Failure => {Poisoned.}",
+            [(21, 25)],
+            AttackType.normal),
+        Attack(
+            "Strike and Fade",
+            "1x attacks (Melee, Combat, 1D6+6 damage). " +
+                "If hit, target must pass a FOR check {0}. " +
+                "Failure => {Poisoned.} " +
+                "The monster may immediately move its full movement away from the closest enemy " +
+                "into the nearest cover, if possible. At the end of this movement, it " +
+                "becomes Hidden.",
+            [(21, 25)],
+            AttackType.normal),
+      ],
+      MonsterSpecies.razorlash,
+      51,
+      134,
+      [
+        Attack(
+            "Stalker",
+            "When the Razorslash is set up, it is automatically Hidden. " +
+                "To spot it, pass ACU check {0}.",
+            [(21, 21)],
+            AttackType.passive),
+        Attack(
+            "Bladed Reprisal",
+            "When an enemy within 6\" of a Razorlash hits " +
+                "with a Weapon attack, that enemy suffers 1D6 damage.",
+            [],
+            AttackType.passive),
+        Attack(
+            "Alien Form",
+            "The Razorlash is immune to the Blinded condition " +
+                "and automatically passes any checks to avoid this condition.",
+            [],
+            AttackType.passive)
+      ],
+      {
+        1: ([1], []),
+        2: ([], [1])
+      },
+      SpecialAttackQuestions({}, SpeAttackPreamblePosition.onAllAttacks),
+      StalkerSpecificAttributes(
+        (21, 21),
+        {0: false, 1: true, 2: true},
+        {1: false, 2: false},
+      )),
 };

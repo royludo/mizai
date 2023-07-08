@@ -33,6 +33,7 @@ class _MainMonsterScreenState extends State<MainMonsterScreen> {
     }
 
     Navigator.push(context, MaterialPageRoute(builder: (context) {
+      // TODO refactor that...
       switch (monster.desc.aiType) {
         case AIType.monstrosity:
           if (monster.isInExtremis) {
@@ -47,7 +48,11 @@ class _MainMonsterScreenState extends State<MainMonsterScreen> {
             return getStartingPoint(context, monster, widget.gameState);
           }
         case AIType.stalker:
-          throw Exception("Stalker not implemented yet"); // TODO
+          if (monster.isInExtremis) {
+            return CheckInExtremis(gameState: widget.gameState);
+          } else {
+            return getStartingPoint(context, monster, widget.gameState);
+          }
       }
     })).then((_) =>
         // need to clear memory else there is a bug when going back after
