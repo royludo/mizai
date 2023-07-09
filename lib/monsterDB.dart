@@ -1043,6 +1043,7 @@ final Map<int, MonsterDescription> monsterDB = {
         (23, 27),
         {0: false, 1: true},
         {1: false},
+        false,
       )),
   51: MonsterDescription(
       "Razorlash",
@@ -1108,5 +1109,6 @@ final Map<int, MonsterDescription> monsterDB = {
         (21, 21),
         {0: false, 1: true, 2: true},
         {1: false, 2: false},
+        false,
       )),
 };

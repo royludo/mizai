@@ -23,15 +23,32 @@ class EnemyInMelee extends MonsterDecisionStep {
               ElevatedButton(
                   onPressed: () {
                     monster.decisionsMemory.add(DecisionKey.enemyInMelee);
-                    /*Navigator.push(context,
-                        MaterialPageRoute(builder: (context) {
-                      //return AllEnemyAttackedPreviously(gameState: gameState);
-                    }));*/
+                    return initiateGeneralAttackProcess(
+                        context,
+                        monster,
+                        "Target the enemy in melee with lowest HP. If tied, choose randomly.",
+                        MoveAfterMeleeAttack(gameState: gameState));
                   },
                   child: const ButtonText("Yes")),
               ElevatedButton(
                   onPressed: () {
                     monster.decisionsMemory.add(DecisionKey.noEnemyInMelee);
+                    if (monster.isHidden) {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return EnemyInRangeWhileHidden(gameState: gameState);
+                      }));
+                    } else {
+                      if (monster.desc.stalkerAttr!.hasActionToHide) {
+                        throw Exception("Not implemented yet"); // TODO
+                      } else {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) {
+                          return EnemiesInRangeWhileNotHidden(
+                              gameState: gameState);
+                        }));
+                      }
+                    }
                     /*Navigator.push(context,
                         MaterialPageRoute(builder: (context) {
                       //return EnemyInMovementRange(gameState: gameState);
@@ -40,6 +57,262 @@ class EnemyInMelee extends MonsterDecisionStep {
                   child: const ButtonText("No"))
             ],
           )
+        ]));
+  }
+}
+
+class MoveAfterMeleeAttack extends MonsterDecisionStep {
+  const MoveAfterMeleeAttack({super.key, required super.gameState});
+
+  @override
+  Widget build(BuildContext context) {
+    return GenericSimpleStep(
+        gameState: gameState,
+        title: const Text("Normal move"),
+        bodyMessage: const SimpleQuestionText(
+            "Move up to the maximum movement distance away from the enemy in melee, " +
+                "ending in cover if possible."),
+        decisionForMemory: DecisionKey.normalMove,
+        nextStep: EndOfAction(gameState: gameState),
+        buttonMessage: const ButtonText("Continue"));
+  }
+}
+
+class EnemiesInRangeWhileNotHidden extends MonsterDecisionStep {
+  const EnemiesInRangeWhileNotHidden({super.key, required super.gameState});
+
+  @override
+  Widget build(BuildContext context) {
+    var monster = gameState.currentMonster;
+    //stdout.writeln("enemyInMelee with decisions: $decisions");
+    return GenericChoiceStep(
+        gameState: gameState,
+        title: "Situation B",
+        content: Column(children: [
+          const SimpleQuestionText(
+              "Is any enemy within movement range and visible?"),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              ElevatedButton(
+                  onPressed: () {
+                    monster.decisionsMemory.add(DecisionKey.normalMove);
+                    return initiateGeneralAttackProcess(
+                      context,
+                      monster,
+                      "Move and attack the enemy with lowest HP. If tied, choose randomly.",
+                      EndOfAction(gameState: gameState),
+                    );
+                  },
+                  child: const ButtonText("Yes")),
+              ElevatedButton(
+                  onPressed: () {
+                    monster.decisionsMemory.add(DecisionKey.noEnemyInRange);
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
+                      return EnemiesVisibleWhileNotHidden(gameState: gameState);
+                    }));
+                  },
+                  child: const ButtonText("No"))
+            ],
+          )
+        ]));
+  }
+}
+
+class EnemiesVisibleWhileNotHidden extends MonsterDecisionStep {
+  const EnemiesVisibleWhileNotHidden({super.key, required super.gameState});
+
+  @override
+  Widget build(BuildContext context) {
+    var monster = gameState.currentMonster;
+    //stdout.writeln("enemyInMelee with decisions: $decisions");
+    return GenericChoiceStep(
+        gameState: gameState,
+        title: "Situation C",
+        content: Column(children: [
+          const SimpleQuestionText("Is any enemy in line of sight?"),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              ElevatedButton(
+                  onPressed: () {
+                    monster.decisionsMemory.add(DecisionKey.enemyInLineOfSight);
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
+                      return GenericSimpleStep(
+                          gameState: gameState,
+                          title: const Text("Maximum move"),
+                          bodyMessage: const SimpleQuestionText(
+                              "Move as much as possible toward the " +
+                                  "enemy with the lowest HP that can be seen. " +
+                                  "If tied, choose enemy randomly. End in cover if possible."),
+                          decisionForMemory: DecisionKey.doubleMove,
+                          nextStep: EndOfAction(gameState: gameState),
+                          buttonMessage: const ButtonText("Continue"));
+                    }));
+                  },
+                  child: const ButtonText("Yes")),
+              ElevatedButton(
+                  onPressed: () {
+                    monster.decisionsMemory
+                        .add(DecisionKey.noEnemyInLineOfSight);
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
+                      return GenericSimpleStep(
+                          gameState: gameState,
+                          title: const Text("Normal move"),
+                          bodyMessage: const SimpleQuestionText(
+                              "Move to cover, away and out of line of sight from as many " +
+                                  "enemies as possible, or from their last known position."),
+                          decisionForMemory: DecisionKey.normalMove,
+                          nextStep: EndOfAction(gameState: gameState),
+                          buttonMessage: const ButtonText("Continue"));
+                    }));
+                  },
+                  child: const ButtonText("No"))
+            ],
+          )
+        ]));
+  }
+}
+
+class EnemyInRangeWhileHidden extends MonsterDecisionStep {
+  const EnemyInRangeWhileHidden({super.key, required super.gameState});
+
+  @override
+  Widget build(BuildContext context) {
+    var monster = gameState.currentMonster;
+    //stdout.writeln("enemyInMelee with decisions: $decisions");
+    return GenericChoiceStep(
+        gameState: gameState,
+        title: "Situation D",
+        content: Column(children: [
+          const SimpleQuestionText(
+              "Is any enemy reachable within movement range?"),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              ElevatedButton(
+                  onPressed: () {
+                    monster.decisionsMemory.add(DecisionKey.normalMove);
+                    return initiateGeneralAttackProcess(
+                      context,
+                      monster,
+                      "Move and target the closest enemy with a Surprise attack.",
+                      EndOfAction(gameState: gameState),
+                    );
+                  },
+                  child: const ButtonText("Yes")),
+              ElevatedButton(
+                  onPressed: () {
+                    monster.decisionsMemory.add(DecisionKey.noEnemyInRange);
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
+                      return AllEnemiesHiddenWhileHidden(gameState: gameState);
+                    }));
+                  },
+                  child: const ButtonText("No"))
+            ],
+          )
+        ]));
+  }
+}
+
+class AllEnemiesHiddenWhileHidden extends MonsterDecisionStep {
+  const AllEnemiesHiddenWhileHidden({super.key, required super.gameState});
+
+  @override
+  Widget build(BuildContext context) {
+    return GenericChoiceStep(
+        gameState: gameState,
+        title: "Situation E",
+        content: Column(children: [
+          const SimpleQuestionText("Are all enemies Hidden?"),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => NoEnemyVisibleWhileHidden(
+                                gameState: gameState)));
+                  },
+                  child: const ButtonText("Yes")),
+              ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => GenericSimpleStep(
+                                gameState: gameState,
+                                title: const Text("Maximum move"),
+                                bodyMessage: const SimpleQuestionText(
+                                    "Move and use an extra move action toward " +
+                                        "the enemy with the lowest HP, even if out of " +
+                                        "line of sight. End the move out of melee range " +
+                                        "(1\" away or more) and stay Hidden."),
+                                decisionForMemory: DecisionKey.doubleMove,
+                                nextStep: EndOfAction(gameState: gameState),
+                                buttonMessage: const ButtonText("Continue"))));
+                  },
+                  child: const ButtonText("No"))
+            ],
+          )
+        ]));
+  }
+}
+
+class NoEnemyVisibleWhileHidden extends MonsterDecisionStep {
+  const NoEnemyVisibleWhileHidden({super.key, required super.gameState});
+
+  @override
+  Widget build(BuildContext context) {
+    var monster = gameState.currentMonster;
+    //stdout.writeln("inextremis with decisions: $decisions");
+    return GenericChoiceStep(
+        gameState: gameState,
+        title: "Situation F",
+        content: Column(children: [
+          const SimpleQuestionText("Use an action to try to spot an enemy."),
+          ElevatedButton(
+              onPressed: () {
+                monster.decisionsMemory.add(DecisionKey.enemyInLineOfSight);
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (_) => GenericSimpleStep(
+                            gameState: gameState,
+                            title: const Text("Normal move"),
+                            bodyMessage: const SimpleQuestionText(
+                                "Move and use an extra move action toward " +
+                                    "the revealed enemy. End the move out of melee range " +
+                                    "(1\" away or more) and stay Hidden."),
+                            decisionForMemory: DecisionKey.doubleMove,
+                            nextStep: EndOfAction(gameState: gameState),
+                            buttonMessage: const ButtonText("Continue"))));
+              },
+              child: const ButtonText("An enemy was revealed")),
+          const SizedBox(
+            height: 10,
+          ),
+          ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (_) => GenericSimpleStep(
+                            gameState: gameState,
+                            title: const Text("No move"),
+                            bodyMessage: const SimpleQuestionText(
+                                "Stay in your current position, Hidden"),
+                            decisionForMemory: DecisionKey.noMove,
+                            nextStep: EndOfAction(gameState: gameState),
+                            buttonMessage: const ButtonText("Continue"))));
+              },
+              child: const ButtonText("Spot failed"))
         ]));
   }
 }

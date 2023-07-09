@@ -52,9 +52,10 @@ class StalkerSpecificAttributes {
   // true: attack can only happen if hidden
   // false: attack can only happen if visible
   final Map<int, bool> attackRequiresHidden;
+  final bool hasActionToHide;
 
   StalkerSpecificAttributes(this.spotCheck, this.attackHasVisibilityRequirement,
-      this.attackRequiresHidden);
+      this.attackRequiresHidden, this.hasActionToHide);
 }
 
 class MonsterDescription {
@@ -132,6 +133,7 @@ enum DecisionKey {
   doubleMove,
   normalMove,
   randomMove,
+  noMove,
   activatedWithFirstInitiative,
   activatedWithSecondInitiative,
   activatedWithSpecial,
