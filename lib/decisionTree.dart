@@ -38,7 +38,10 @@ abstract class MonsterDecisionStep extends StatelessWidget {
   //final Set<DecisionKey> decisions;
 
   void initiateGeneralAttackProcess(
-      BuildContext context, StatefulMonster monster, String commonPreamble) {
+      BuildContext context,
+      StatefulMonster monster,
+      String commonPreamble,
+      MonsterDecisionStep nextStep) {
     Navigator.push(context, MaterialPageRoute(builder: (context) {
       if (monster.isSpecialAttackPossible() &&
           monster.isAnySpecialAttackAllowedNow()) {
@@ -49,17 +52,19 @@ abstract class MonsterDecisionStep extends StatelessWidget {
           if (monster.isSpecificAttackAllowedNow(i) &&
               !monster.specificSpeAttackRequireDecision(i)) {
             return monster.makeSpecialAttack(
-                context, EndOfAction(gameState: gameState), commonPreamble, i);
+                context, nextStep, commonPreamble, i);
           }
         }
         // at this point we are sure we need a decision for the special attack
         // else the attack would have been made already
         return SimpleSpecialDecision(
-            gameState: gameState, preamble: commonPreamble);
+          gameState: gameState,
+          preamble: commonPreamble,
+          nextStep: nextStep,
+        );
       } else {
         // spe attack not possible, revert to basic one
-        return monster.makeBasicAttack(
-            context, EndOfAction(gameState: gameState), commonPreamble);
+        return monster.makeBasicAttack(context, nextStep, commonPreamble);
       }
     }));
   }
@@ -177,9 +182,13 @@ class GenericSimpleStep extends MonsterDecisionStep {
 
 class SimpleSpecialDecision extends MonsterDecisionStep {
   const SimpleSpecialDecision(
-      {super.key, required super.gameState, required this.preamble});
+      {super.key,
+      required super.gameState,
+      required this.preamble,
+      required this.nextStep});
 
   final String preamble;
+  final MonsterDecisionStep nextStep;
 
   @override
   Widget build(BuildContext context) {
@@ -211,10 +220,7 @@ class SimpleSpecialDecision extends MonsterDecisionStep {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => monster.makeSpecialAttack(
-                                    context,
-                                    EndOfAction(gameState: gameState),
-                                    preamble,
-                                    i)));
+                                    context, nextStep, preamble, i)));
                       },
                       child: const ButtonText("Yes")),
                   ElevatedButton(
@@ -223,9 +229,7 @@ class SimpleSpecialDecision extends MonsterDecisionStep {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => monster.makeBasicAttack(
-                                    context,
-                                    EndOfAction(gameState: gameState),
-                                    preamble)));
+                                    context, nextStep, preamble)));
                       },
                       child: const ButtonText("No"))
                 ],

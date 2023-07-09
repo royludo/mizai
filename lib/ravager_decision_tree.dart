@@ -279,8 +279,11 @@ class MoveAfterNoAreaMelee extends MonsterDecisionStep {
                   gameState.currentMonster.decisionsMemory
                       .add(DecisionKey.normalMove);
                   //Navigator.push(context, MaterialPageRoute(builder: (_) {
-                  initiateGeneralAttackProcess(context,
-                      gameState.currentMonster, "Target nearest enemy.");
+                  initiateGeneralAttackProcess(
+                      context,
+                      gameState.currentMonster,
+                      "Target nearest enemy.",
+                      EndOfAction(gameState: gameState));
                   //}));
                 },
                 child: const ButtonText("Continue"))
@@ -311,7 +314,10 @@ class EnemyInLineOfSight extends MonsterDecisionStep {
 
                     if (monster.hasMovedBefore) {
                       initiateGeneralAttackProcess(
-                          context, monster, "Target the closest enemy.");
+                          context,
+                          monster,
+                          "Target the closest enemy.",
+                          EndOfAction(gameState: gameState));
                     } else {
                       Navigator.push(
                           context,
@@ -479,7 +485,10 @@ class MoveAndAttack extends MonsterDecisionStep {
                   gameState.currentMonster.decisionsMemory
                       .add(DecisionKey.normalMove);
                   initiateGeneralAttackProcess(
-                      context, monster, "Target closest enemy.");
+                      context,
+                      monster,
+                      "Target closest enemy.",
+                      EndOfAction(gameState: gameState));
                 },
                 child: const ButtonText("Continue"))
           ]),
