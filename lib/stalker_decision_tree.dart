@@ -26,7 +26,8 @@ class EnemyInMelee extends MonsterDecisionStep {
                     return initiateGeneralAttackProcess(
                         context,
                         monster,
-                        "Target the enemy in melee with lowest HP. If tied, choose randomly.",
+                        Preamble(
+                            "Target the enemy in melee with lowest HP. If tied, choose randomly."),
                         MoveAfterMeleeAttack(gameState: gameState));
                   },
                   child: const ButtonText("Yes")),
@@ -100,7 +101,8 @@ class EnemiesInRangeWhileNotHidden extends MonsterDecisionStep {
                     return initiateGeneralAttackProcess(
                       context,
                       monster,
-                      "Move and attack the enemy with lowest HP. If tied, choose randomly.",
+                      Preamble(
+                          "Move and attack the enemy with lowest HP. If tied, choose randomly."),
                       EndOfAction(gameState: gameState),
                     );
                   },
@@ -199,7 +201,8 @@ class EnemyInRangeWhileHidden extends MonsterDecisionStep {
                     return initiateGeneralAttackProcess(
                       context,
                       monster,
-                      "Move and target the closest enemy with a Surprise attack.",
+                      Preamble(
+                          "Move and target the closest enemy with a Surprise attack."),
                       EndOfAction(gameState: gameState),
                     );
                   },

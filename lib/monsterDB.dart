@@ -71,7 +71,7 @@ final Map<int, MonsterDescription> monsterDB = {
         Attack(
             "Grab and Drop",
             "Move to an enemy within 6\", make 1x attack " +
-                "(Melee, Combat, 1D6 damage). Target must pass DEX check {0}. " +
+                "(Melee, Combat, 1D6 damage). Target must pass a DEX check {0}. " +
                 "Failure => {Suffer damage of 12\" fall, monster stays in contact.} " +
                 "Success => {Monster flies to highest elevation with remaining movement. " +
                 "If no higher elevation in range, monster will move away from target and " +
@@ -1186,9 +1186,8 @@ final Map<int, MonsterDescription> monsterDB = {
         Attack(
             "Lashing Flurry",
             "3x attacks (Melee, Combat, 1D6+1 damage). " +
-                "If hit, target must pass a DEX check {0}. " +
-                "Failure => {Restrained.} And a FOR check {1}." +
-                "Failure => {Poisoned.}",
+                "If hit, target must pass a DEX check {0} and a FOR check {1}. " +
+                "Failure => {On DEX check -> Restrained. On FOR check -> Poisoned.}",
             [(20, 24), (20, 24)],
             AttackType.normal),
         Attack(

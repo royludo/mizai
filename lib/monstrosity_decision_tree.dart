@@ -77,9 +77,9 @@ class AllEnemyAttackedPreviously extends MonsterDecisionStep {
                   onPressed: () {
                     monster.decisionsMemory
                         .add(DecisionKey.somePreviouslyNotAttacked);
-                    const String commonPreamble =
+                    Preamble commonPreamble = Preamble(
                         "Target enemy that was not attacked before and with " +
-                            "the lowest HP. If tied, determine randomly.";
+                            "the lowest HP. If tied, determine randomly.");
                     initiateGeneralAttackProcess(context, monster,
                         commonPreamble, EndOfAction(gameState: gameState));
                   },
@@ -111,8 +111,8 @@ class WhereIsLowestHP extends MonsterDecisionStep {
               ElevatedButton(
                   onPressed: () {
                     monster.decisionsMemory.add(DecisionKey.lowestHPInMelee);
-                    const String commonPreamble =
-                        "Target enemy with lowest HP. If tied, determine randomly.";
+                    Preamble commonPreamble = Preamble(
+                        "Target enemy with lowest HP. If tied, determine randomly.");
                     initiateGeneralAttackProcess(context, monster,
                         commonPreamble, EndOfAction(gameState: gameState));
                   },
@@ -125,11 +125,13 @@ class WhereIsLowestHP extends MonsterDecisionStep {
                         context,
                         MaterialPageRoute(
                             builder: (_) => monster.makeBasicAttack(
-                                context,
-                                //decisions,
-                                EndOfAction(gameState: gameState),
-                                "The monster moves up to its full movement distance to attack the " +
-                                    "enemy with the lowest HP. If tied, determine randomly.")));
+                                  context,
+                                  //decisions,
+                                  EndOfAction(gameState: gameState),
+                                  Preamble(
+                                      "The monster moves up to its full movement distance to attack the " +
+                                          "enemy with the lowest HP. If tied, determine randomly."),
+                                )));
                   },
                   child: const ButtonText("Reachable within movement range"))
             ],
@@ -158,9 +160,9 @@ class EnemyInMovementRange extends MonsterDecisionStep {
                   onPressed: () {
                     monster.decisionsMemory
                         .add(DecisionKey.lowestHPWithinMovement);
-                    const String commonPreamble =
+                    Preamble commonPreamble = Preamble(
                         "The monster moves up to its full movement distance to attack the " +
-                            "enemy with the lowest HP. If tied, determine randomly.";
+                            "enemy with the lowest HP. If tied, determine randomly.");
                     initiateGeneralAttackProcess(context, monster,
                         commonPreamble, EndOfAction(gameState: gameState));
                   },
@@ -352,8 +354,9 @@ class ZelakSpecial2 extends MonsterDecisionStep {
                             builder: (_) => monster.makeSpecialAttack(
                                 context,
                                 EndOfAction(gameState: gameState),
-                                "Target the poisoned enemy. If multiple enemies are " +
-                                    "Poisoned and reachable, target the enemy with the lowest HP.",
+                                Preamble(
+                                    "Target the poisoned enemy. If multiple enemies are " +
+                                        "Poisoned and reachable, target the enemy with the lowest HP."),
                                 1)));
                   },
                   child: const ButtonText("Yes")),

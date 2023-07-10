@@ -21,8 +21,10 @@ Widget getStartingPoint(
       }
     case AIType.ravager:
       if (monster.decisionsMemory.contains(DecisionKey.activatedWithSpecial)) {
-        return monster.makeBasicAttack(context,
-            EndOfAction(gameState: gameState), "Target enemy who just missed.");
+        return monster.makeBasicAttack(
+            context,
+            EndOfAction(gameState: gameState),
+            Preamble("Target enemy who just missed."));
       } else {
         return ravager_tree.EnemyInMelee(gameState: gameState);
       }
@@ -40,7 +42,7 @@ abstract class MonsterDecisionStep extends StatelessWidget {
   void initiateGeneralAttackProcess(
       BuildContext context,
       StatefulMonster monster,
-      String commonPreamble,
+      Preamble commonPreamble,
       MonsterDecisionStep nextStep) {
     Navigator.push(context, MaterialPageRoute(builder: (context) {
       if (monster.isSpecialAttackPossible() &&
@@ -101,7 +103,7 @@ class CheckInExtremis extends MonsterDecisionStep {
                     return monster.makeSpecialAttack(
                         context,
                         EndOfAction(gameState: gameState),
-                        "",
+                        Preamble.empty(),
                         0, // <- attack index is useless here
                         // cannonade final attack is listed in the passives
                         monster.desc.passiveAbilities[1]);
@@ -187,7 +189,7 @@ class SimpleSpecialDecision extends MonsterDecisionStep {
       required this.preamble,
       required this.nextStep});
 
-  final String preamble;
+  final Preamble preamble;
   final MonsterDecisionStep nextStep;
 
   @override
@@ -209,7 +211,8 @@ class SimpleSpecialDecision extends MonsterDecisionStep {
               // use preamble as part of checking range condition, else it's weird
               // situation where we check 12" before moving and making attack
               preamblePosition == SpeAttackPreamblePosition.onQuestion
-                  ? SimpleQuestionText("$preamble ${questionForAttack[i]!}")
+                  ? SimpleQuestionText(
+                      "${preamble.getPreambleString(monster.desc.attacks[i].type)} ${questionForAttack[i]!}")
                   : SimpleQuestionText(questionForAttack[i]!),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,

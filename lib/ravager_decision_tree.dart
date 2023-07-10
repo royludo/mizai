@@ -215,10 +215,13 @@ class MakeAreaAttack extends MonsterDecisionStep {
 
     if (attackIndex == 0) {
       return monster.makeBasicAttack(
-          context, MoveAfterAreaAttack(gameState: gameState), "");
+          context, MoveAfterAreaAttack(gameState: gameState), Preamble.empty());
     } else {
       return monster.makeSpecialAttack(
-          context, MoveAfterAreaAttack(gameState: gameState), "", attackIndex);
+          context,
+          MoveAfterAreaAttack(gameState: gameState),
+          Preamble.empty(),
+          attackIndex);
     }
   }
 }
@@ -282,7 +285,7 @@ class MoveAfterNoAreaMelee extends MonsterDecisionStep {
                   initiateGeneralAttackProcess(
                       context,
                       gameState.currentMonster,
-                      "Target nearest enemy.",
+                      Preamble("Target nearest enemy."),
                       EndOfAction(gameState: gameState));
                   //}));
                 },
@@ -316,7 +319,7 @@ class EnemyInLineOfSight extends MonsterDecisionStep {
                       initiateGeneralAttackProcess(
                           context,
                           monster,
-                          "Target the closest enemy.",
+                          Preamble("Target the closest enemy."),
                           EndOfAction(gameState: gameState));
                     } else {
                       Navigator.push(
@@ -407,7 +410,9 @@ class MinMoveAndAttack extends MonsterDecisionStep {
                       context,
                       MaterialPageRoute(
                           builder: (_) => monster.makeBasicAttack(
-                              context, EndOfAction(gameState: gameState), "")));
+                              context,
+                              EndOfAction(gameState: gameState),
+                              Preamble.empty())));
                 },
                 child: const ButtonText("Continue"))
           ]),
@@ -434,9 +439,10 @@ class RevealHiddenEnemies extends MonsterDecisionStep {
                     context,
                     MaterialPageRoute(
                         builder: (_) => monster.makeBasicAttack(
-                            context,
-                            EndOfAction(gameState: gameState),
-                            "Target the closest revealed enemy.")));
+                              context,
+                              EndOfAction(gameState: gameState),
+                              Preamble("Target the closest revealed enemy."),
+                            )));
               },
               child: const ButtonText("One or more enemy was revealed")),
           const SizedBox(
@@ -487,7 +493,7 @@ class MoveAndAttack extends MonsterDecisionStep {
                   initiateGeneralAttackProcess(
                       context,
                       monster,
-                      "Target closest enemy.",
+                      Preamble("Target closest enemy."),
                       EndOfAction(gameState: gameState));
                 },
                 child: const ButtonText("Continue"))

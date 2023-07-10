@@ -1,6 +1,26 @@
 import 'package:flutter/material.dart';
 import 'utils.dart';
 
+class Preamble {
+  final String unspecificPreamble;
+  String areaSpecificPreamble = "";
+
+  Preamble(this.unspecificPreamble);
+  Preamble.withArea(this.unspecificPreamble, this.areaSpecificPreamble);
+  Preamble.empty() : this("");
+
+  String getPreambleString(AttackType attackType) {
+    if (areaSpecificPreamble.isEmpty) {
+      return unspecificPreamble;
+    } else {
+      return switch (attackType) {
+        AttackType.normal || AttackType.passive => unspecificPreamble,
+        AttackType.area => areaSpecificPreamble
+      };
+    }
+  }
+}
+
 enum AttackType { normal, area, passive }
 
 class Attack {
@@ -326,7 +346,7 @@ class StatefulMonster {
   }
 
   Widget makeBasicAttack(
-      BuildContext context, Widget endPoint, String preamble) {
+      BuildContext context, Widget endPoint, Preamble preamble) {
     var preamblePosition = desc.specialAttackQuestions.preamblePosition;
 
     return Scaffold(
@@ -337,7 +357,8 @@ class StatefulMonster {
             child: Column(children: [
           preamblePosition == SpeAttackPreamblePosition.onAllAttacks ||
                   preamblePosition == SpeAttackPreamblePosition.onBasicOnly
-              ? SimpleQuestionText(preamble)
+              ? SimpleQuestionText(
+                  preamble.getPreambleString(desc.attacks[0].type))
               : Container(),
           const Divider(
             indent: 5,
@@ -369,7 +390,7 @@ class StatefulMonster {
   }
 
   Widget makeSpecialAttack(BuildContext context, Widget endPoint,
-      String preamble, int specialAttackIndex,
+      Preamble preamble, int specialAttackIndex,
       [Attack? overrideAttack]) {
     if (specialAttackIndex < 0 || specialAttackIndex >= desc.attacks.length) {
       // index out of range
@@ -394,7 +415,8 @@ class StatefulMonster {
         body: EverythingCenteredWidget(
             child: Column(children: [
           preamblePosition == SpeAttackPreamblePosition.onAllAttacks
-              ? SimpleQuestionText(preamble)
+              ? SimpleQuestionText(
+                  preamble.getPreambleString(desc.attacks[0].type))
               : Container(),
           // also remove cosmetic divider if no preamble is there
           preamblePosition == SpeAttackPreamblePosition.onAllAttacks
