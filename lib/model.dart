@@ -4,6 +4,8 @@ import 'utils.dart';
 enum AttackType { normal, area, passive }
 
 class Attack {
+  // TODO add other preamble option, stalkers attack instruction are nonsense
+  // or option inside the attack
   final String name;
   final String text;
   final List<(int, int)> varStats;
@@ -170,6 +172,9 @@ enum MonsterSpecies {
 
   gzurn,
   razorlash,
+
+  ocular,
+  lasher,
 }
 
 /// Main monster object of the game

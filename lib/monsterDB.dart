@@ -1111,4 +1111,145 @@ final Map<int, MonsterDescription> monsterDB = {
         {1: false, 2: false},
         false,
       )),
+  53: MonsterDescription(
+      "Ocular Enigma",
+      "Ocular E.",
+      24,
+      28,
+      AIType.stalker,
+      [
+        Attack(
+            "Paralyzing Vision",
+            "3x attacks (Melee, Psionic, 1D6+2 damage). " +
+                "If hit, target must pass a FOR check {0}. " +
+                "Failure => {Stunned.}",
+            [(20, 24)],
+            AttackType.normal),
+        Attack(
+            "Poisonous Visions (Psionic)",
+            "The 2 closest enemies within 18\" must pass a FOR check {0}. " +
+                "Failure => {2D6 damage and Poisoned.}",
+            [(22, 26)],
+            AttackType.area),
+      ],
+      MonsterSpecies.ocular,
+      53,
+      136,
+      [
+        Attack(
+            "Blinding Vision",
+            "Whenever an enemy makes a Weapon attack " +
+                "against the Ocular Enigma, they must succeed on a DEX " +
+                "check {0} or become Blinded. This stat check to avoid the " +
+                "condition is made before the attack is made and if the stat check " +
+                "is failed, the attacker no longer has line of sight to the enemy and " +
+                "may not attack. They may instead choose a different action for " +
+                "this activation.",
+            [(19, 23)],
+            AttackType.passive),
+        Attack(
+            "Blinding Surprise",
+            "The Ocular Enigma counts as Hidden from any " +
+                "enemy with the Blinded condition and has Surprise on any attack " +
+                "made against a Blinded enemy. Unlike normal Hidden, the enemy " +
+                "may not make an Acuity check to spot the Ocular Enigma; they " +
+                "may only clear or remove the Blinded condition, at which point " +
+                "the Ocular Enigma is no longer Hidden.",
+            [],
+            AttackType.passive),
+        Attack(
+            "Powerful Vision",
+            "When the Ocular Enigma makes an Acuity stat " +
+                "check to spot a Hidden enemy, it may roll twice and select the " +
+                "best result.",
+            [],
+            AttackType.passive)
+      ],
+      {
+        1: ([1], []),
+      },
+      SpecialAttackQuestions({1: "Are there 2 ore more enemies within 18\"?"},
+          SpeAttackPreamblePosition.onAllAttacks),
+      StalkerSpecificAttributes(
+        (-1, -1),
+        {0: false, 1: false},
+        {},
+        false,
+      )),
+  54: MonsterDescription(
+      "Poisoned Lasher",
+      "Poisoned L.",
+      23,
+      28,
+      AIType.stalker,
+      [
+        Attack(
+            "Lashing Flurry",
+            "3x attacks (Melee, Combat, 1D6+1 damage). " +
+                "If hit, target must pass a DEX check {0}. " +
+                "Failure => {Restrained.} And a FOR check {1}." +
+                "Failure => {Poisoned.}",
+            [(20, 24), (20, 24)],
+            AttackType.normal),
+        Attack(
+            "Drag and Rake",
+            "The Restrained enemy is removed from play and the Poisoned " +
+                "Lasher moves its full movement distance away from the previous " +
+                "position of the removed enemy, to the highest vertical point it " +
+                "can reach within its movement distance. The removed enemy is " +
+                "then set up adjacent to the Poisoned Lasher in the Poisoned Lasher's " +
+                "new position. If there is no room to set up the enemy, reposition " +
+                "the Poisoned Lasher so there is room to set up both models. " +
+                "(i.e. the enemy may not be placed somewhere the model will fall.) " +
+                "The enemy that was removed and re-set suffers 4D6+2 damage.",
+            [],
+            AttackType.normal),
+        Attack(
+            "Poison Spray",
+            "All enemies within 12\" must pass a FOR check {0}. " +
+                "Failure => {1D6 damage and Poisoned.}",
+            [(20, 24)],
+            AttackType.area),
+      ],
+      MonsterSpecies.lasher,
+      54,
+      137,
+      [
+        Attack(
+            "Careful Stalker",
+            "When the Poisoned Lasher is set up, it automatically " +
+                "becomes Hidden. The Acuity check to spot a Hidden Poisoned " +
+                "Lasher is {0}.",
+            [(20, 24)],
+            AttackType.passive),
+        Attack(
+            "Extended Reach",
+            "The Poisoned Lasher can make Combat attacks " +
+                "from 3\" instead of the normal 1\". When it moves to an enemy to " +
+                "attack, it will stop its movement at 3\" away and then proceed with " +
+                "its normal actions as per Stalker AI.",
+            [],
+            AttackType.passive),
+        Attack(
+            "Restraining Killer",
+            "If the Poisoned Lasher successfully hits an enemy " +
+                "that is Restrained, that attack will deal an extra 2D6 damage.",
+            [],
+            AttackType.passive)
+      ],
+      {
+        1: ([1], []),
+        2: ([2], [])
+      },
+      SpecialAttackQuestions({
+        // TODO need to chain questions here
+        1: "Is there 1 or more Restrained enemy within 6\"?",
+        2: "Are there 2 or more enemies within 12\" AND no Restrained enemy within 6\"?",
+      }, SpeAttackPreamblePosition.onAllAttacks),
+      StalkerSpecificAttributes(
+        (20, 24),
+        {0: false, 1: false, 2: false},
+        {},
+        false,
+      )),
 };

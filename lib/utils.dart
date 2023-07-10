@@ -70,6 +70,8 @@ class AttackText extends StatelessWidget {
 
     List<InlineSpan> resultContent = [];
 
+    // TODO consider several tests
+
     if (matchBaseText != null) {
       String baseText = matchBaseText.group(1)!;
       resultContent.add(TextSpan(
