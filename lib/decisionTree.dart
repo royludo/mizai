@@ -50,11 +50,15 @@ abstract class MonsterDecisionStep extends StatelessWidget {
         // first checks say it is possible to have a special attack
         // loop determines first available spe attack that does not
         // require a decision step = 1st spe attack that auto apply
+        // in case there is no such auto attack, collect possible attacks
+        List<int> possibleAttackWithQuestionIndexes = [];
         for (var i = 1; i < monster.desc.attacks.length; i++) {
-          if (monster.isSpecificAttackAllowedNow(i) &&
-              !monster.specificSpeAttackRequireDecision(i)) {
-            return monster.makeSpecialAttack(
-                context, nextStep, commonPreamble, i);
+          if (monster.isSpecificAttackAllowedNow(i)) {
+            possibleAttackWithQuestionIndexes.add(i);
+            if (!monster.specificSpeAttackRequireDecision(i)) {
+              return monster.makeSpecialAttack(
+                  context, nextStep, commonPreamble, i);
+            }
           }
         }
         // at this point we are sure we need a decision for the special attack
@@ -62,6 +66,7 @@ abstract class MonsterDecisionStep extends StatelessWidget {
         return SimpleSpecialDecision(
           gameState: gameState,
           preamble: commonPreamble,
+          possibleAttackIndexes: possibleAttackWithQuestionIndexes,
           nextStep: nextStep,
         );
       } else {
@@ -187,10 +192,12 @@ class SimpleSpecialDecision extends MonsterDecisionStep {
       {super.key,
       required super.gameState,
       required this.preamble,
+      required this.possibleAttackIndexes,
       required this.nextStep});
 
   final Preamble preamble;
   final MonsterDecisionStep nextStep;
+  final List<int> possibleAttackIndexes;
 
   @override
   Widget build(BuildContext context) {
@@ -200,46 +207,71 @@ class SimpleSpecialDecision extends MonsterDecisionStep {
     var questionForAttack =
         monster.desc.specialAttackQuestions.questionForAttack;
 
-    for (var i = 1; i < monster.desc.attacks.length; i++) {
-      if (monster.isSpecificAttackAllowedNow(i)) {
-        return Scaffold(
-            appBar: AppBar(
-              title: Text("${monster.desc.shortName} special attack $i"),
-            ),
-            body: EverythingCenteredWidget(
-                child: Column(children: [
-              // use preamble as part of checking range condition, else it's weird
-              // situation where we check 12" before moving and making attack
-              preamblePosition == SpeAttackPreamblePosition.onQuestion
-                  ? SimpleQuestionText(
-                      "${preamble.getPreambleString(monster.desc.attacks[i].type)} ${questionForAttack[i]!}")
-                  : SimpleQuestionText(questionForAttack[i]!),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  ElevatedButton(
-                      onPressed: () {
+    for (var attackIndex in possibleAttackIndexes) {
+      //if (monster.isSpecificAttackAllowedNow(attackIndex)) { // isn't this always true?
+      return Scaffold(
+          appBar: AppBar(
+            title:
+                Text("${monster.desc.shortName} special attack $attackIndex"),
+          ),
+          body: EverythingCenteredWidget(
+              child: Column(children: [
+            // use preamble as part of checking range condition, else it's weird
+            // situation where we check 12" before moving and making attack
+            preamblePosition == SpeAttackPreamblePosition.onQuestion
+                ? SimpleQuestionText(
+                    "${preamble.getPreambleString(monster.desc.attacks[attackIndex].type)} ${questionForAttack[attackIndex]!}")
+                : SimpleQuestionText(questionForAttack[attackIndex]!),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => monster.makeSpecialAttack(
+                                  context, nextStep, preamble, attackIndex)));
+                    },
+                    child: const ButtonText("Yes")),
+                ElevatedButton(
+                    onPressed: () {
+                      if (monster.desc.specialAttackQuestions.chainQuestions &&
+                          possibleAttackIndexes.length > 1) {
+                        // if no and there are more attacks remaining in attackIndexes
+                        // need to go to next attack's question
+                        // if only 1 attack remaining in list, then proceed as normal
                         Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => monster.makeSpecialAttack(
-                                    context, nextStep, preamble, i)));
-                      },
-                      child: const ButtonText("Yes")),
-                  ElevatedButton(
-                      onPressed: () {
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => SimpleSpecialDecision(
+                                      gameState: gameState,
+                                      preamble: preamble,
+                                      possibleAttackIndexes:
+                                          possibleAttackIndexes
+                                            ..remove(attackIndex),
+                                      nextStep: nextStep),
+                                ))
+                            .then((value) => possibleAttackIndexes
+                                .add(attackIndex)); // undo if going back
+                      } else {
+                        // no chaining questions,
+                        // or only 1 attack remaining, and it is No for it
                         Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => monster.makeBasicAttack(
                                     context, nextStep, preamble)));
-                      },
-                      child: const ButtonText("No"))
-                ],
-              )
-            ])));
-      }
+                      }
+                    },
+                    child: const ButtonText("No"))
+              ],
+            )
+          ])));
+      //}
     }
+    // exception is used to stop IDE from complaining
+    // possibleAttackIndexes list is never empty
     throw Exception("${monster.desc.shortName} special attack not found");
   }
 }

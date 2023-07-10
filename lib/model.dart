@@ -24,8 +24,6 @@ class Preamble {
 enum AttackType { normal, area, passive }
 
 class Attack {
-  // TODO add other preamble option, stalkers attack instruction are nonsense
-  // or option inside the attack
   final String name;
   final String text;
   final List<(int, int)> varStats;
@@ -59,9 +57,11 @@ class SpecialAttackQuestions {
     attackIndex: string with the question to ask to decide for this attack
   */
   final Map<int, String> questionForAttack;
+  final bool chainQuestions;
   final SpeAttackPreamblePosition preamblePosition;
 
-  SpecialAttackQuestions(this.questionForAttack, this.preamblePosition);
+  SpecialAttackQuestions(
+      this.questionForAttack, this.chainQuestions, this.preamblePosition);
 }
 
 class StalkerSpecificAttributes {

@@ -53,7 +53,7 @@ final Map<int, MonsterDescription> monsterDB = {
         1: ([1], [])
       },
       SpecialAttackQuestions({1: "Are there 2 or more ennemies within 12\"?"},
-          SpeAttackPreamblePosition.onBasicOnly)),
+          false, SpeAttackPreamblePosition.onBasicOnly)),
   12: MonsterDescription(
       'Rakire Winged Hunter',
       'Rakire W.H.',
@@ -110,6 +110,7 @@ final Map<int, MonsterDescription> monsterDB = {
       },
       SpecialAttackQuestions(
           {1: "Did the monster start the activation with an enemy within 6\"?"},
+          false,
           SpeAttackPreamblePosition.onAllAttacks)),
   13: MonsterDescription(
       'Jel Brute',
@@ -166,7 +167,7 @@ final Map<int, MonsterDescription> monsterDB = {
       SpecialAttackQuestions({
         1: "Are there 2 or more ennemies within 6\"?",
         2: "Did the monster activate within 6\" of a Stunned enemy?"
-      }, SpeAttackPreamblePosition.onBasicOnly)),
+      }, false, SpeAttackPreamblePosition.onBasicOnly)),
   14: MonsterDescription(
       "Aglandian Horror",
       "Aglandian H.",
@@ -213,7 +214,7 @@ final Map<int, MonsterDescription> monsterDB = {
       SpecialAttackQuestions({
         1: "Is there a Restrained enemy within melee range?",
         2: "Is there a Stunned enemy within melee range?"
-      }, SpeAttackPreamblePosition.onBasicOnly)),
+      }, false, SpeAttackPreamblePosition.onBasicOnly)),
   15: MonsterDescription(
       "Centarian Mauler",
       "Centarian M.",
@@ -262,7 +263,7 @@ final Map<int, MonsterDescription> monsterDB = {
         1: ([1], [])
       },
       SpecialAttackQuestions({1: "Are there 2 or more ennemies within 6\"?"},
-          SpeAttackPreamblePosition.onBasicOnly)),
+          false, SpeAttackPreamblePosition.onBasicOnly)),
   16: MonsterDescription(
       "Talmak Spawn",
       "Talmak Spawn",
@@ -308,7 +309,7 @@ final Map<int, MonsterDescription> monsterDB = {
         1: ([1], [])
       },
       SpecialAttackQuestions({1: "Are there 1 or more enemy within 12\""},
-          SpeAttackPreamblePosition.onBasicOnly)),
+          false, SpeAttackPreamblePosition.onBasicOnly)),
   21: MonsterDescription(
       "Deranger",
       "Deranger",
@@ -369,7 +370,7 @@ final Map<int, MonsterDescription> monsterDB = {
       SpecialAttackQuestions({
         1: "Are there 1 or more enemy within 12\"",
         2: "Are there 1 or more enemy within 12\" either Stunned or Blinded?"
-      }, SpeAttackPreamblePosition.onBasicOnly)),
+      }, false, SpeAttackPreamblePosition.onBasicOnly)),
   22: MonsterDescription(
       "Terraformer",
       "Terraformer",
@@ -415,7 +416,7 @@ final Map<int, MonsterDescription> monsterDB = {
         1: ([1], [])
       },
       SpecialAttackQuestions({1: "Are there 1 or more enemy within 12\""},
-          SpeAttackPreamblePosition.onBasicOnly)),
+          false, SpeAttackPreamblePosition.onBasicOnly)),
   23: MonsterDescription(
       "Warping Crawler",
       "W. Crawler",
@@ -463,7 +464,7 @@ final Map<int, MonsterDescription> monsterDB = {
       ],
       {1: ([], [])},
       SpecialAttackQuestions({1: "Is there a Restrained enemy in melee range?"},
-          SpeAttackPreamblePosition.onBasicOnly)),
+          false, SpeAttackPreamblePosition.onBasicOnly)),
   24: MonsterDescription(
       "Zelak",
       "Zelak",
@@ -510,7 +511,7 @@ final Map<int, MonsterDescription> monsterDB = {
       ],
       {1: ([], [])},
       SpecialAttackQuestions({1: "Is there a Poisoned enemy in line of sight?"},
-          SpeAttackPreamblePosition.onAllAttacks)),
+          false, SpeAttackPreamblePosition.onAllAttacks)),
   25: MonsterDescription(
       "Helion Beam Chaser",
       "Helion B.C.",
@@ -562,7 +563,7 @@ final Map<int, MonsterDescription> monsterDB = {
         1: "Are there 2 or more enemies within 12\"?",
         2: "Did the monster suffer Energy damage since it last activated, " +
             "and is there 0 or 1 enemy within 12\"?"
-      }, SpeAttackPreamblePosition.onAllAttacks)),
+      }, false, SpeAttackPreamblePosition.onAllAttacks)),
   31: MonsterDescription(
       "Tarskyth",
       "Tarskyth",
@@ -608,7 +609,7 @@ final Map<int, MonsterDescription> monsterDB = {
       SpecialAttackQuestions({
         1: "Are there 2 or more enemies within 18\"?",
         2: "Are there 2 or more enemies within 18\"?"
-      }, SpeAttackPreamblePosition.onAllAttacks)),
+      }, false, SpeAttackPreamblePosition.onAllAttacks)),
   32: MonsterDescription(
       "Ichor Spitter",
       "I. Spitter",
@@ -648,7 +649,7 @@ final Map<int, MonsterDescription> monsterDB = {
       },
       SpecialAttackQuestions({
         1: "Are there 2 or more enemies within 12\"?",
-      }, SpeAttackPreamblePosition.onAllAttacks)),
+      }, false, SpeAttackPreamblePosition.onAllAttacks)),
   33: MonsterDescription(
       "Spine Flinger",
       "S. Flinger",
@@ -703,7 +704,7 @@ final Map<int, MonsterDescription> monsterDB = {
         1: "Is there a Restrained enemy within 12\"?",
         2: "Is there 1 or more enemies within 12\" AND has the Spine Flinger " +
             "been critically hit since its last activation?"
-      }, SpeAttackPreamblePosition.onAllAttacks)),
+      }, false, SpeAttackPreamblePosition.onAllAttacks)),
   34: MonsterDescription(
       "Navite Warrior",
       "Navite W.",
@@ -758,6 +759,7 @@ final Map<int, MonsterDescription> monsterDB = {
       },
       SpecialAttackQuestions(
           {1: "Are there 2 or more enemies within 18\"?", 2: ""},
+          false,
           SpeAttackPreamblePosition.onAllAttacks)),
   35: MonsterDescription(
       "Pulsar",
@@ -821,7 +823,7 @@ final Map<int, MonsterDescription> monsterDB = {
         0: "Is there 1 or more enemy within 12\"?",
         1: "Is there 1 or more Stunned enemy within 12\"?",
         2: "Is there 1 or more Stunned enemy within 12\"?"
-      }, SpeAttackPreamblePosition.onAllAttacks)),
+      }, false, SpeAttackPreamblePosition.onAllAttacks)),
   41: MonsterDescription(
       "Yvenian Shocker",
       "Yvenian S.",
@@ -868,7 +870,8 @@ final Map<int, MonsterDescription> monsterDB = {
             AttackType.passive)
       ],
       {},
-      SpecialAttackQuestions({}, SpeAttackPreamblePosition.onAllAttacks)),
+      SpecialAttackQuestions(
+          {}, false, SpeAttackPreamblePosition.onAllAttacks)),
   42: MonsterDescription(
       "Cannonade",
       "Cannonade",
@@ -931,7 +934,7 @@ final Map<int, MonsterDescription> monsterDB = {
         2: "Is there only one enemy within 12\"?",
         // that question should never be reached, will be treated as special case in code
         //3: "Is it In Extremis?"
-      }, SpeAttackPreamblePosition.onAllAttacks)),
+      }, false, SpeAttackPreamblePosition.onAllAttacks)),
   43: MonsterDescription(
       "Mind Raker",
       "Mind Raker",
@@ -986,7 +989,7 @@ final Map<int, MonsterDescription> monsterDB = {
       SpecialAttackQuestions({
         1: "Are there 2 or more enemies within 18\"?",
         2: "Is there 1 or more Blinded enemy within 18\"?",
-      }, SpeAttackPreamblePosition.onAllAttacks)),
+      }, false, SpeAttackPreamblePosition.onAllAttacks)),
   45: MonsterDescription(
       "Gzurn Shadow",
       "Gzurn S.",
@@ -1038,7 +1041,7 @@ final Map<int, MonsterDescription> monsterDB = {
       },
       SpecialAttackQuestions({
         1: "Is there 1 or more enemy within 18\"?",
-      }, SpeAttackPreamblePosition.onAllAttacks),
+      }, false, SpeAttackPreamblePosition.onAllAttacks),
       StalkerSpecificAttributes(
         (23, 27),
         {0: false, 1: true},
@@ -1104,7 +1107,7 @@ final Map<int, MonsterDescription> monsterDB = {
         1: ([1], []),
         2: ([], [1])
       },
-      SpecialAttackQuestions({}, SpeAttackPreamblePosition.onAllAttacks),
+      SpecialAttackQuestions({}, false, SpeAttackPreamblePosition.onAllAttacks),
       StalkerSpecificAttributes(
         (21, 21),
         {0: false, 1: true, 2: true},
@@ -1169,7 +1172,7 @@ final Map<int, MonsterDescription> monsterDB = {
         1: ([1], []),
       },
       SpecialAttackQuestions({1: "Are there 2 ore more enemies within 18\"?"},
-          SpeAttackPreamblePosition.onAllAttacks),
+          false, SpeAttackPreamblePosition.onAllAttacks),
       StalkerSpecificAttributes(
         (-1, -1),
         {0: false, 1: false},
@@ -1241,10 +1244,9 @@ final Map<int, MonsterDescription> monsterDB = {
         2: ([2], [])
       },
       SpecialAttackQuestions({
-        // TODO need to chain questions here
         1: "Is there 1 or more Restrained enemy within 6\"?",
         2: "Are there 2 or more enemies within 12\" AND no Restrained enemy within 6\"?",
-      }, SpeAttackPreamblePosition.onAllAttacks),
+      }, true, SpeAttackPreamblePosition.onAllAttacks),
       StalkerSpecificAttributes(
         (20, 24),
         {0: false, 1: false, 2: false},
