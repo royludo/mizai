@@ -53,6 +53,8 @@ class _MainMonsterScreenState extends State<MainMonsterScreen> {
           } else {
             return getStartingPoint(context, monster, widget.gameState);
           }
+        case AIType.renvultia:
+          throw Exception("Not implemented yet"); // TODO
       }
     })).then((_) =>
         // need to clear memory else there is a bug when going back after
@@ -74,6 +76,8 @@ class _MainMonsterScreenState extends State<MainMonsterScreen> {
       case AIType.stalker:
         extraActivationButtonText = "Revealed from Hidden by enemy";
         break;
+      case AIType.renvultia:
+        throw Exception("Not implemented yet"); // TODO
     }
 
     return Column(children: [

@@ -34,6 +34,8 @@ Widget getStartingPoint(
       } else {
         return stalker_tree.EnemyInMelee(gameState: gameState);
       }
+    case AIType.renvultia:
+      throw Exception("Not implemented yet"); // TODO
   }
 }
 

@@ -1171,6 +1171,75 @@ final Map<int, MonsterDescription> monsterDB = {
         {1: false, 2: false},
         false,
       )),
+  52: MonsterDescription(
+      "Renvultia Stalker",
+      "Renvultia S.",
+      25,
+      30,
+      AIType.renvultia,
+      [
+        Attack(
+            "Clawed Strike",
+            "1x attack (Melee, Combat, 3D6+3 damage). " +
+                "If hit, target must pass a FOR check {0}. " +
+                "Failure => {Poisoned.}",
+            [(23, 27)],
+            AttackType.normal),
+        Attack(
+            "Careful Stalking",
+            "If the Renvultia Stalker is not Hidden, " +
+                "it becomes Hidden. If it is already Hidden, when the Renvultia " +
+                "Stalker next activates, if it is still Hidden when it makes its first " +
+                "Combat attack, it may roll the Combat stat check twice and take " +
+                "the highest result.",
+            [],
+            AttackType.normal),
+        Attack(
+            "Flurry of Strikes",
+            "Move adjacent to the closest enemy and make " +
+                "1x attack (Melee, Combat, 3D6+3 damage). " +
+                "If hit, target must pass a FOR check {0}. " +
+                "Failure => {Poisoned.} " +
+                "Repeat this process for the next closest enemy, other than " +
+                "the enemy just attacked. Repeat this process a maximum " +
+                "of four times, or until it has moved at least 24\" during this action, " +
+                "whichever comes first.",
+            [(23, 27)],
+            AttackType.normal),
+      ],
+      MonsterSpecies.renvultia,
+      52,
+      135,
+      [
+        Attack(
+            "Shadowed Speed",
+            "When the Renvultia Stalker moves more than " +
+                "half its full movement distance (12\" or more), if it ends " +
+                "this movement outside of 1\" of an enemy, it becomes Hidden. The " +
+                "Acuity check to spot a Hidden Renvultia Stalker is {0}.",
+            [(21, 25)],
+            AttackType.passive),
+        Attack(
+            "Devastating Surprise",
+            "When the Renvultia Stalker makes an attack " +
+                "with Surprise, it deals an additional 2D6 damage.",
+            [],
+            AttackType.passive)
+      ],
+      {
+        1: ([], []),
+        2: ([2], [])
+      },
+      SpecialAttackQuestions({
+        1: "",
+        2: "",
+      }, false, SpeAttackPreamblePosition.onAllAttacks),
+      StalkerSpecificAttributes(
+        (21, 25),
+        {0: true, 1: true, 2: true},
+        {0: true, 1: false, 2: false},
+        true,
+      )),
   53: MonsterDescription(
       "Ocular Enigma",
       "Ocular E.",

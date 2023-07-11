@@ -45,7 +45,7 @@ class Attack {
   }
 }
 
-enum AIType { monstrosity, ravager, stalker }
+enum AIType { monstrosity, ravager, stalker, renvultia }
 
 // onQuestion: preamble is put before question deciding attack
 // onAllAttacks, onBasicOnly: preamble is put on attack screen, before attack text
@@ -192,7 +192,7 @@ enum MonsterSpecies {
   chaos,
   gzurn,
   razorlash,
-
+  renvultia,
   ocular,
   lasher,
 }
