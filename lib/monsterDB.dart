@@ -990,6 +990,63 @@ final Map<int, MonsterDescription> monsterDB = {
         1: "Are there 2 or more enemies within 18\"?",
         2: "Is there 1 or more Blinded enemy within 18\"?",
       }, false, SpeAttackPreamblePosition.onAllAttacks)),
+  44: MonsterDescription(
+      "Chaos Bringer",
+      "Chaos B.",
+      25,
+      30,
+      AIType.stalker,
+      [
+        Attack(
+            "Slamming Limbs",
+            "2x attacks (Melee, Combat, 2D6+1 damage and Poisoned).",
+            [],
+            AttackType.normal),
+        Attack(
+            "Hide",
+            "The Chaos Bringer becomes Hidden. The Acuity " +
+                "check to spot this Hidden alien creature is 21.",
+            [],
+            AttackType.normal),
+        Attack(
+            "Chaotic Maelstrom (Psionic)",
+            "All enemies within 18\" must pass a FOR check {0}. " +
+                "Failure => {2D6+1 damage and Poisoned.}",
+            [(21, 25)],
+            AttackType.area),
+      ],
+      MonsterSpecies.chaos,
+      44,
+      132,
+      [
+        Attack(
+            "Chaos Bringer",
+            "As long as the Chaos Bringer is alive, at the start " +
+                "of each round, add 1 to the roll to determine if a FUBAR event occurs.",
+            [],
+            AttackType.passive),
+        Attack(
+            "Chthonic Form",
+            "If an enemy successfully spots the Chaos Bringer " +
+                "while it is Hidden, that enemy suffers 3D6 damage. This damage " +
+                "has the Psionic keyword.",
+            [],
+            AttackType.passive)
+      ],
+      {
+        1: ([], []),
+        2: ([2], [])
+      },
+      SpecialAttackQuestions({
+        1: "",
+        2: "Is there 2 or more enemies within 18\"?",
+      }, false, SpeAttackPreamblePosition.onAllAttacks),
+      StalkerSpecificAttributes(
+        (21, 21),
+        {0: false, 1: true, 2: true},
+        {1: false, 2: false},
+        true,
+      )),
   45: MonsterDescription(
       "Gzurn Shadow",
       "Gzurn S.",

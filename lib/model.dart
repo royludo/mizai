@@ -189,7 +189,7 @@ enum MonsterSpecies {
   yvenian,
   cannonade,
   raker,
-
+  chaos,
   gzurn,
   razorlash,
 

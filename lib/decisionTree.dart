@@ -29,7 +29,11 @@ Widget getStartingPoint(
         return ravager_tree.EnemyInMelee(gameState: gameState);
       }
     case AIType.stalker:
-      return stalker_tree.EnemyInMelee(gameState: gameState);
+      if (monster.desc.species == MonsterSpecies.chaos) {
+        return stalker_tree.ChaosBringerSpecial(gameState: gameState);
+      } else {
+        return stalker_tree.EnemyInMelee(gameState: gameState);
+      }
   }
 }
 
@@ -297,6 +301,10 @@ class EndOfAction extends MonsterDecisionStep {
           "Second monster action is finished. It will now take another extra action.";
     } else {
       text = "Monster action is finished.";
+      if (monster.desc.aiType == AIType.stalker) {
+        text =
+            "$text Reminder: update the Hidden status according to your actions.";
+      }
     }
 
     return Scaffold(

@@ -34,26 +34,19 @@ class EnemyInMelee extends MonsterDecisionStep {
               ElevatedButton(
                   onPressed: () {
                     monster.decisionsMemory.add(DecisionKey.noEnemyInMelee);
-                    if (monster.isHidden) {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
+                      if (monster.isHidden) {
                         return EnemyInRangeWhileHidden(gameState: gameState);
-                      }));
-                    } else {
-                      if (monster.desc.stalkerAttr!.hasActionToHide) {
-                        throw Exception("Not implemented yet"); // TODO
                       } else {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) {
+                        if (monster.desc.stalkerAttr!.hasActionToHide) {
+                          throw Exception("Not implemented yet"); // TODO
+                        } else {
                           return EnemiesInRangeWhileNotHidden(
                               gameState: gameState);
-                        }));
+                        }
                       }
-                    }
-                    /*Navigator.push(context,
-                        MaterialPageRoute(builder: (context) {
-                      //return EnemyInMovementRange(gameState: gameState);
-                    }));*/
+                    }));
                   },
                   child: const ButtonText("No"))
             ],
@@ -317,5 +310,87 @@ class NoEnemyVisibleWhileHidden extends MonsterDecisionStep {
               },
               child: const ButtonText("Spot failed"))
         ]));
+  }
+}
+
+/// The chaos bringer overrides normal AI in the following way:
+/// Branch first on the hidden status.
+/// If the monster is hidden, it follows the normal ai.
+/// If not, it will either use its special attack or hide, without doing
+/// anything else.
+class ChaosBringerSpecial extends MonsterDecisionStep {
+  const ChaosBringerSpecial({super.key, required super.gameState});
+
+  @override
+  Widget build(BuildContext context) {
+    var monster = gameState.currentMonster;
+    //stdout.writeln("enemyInMelee with decisions: $decisions");
+
+    int hideActionIndex = 1;
+    int maelstromIndex = 2;
+    if (monster.isHidden) {
+      // disqualify the special attack and hide action from being asked
+      monster.attackIndexesExcludedForAction
+          .addAll([hideActionIndex, maelstromIndex]);
+      // follow normal stalker AI
+      return EnemyInMelee(gameState: gameState);
+    } else {
+      // check if qualifies for maelstrom
+      if (monster.isSpecialAttackPossible() &&
+          monster.isSpecificAttackAllowedNow(maelstromIndex)) {
+        // ask maelstrom question
+        return GenericChoiceStep(
+          gameState: gameState,
+          title: "Situation CB",
+          content: Column(children: [
+            SimpleQuestionText(monster.desc.specialAttackQuestions
+                .questionForAttack[maelstromIndex]!),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                ElevatedButton(
+                    onPressed: () {
+                      // use maelstrom
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => monster.makeSpecialAttack(
+                              context,
+                              EndOfAction(gameState: gameState),
+                              Preamble.empty(),
+                              maelstromIndex),
+                        ),
+                      );
+                    },
+                    child: const ButtonText("Yes")),
+                ElevatedButton(
+                  onPressed: () {
+                    // use hide
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => monster.makeSpecialAttack(
+                            context,
+                            EndOfAction(gameState: gameState),
+                            Preamble.empty(),
+                            hideActionIndex),
+                      ),
+                    );
+                  },
+                  child: const ButtonText("No"),
+                )
+              ],
+            )
+          ]),
+        );
+      } else {
+        // maelstrom not possible, use hide
+        return monster.makeSpecialAttack(
+            context,
+            EndOfAction(gameState: gameState),
+            Preamble.empty(),
+            hideActionIndex);
+      }
+    }
   }
 }
