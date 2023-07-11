@@ -5,10 +5,14 @@ import 'utils.dart';
 import 'model.dart';
 
 class MainScreenWrapper extends StatefulWidget {
-  const MainScreenWrapper({super.key, required this.gameState});
+  const MainScreenWrapper(
+      {super.key,
+      required this.gameState,
+      this.showStalkerHiddenReminder = false});
 
   final GameState
       gameState; // won't have up to date current monster, is in state
+  final bool showStalkerHiddenReminder;
 
   @override
   State<MainScreenWrapper> createState() => _MainScreenWrapperState();
@@ -24,6 +28,27 @@ class _MainScreenWrapperState extends State<MainScreenWrapper> {
     super.initState();
     selectedMonster = widget.gameState.currentMonster;
     selectedMonsterCode = selectedMonster.desc.code;
+
+    if (widget.showStalkerHiddenReminder) {
+      // see https://stackoverflow.com/a/50806950
+      // the following dialog will be shown directly after the page load
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
+        await showDialog<String>(
+          context: context,
+          builder: (BuildContext context) => AlertDialog(
+            title: const Text("Reminder - Stalker visibility"),
+            content: const Text(
+                "Update the Hidden status according to your actions."),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('Ok'),
+              ),
+            ],
+          ),
+        );
+      });
+    }
   }
 
   @override

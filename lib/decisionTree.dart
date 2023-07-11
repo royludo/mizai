@@ -301,10 +301,6 @@ class EndOfAction extends MonsterDecisionStep {
           "Second monster action is finished. It will now take another extra action.";
     } else {
       text = "Monster action is finished.";
-      if (monster.desc.aiType == AIType.stalker) {
-        text =
-            "$text Reminder: update the Hidden status according to your actions.";
-      }
     }
 
     return Scaffold(
@@ -355,8 +351,11 @@ class EndOfAction extends MonsterDecisionStep {
                   Navigator.pushAndRemoveUntil(
                       context,
                       MaterialPageRoute(
-                          builder: (_) =>
-                              MainScreenWrapper(gameState: gameState)),
+                          builder: (_) => MainScreenWrapper(
+                                gameState: gameState,
+                                showStalkerHiddenReminder:
+                                    monster.desc.aiType == AIType.stalker,
+                              )),
                       (route) => false);
                 }
               },
