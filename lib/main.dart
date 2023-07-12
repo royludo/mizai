@@ -116,9 +116,16 @@ class _MyHomePageState extends State<MyHomePage> {
           List<StatefulMonster> allMonsterList =
               List.from(widget.alreadyInGameMonsters);
           for (var monsterFullName in newlySelectedMonsterSet) {
-            allMonsterList.add(StatefulMonster(
-                monsterDBWithNameKeys[monsterFullName]!,
-                currentPhaseSelected + 1));
+            switch (monsterDBWithNameKeys[monsterFullName]!.aiType) {
+              case AIType.renvultia:
+                allMonsterList.add(RenvultiaStalker(
+                    monsterDBWithNameKeys[monsterFullName]!,
+                    currentPhaseSelected + 1));
+              default:
+                allMonsterList.add(StatefulMonster(
+                    monsterDBWithNameKeys[monsterFullName]!,
+                    currentPhaseSelected + 1));
+            }
           }
           Navigator.pushAndRemoveUntil(
               context,

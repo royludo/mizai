@@ -18,14 +18,14 @@ final Map<int, MonsterDescription> monsterDB = {
       [
         Attack(
             "Ripping Claws",
-            "2x attacks (Melee, Combat, 2D6+3 damage). " +
-                "If hit, target must pass a DEX check {0}. " +
+            "2x attacks (Melee, Combat, 2D6+3 damage). "
+                "If hit, target must pass a DEX check {0}. "
                 "Failure => {Restrained.}",
             [(20, 24)],
             AttackType.normal),
         Attack(
             "Keening Shriek",
-            "All team members within 12\" must pass a FOR check {0}. " +
+            "All team members within 12\" must pass a FOR check {0}. "
                 "Failure => {2D6 damage and Stunned.}",
             [(21, 25)],
             AttackType.area)
@@ -36,15 +36,15 @@ final Map<int, MonsterDescription> monsterDB = {
       [
         Attack(
             "Sonic Murmurs",
-            "Whenever the monster suffers damage from " +
-                "a weapon attack, all enemies within 12\" must pass a FOR check {0}. " +
+            "Whenever the monster suffers damage from "
+                "a weapon attack, all enemies within 12\" must pass a FOR check {0}. "
                 "Failure => 2D6 damage and Stunned.",
             [(20, 24)],
             AttackType.passive),
         Attack(
             "Psionic Disruption",
-            "Whenever a team member attempts to use a Psionic power of any kind " +
-                "they must pass a FOR check {0}. " +
+            "Whenever a team member attempts to use a Psionic power of any kind "
+                "they must pass a FOR check {0}. "
                 "Failure => the power fails and the action is wasted.",
             [(18, 22)],
             AttackType.passive)
@@ -63,18 +63,18 @@ final Map<int, MonsterDescription> monsterDB = {
       [
         Attack(
             "Claw Swipes",
-            "2x attacks (Melee, Combat, 2D6+1 damage). " +
-                "If hit, target must pass a FOR check {0}. " +
+            "2x attacks (Melee, Combat, 2D6+1 damage). "
+                "If hit, target must pass a FOR check {0}. "
                 "Failure => {Poisoned.}",
             [(21, 25)],
             AttackType.normal),
         Attack(
             "Grab and Drop",
-            "Move to an enemy within 6\", make 1x attack " +
-                "(Melee, Combat, 1D6 damage). Target must pass a DEX check {0}. " +
-                "Failure => {Suffer damage of 12\" fall, monster stays in contact.} " +
-                "Success => {Monster flies to highest elevation with remaining movement. " +
-                "If no higher elevation in range, monster will move away from target and " +
+            "Move to an enemy within 6\", make 1x attack "
+                "(Melee, Combat, 1D6 damage). Target must pass a DEX check {0}. "
+                "Failure => {Suffer damage of 12\" fall, monster stays in contact.} "
+                "Success => {Monster flies to highest elevation with remaining movement. "
+                "If no higher elevation in range, monster will move away from target and "
                 "all other ennemies.}",
             [(24, 28)],
             AttackType.normal)
@@ -85,22 +85,22 @@ final Map<int, MonsterDescription> monsterDB = {
       [
         Attack(
             "Flyby Attack",
-            "The Rakire Winged Hunter may take their action in " +
-                "the middle of their move and resume that movement afterward " +
-                "(splitting their movement distance before and after an attack " +
-                "or any other action). The Rakire Winged Hunter will follow the " +
-                "Enemy AI for Monstrosities, except it will always attempt to keep " +
-                "moving after making an attack, and move to the highest vertical " +
+            "The Rakire Winged Hunter may take their action in "
+                "the middle of their move and resume that movement afterward "
+                "(splitting their movement distance before and after an attack "
+                "or any other action). The Rakire Winged Hunter will follow the "
+                "Enemy AI for Monstrosities, except it will always attempt to keep "
+                "moving after making an attack, and move to the highest vertical "
                 "point on the game board within its remaining movement distance.",
             [],
             AttackType.passive),
         Attack(
             "Hard to Restrain",
-            "Whenever a Rakire Winged Hunter is subject to " +
-                "a condition as a result of a Dexterity stat check, they may roll that " +
-                "stat check twice and select the higher result. In addition, at the " +
-                "start of their activation, the Rakire Winged Hunter automatically " +
-                "clears one Dexterity condition (Restrained, Blinded) without any check necessary (they " +
+            "Whenever a Rakire Winged Hunter is subject to "
+                "a condition as a result of a Dexterity stat check, they may roll that "
+                "stat check twice and select the higher result. In addition, at the "
+                "start of their activation, the Rakire Winged Hunter automatically "
+                "clears one Dexterity condition (Restrained, Blinded) without any check necessary (they "
                 "may make an additional check to clear a condition as normal).",
             [(18, 22)],
             AttackType.passive)
@@ -121,22 +121,22 @@ final Map<int, MonsterDescription> monsterDB = {
       [
         Attack(
             "Crushing Fists",
-            "2x attacks (Melee, Combat, 3D6 damage). " +
-                "If hit, target must pass a FOR check {0}. " +
+            "2x attacks (Melee, Combat, 3D6 damage). "
+                "If hit, target must pass a FOR check {0}. "
                 "Failure => {Stunned.}",
             [(21, 25)],
             AttackType.normal),
         Attack(
             "Shockwave",
-            "All team members within 6\" must pass a FOR check {0}. " +
+            "All team members within 6\" must pass a FOR check {0}. "
                 "Failure => {2D6 damage and Stunned.}",
             [(21, 25)],
             AttackType.area),
         Attack(
             "Stun Smash",
-            "1x attack (Melee, Combat, 5D6 damage) against the Stunned enemy. " +
-                "If hit, target must roll twice and take the lower result " +
-                "on all attempts to clear the Stunned condition for " +
+            "1x attack (Melee, Combat, 5D6 damage) against the Stunned enemy. "
+                "If hit, target must roll twice and take the lower result "
+                "on all attempts to clear the Stunned condition for "
                 "the remainder of the mission.",
             [],
             AttackType.normal)
@@ -147,15 +147,15 @@ final Map<int, MonsterDescription> monsterDB = {
       [
         Attack(
             "Brute Toughness",
-            "Reduce all damage the monster suffers from weapons by 3. " +
-                "The monster automatically clears all Fortitude " +
+            "Reduce all damage the monster suffers from weapons by 3. "
+                "The monster automatically clears all Fortitude "
                 "conditions (Stunned, Poisoned) when it activates.",
             [],
             AttackType.passive),
         Attack(
             "Weak Mind",
-            "Monster gets a -4 penalty to all stat checks made to resist any " +
-                "condition with the Psionic keyword. If the monster suffers damage " +
+            "Monster gets a -4 penalty to all stat checks made to resist any "
+                "condition with the Psionic keyword. If the monster suffers damage "
                 "from a source with the Psionic keyword, that damage is increased by 3.",
             [],
             AttackType.passive)
@@ -177,21 +177,21 @@ final Map<int, MonsterDescription> monsterDB = {
       [
         Attack(
             "Grabbing Limbs",
-            "2x attacks (Melee, Combat, 1D6+4 damage). " +
-                "Each attack targets a different team member if possible. " +
-                "If hit, targets must pass a DEX check {0}. " +
+            "2x attacks (Melee, Combat, 1D6+4 damage). "
+                "Each attack targets a different team member if possible. "
+                "If hit, targets must pass a DEX check {0}. "
                 "Failure => {Restrained.}",
             [(23, 27)],
             AttackType.normal),
         Attack(
             "Chewing Frenzy",
-            "Restrained target must pass a FOR check {0}. " +
+            "Restrained target must pass a FOR check {0}. "
                 "Failure => {4D6 damage and Stunned.}",
             [(24, 28)],
             AttackType.normal),
         Attack(
             "Consume All",
-            "Stunned target must pass a FOR check {0}. " +
+            "Stunned target must pass a FOR check {0}. "
                 "Failure => {8D6 damage and the monster heals 4D6 damage.}",
             [(25, 29)],
             AttackType.normal)
@@ -202,7 +202,7 @@ final Map<int, MonsterDescription> monsterDB = {
       [
         Attack(
             "Wave of Flesh",
-            "Immune to Restrained and Blind conditions, and can never " +
+            "Immune to Restrained and Blind conditions, and can never "
                 "have its move reduced for any reason or by any means.",
             [],
             AttackType.passive)
@@ -224,14 +224,14 @@ final Map<int, MonsterDescription> monsterDB = {
       [
         Attack(
             "Destructive Limbs",
-            "3x attacks (Melee, Combat, 1D6+6 damage). " +
-                "If hit, target must pass a FOR check {0}. " +
+            "3x attacks (Melee, Combat, 1D6+6 damage). "
+                "If hit, target must pass a FOR check {0}. "
                 "Failure => {Stunned.}",
             [(22, 26)],
             AttackType.normal),
         Attack(
             "Mutilating Wave",
-            "All team members within 6\" must pass a FOR check {0}. " +
+            "All team members within 6\" must pass a FOR check {0}. "
                 "Failure => {2D6+2 damage and Poisoned.}",
             [(22, 26)],
             AttackType.area)
@@ -247,14 +247,14 @@ final Map<int, MonsterDescription> monsterDB = {
             AttackType.passive),
         Attack(
             "Climbing Limbs",
-            "Does not pay additional movement when climbing; " +
+            "Does not pay additional movement when climbing; "
                 "each 1\" of vertical movement counts as 1\" of movement.",
             [],
             AttackType.passive),
         Attack(
             "Reverberating Destruction",
-            "Whenever the monster is damaged by a Weapon attack, " +
-                "all team members within 3\" must pass a FOR check {0}. " +
+            "Whenever the monster is damaged by a Weapon attack, "
+                "all team members within 3\" must pass a FOR check {0}. "
                 "Failure => suffer 2D6 damage.",
             [(19, 23)],
             AttackType.passive)
@@ -273,14 +273,14 @@ final Map<int, MonsterDescription> monsterDB = {
       [
         Attack(
             "Psionic Claws (Psionic)",
-            "1x attack (Melee, Combat, Psionic, 4D6+2 damage). " +
-                "If hit, target must pass a FOR check {0}. " +
+            "1x attack (Melee, Combat, Psionic, 4D6+2 damage). "
+                "If hit, target must pass a FOR check {0}. "
                 "Failure => {2D6 damage and Stunned.}",
             [(18, 22)],
             AttackType.normal),
         Attack(
             "Psionic Wave (Psionic)",
-            "All team members within 12\" must pass a DEX check {0}. " +
+            "All team members within 12\" must pass a DEX check {0}. "
                 "Failure => {3D6 damage and Blinded.}",
             [(18, 22)],
             AttackType.area)
@@ -291,16 +291,16 @@ final Map<int, MonsterDescription> monsterDB = {
       [
         Attack(
             "Twisted Creature (Psionic)",
-            "Whenever the monster suffers damage from a Weapon attack, it " +
-                "suffers 1D6 additional damage and " +
-                "all team members within 18\" must pass a FOR check {0}. " +
+            "Whenever the monster suffers damage from a Weapon attack, it "
+                "suffers 1D6 additional damage and "
+                "all team members within 18\" must pass a FOR check {0}. "
                 "Failure => suffer 2D6 damage.",
             [(18, 22)],
             AttackType.passive),
         Attack(
             "Psionic Hardening",
-            "Reduce all damage from any attack with the Psionic keyword by 3. " +
-                "The monster may automatically clear one condition at the start " +
+            "Reduce all damage from any attack with the Psionic keyword by 3. "
+                "The monster may automatically clear one condition at the start "
                 "of its activation if that condition was caused by a Psionic attack.",
             [],
             AttackType.passive)
@@ -319,27 +319,27 @@ final Map<int, MonsterDescription> monsterDB = {
       [
         Attack(
             "Psionic Lash (Psionic)",
-            "3x attacks (Melee, Combat, Psionic, 1D6+2 damage). " +
-                "If hit, target must pass a DEX check {0}. " +
+            "3x attacks (Melee, Combat, Psionic, 1D6+2 damage). "
+                "If hit, target must pass a DEX check {0}. "
                 "Failure => {Blinded.}",
             [(18, 22)],
             AttackType.normal),
         Attack(
             "Nightmare Pulse (Psionic)",
-            "All team members within 12\" must pass a FOR check {0}. " +
+            "All team members within 12\" must pass a FOR check {0}. "
                 "Failure => {2D6+2 damage and Stunned.}",
             [(19, 23)],
             AttackType.area),
         Attack(
             "Deepened Nightmares (Psionic)",
-            "Target enemy within 12\" who is either Stunned or Blinded must pass a FOR check {0}. " +
-                "Failure => {5D6 damage and immediately move 12\" " +
-                "directly away from the Deranger. If this movement would carry " +
-                "the enemy into Difficult terrain (or up a vertical surface), " +
-                "they must pay for that additional movement as normal. If this " +
-                "movement would carry the enemy into Dangerous terrain, they will " +
-                "suffer any consequences of that as normal. If this movement would " +
-                "move them off of a horizontal surface that is elevated, they will " +
+            "Target enemy within 12\" who is either Stunned or Blinded must pass a FOR check {0}. "
+                "Failure => {5D6 damage and immediately move 12\" "
+                "directly away from the Deranger. If this movement would carry "
+                "the enemy into Difficult terrain (or up a vertical surface), "
+                "they must pay for that additional movement as normal. If this "
+                "movement would carry the enemy into Dangerous terrain, they will "
+                "suffer any consequences of that as normal. If this movement would "
+                "move them off of a horizontal surface that is elevated, they will "
                 "fall and suffer damage as normal, with no chance to reduce it.}",
             [(20, 24)],
             AttackType.normal)
@@ -350,14 +350,14 @@ final Map<int, MonsterDescription> monsterDB = {
       [
         Attack(
             "Nightmare Visions (Psionic)",
-            "Whenever an enemy activates within 12\", if they are making " +
-                "a stat check to clear a condition with the Psionic keyword " +
+            "Whenever an enemy activates within 12\", if they are making "
+                "a stat check to clear a condition with the Psionic keyword "
                 "they must roll twice and use the lower result.",
             [],
             AttackType.passive),
         Attack(
             "Psionic Healing",
-            "Heals 4 damage whenever an enemy fails a stat check to avoid a " +
+            "Heals 4 damage whenever an enemy fails a stat check to avoid a "
                 "condition with the Psionic keyword resulting from an attack made by the Deranger.",
             [],
             AttackType.passive)
@@ -380,14 +380,14 @@ final Map<int, MonsterDescription> monsterDB = {
       [
         Attack(
             "Rending Claws",
-            "2x attacks (Melee, Combat, 2D6+1 damage). " +
-                "If hit, target must pass a FOR check {0}. " +
+            "2x attacks (Melee, Combat, 2D6+1 damage). "
+                "If hit, target must pass a FOR check {0}. "
                 "Failure => {3D6 damage and Stunned.}",
             [(17, 21)],
             AttackType.normal),
         Attack(
             "Earth Eruption",
-            "All team members within 12\" must pass a DEX check {0}. " +
+            "All team members within 12\" must pass a DEX check {0}. "
                 "Failure => {1D6 damage and Restrained.}",
             [(18, 22)],
             AttackType.area),
@@ -398,16 +398,16 @@ final Map<int, MonsterDescription> monsterDB = {
       [
         Attack(
             "Terraform",
-            "All terrain within 18\" of the Terraformer is considered Dangerous " +
-                "terrain for enemies. The Terraformer ignores all Difficult " +
+            "All terrain within 18\" of the Terraformer is considered Dangerous "
+                "terrain for enemies. The Terraformer ignores all Difficult "
                 "and Dangerous terrain.",
             [],
             AttackType.passive),
         Attack(
             "Deadly Terrain",
-            "Whenever a model fails a check for Dangerous terrain while within " +
-                "18\" of the Terraformer (see Dangerous Terrain, page 67), the " +
-                "damage suffered is increased to 2D6 and the roll fails on a 4+ " +
+            "Whenever a model fails a check for Dangerous terrain while within "
+                "18\" of the Terraformer (see Dangerous Terrain, page 67), the "
+                "damage suffered is increased to 2D6 and the roll fails on a 4+ "
                 "(instead of 5+).",
             [],
             AttackType.passive)
@@ -426,20 +426,20 @@ final Map<int, MonsterDescription> monsterDB = {
       [
         Attack(
             "Stabbing Limbs",
-            "2x attacks (Melee, Combat, 2D6+1 damage). " +
-                "If hit, target must pass a DEX check {0}. " +
-                "Failure => {Restrained.} " +
-                "If possible, the Warping Crawler must make " +
-                "these two attacks against two separate enemy targets within " +
+            "2x attacks (Melee, Combat, 2D6+1 damage). "
+                "If hit, target must pass a DEX check {0}. "
+                "Failure => {Restrained.} "
+                "If possible, the Warping Crawler must make "
+                "these two attacks against two separate enemy targets within "
                 "range.",
             [(19, 23)],
             AttackType.normal),
         Attack(
             "Savored Delicacy",
-            "Teleport to the nearest cover that is not occupied by an enemy. " +
-                "Remove the Restrained enemy from the board and set it up " +
-                "within 1\" of the Warping Crawler's new location. That enemy must " +
-                "pass a FOR check {0}." +
+            "Teleport to the nearest cover that is not occupied by an enemy. "
+                "Remove the Restrained enemy from the board and set it up "
+                "within 1\" of the Warping Crawler's new location. That enemy must "
+                "pass a FOR check {0}."
                 "Failure => {4D6 damage and Stunned.} ",
             [(21, 25)],
             AttackType.normal),
@@ -450,14 +450,14 @@ final Map<int, MonsterDescription> monsterDB = {
       [
         Attack(
             "Teleport",
-            "Instead of moving, the Warping Crawler may teleport " +
+            "Instead of moving, the Warping Crawler may teleport "
                 "to any location it can see.",
             [],
             AttackType.passive),
         Attack(
             "Surprise Arrival",
-            "Whenever this model teleports within 1\" of any " +
-                "enemy and makes an attack against that enemy, it is a Surprise " +
+            "Whenever this model teleports within 1\" of any "
+                "enemy and makes an attack against that enemy, it is a Surprise "
                 "attack.",
             [],
             AttackType.passive)
@@ -474,15 +474,15 @@ final Map<int, MonsterDescription> monsterDB = {
       [
         Attack(
             "Piercing Talons",
-            "2x attacks (Melee, Combat, 4D6 damage). " +
-                "If hit, target must pass a FOR check {0}. " +
+            "2x attacks (Melee, Combat, 4D6 damage). "
+                "If hit, target must pass a FOR check {0}. "
                 "Failure => {3D6 damage and Poisoned.} ",
             [(20, 24)],
             AttackType.normal),
         Attack(
             "Torturous Glee",
-            "1x Surprise attack (Melee, Combat, 4D6 damage). " +
-                "If hit, target must pass a FOR check {0}. " +
+            "1x Surprise attack (Melee, Combat, 4D6 damage). "
+                "If hit, target must pass a FOR check {0}. "
                 "Failure => {3D6 damage and Poisoned and Stunned.} ",
             [(21, 25)],
             AttackType.normal),
@@ -493,18 +493,18 @@ final Map<int, MonsterDescription> monsterDB = {
       [
         Attack(
             "Cruel Strikes",
-            "Whenever the Zelak attacks an enemy that " +
-                "is already damaged, reduce the damage dealt by 2D6 but increase " +
-                "the difficulty of the stat check against any condition it causes by 3 " +
-                "(e.g. if the stat check to avoid the condition described is 20, it will " +
+            "Whenever the Zelak attacks an enemy that "
+                "is already damaged, reduce the damage dealt by 2D6 but increase "
+                "the difficulty of the stat check against any condition it causes by 3 "
+                "(e.g. if the stat check to avoid the condition described is 20, it will "
                 "be 23 if the target is already damaged).",
             [],
             AttackType.passive),
         Attack(
             "Gruesome End",
-            "Whenever the Zelak reduces an enemy's Hit " +
-                "Points to 0 and that enemy is put Out of Action, roll twice on the " +
-                "Injury & Death table during the post-game process and apply " +
+            "Whenever the Zelak reduces an enemy's Hit "
+                "Points to 0 and that enemy is put Out of Action, roll twice on the "
+                "Injury & Death table during the post-game process and apply "
                 "both results.",
             [],
             AttackType.passive)
@@ -521,20 +521,20 @@ final Map<int, MonsterDescription> monsterDB = {
       [
         Attack(
             "Helo Blast",
-            "2x attacks (Ranged, Combat, Energy, 2D6+4 damage). " +
-                "If hit, target must pass a DEX check {0}. " +
+            "2x attacks (Ranged, Combat, Energy, 2D6+4 damage). "
+                "If hit, target must pass a DEX check {0}. "
                 "Failure => {Blinded.}",
             [(21, 25)],
             AttackType.normal),
         Attack(
             "Wave of Heat",
-            "All enemies within 12\" must pass a FOR check {0}. " +
+            "All enemies within 12\" must pass a FOR check {0}. "
                 "Failure => {Stunned.}",
             [(21, 25)],
             AttackType.area),
         Attack(
             "Reflecting Blast",
-            "The closest enemy must pass a DEX check {0}. " +
+            "The closest enemy must pass a DEX check {0}. "
                 "Failure => {4D6+6 damage and Stunned.}",
             [(23, 27)],
             AttackType.normal),
@@ -550,7 +550,7 @@ final Map<int, MonsterDescription> monsterDB = {
             AttackType.passive),
         Attack(
             "Heat Aura",
-            "Any team member that ends their movement within 6\" of the monster " +
+            "Any team member that ends their movement within 6\" of the monster "
                 "suffers 3D6 Energy damage.",
             [],
             AttackType.passive)
@@ -561,7 +561,7 @@ final Map<int, MonsterDescription> monsterDB = {
       },
       SpecialAttackQuestions({
         1: "Are there 2 or more enemies within 12\"?",
-        2: "Did the monster suffer Energy damage since it last activated, " +
+        2: "Did the monster suffer Energy damage since it last activated, "
             "and is there 0 or 1 enemy within 12\"?"
       }, false, SpeAttackPreamblePosition.onAllAttacks)),
   31: MonsterDescription(
@@ -573,20 +573,20 @@ final Map<int, MonsterDescription> monsterDB = {
       [
         Attack(
             "Penetrating Pinions",
-            "3x attacks (Ranged, Combat, 1D6+3 damage). " +
-                "If hit, target must pass a FOR check {0}. " +
+            "3x attacks (Ranged, Combat, 1D6+3 damage). "
+                "If hit, target must pass a FOR check {0}. "
                 "Failure => {Poisoned and Stunned.}",
             [(22, 26)],
             AttackType.normal),
         Attack(
             "Explosion of Spines",
-            "All enemies within 18\" must pass a FOR check {0}. " +
+            "All enemies within 18\" must pass a FOR check {0}. "
                 "Failure => {Poisoned.}",
             [(17, 21)],
             AttackType.area),
         Attack(
             "Restraining Spines",
-            "The 2 closest enemies must pass a DEX check {0}. " +
+            "The 2 closest enemies must pass a DEX check {0}. "
                 "Failure => {Restrained.}",
             [(20, 24)],
             AttackType.normal),
@@ -597,7 +597,7 @@ final Map<int, MonsterDescription> monsterDB = {
       [
         Attack(
             "Sharp Vision",
-            "Whenever the Tarskyth makes an Acuity check to spot a Hidden " +
+            "Whenever the Tarskyth makes an Acuity check to spot a Hidden "
                 "enemy, it may roll twice and select the best result.",
             [],
             AttackType.passive),
@@ -619,14 +619,14 @@ final Map<int, MonsterDescription> monsterDB = {
       [
         Attack(
             "Acidic Spit",
-            "1x attacks (Ranged, Combat, 3D6+4 damage). " +
-                "If hit, target must pass a DEX check {0}. " +
+            "1x attacks (Ranged, Combat, 3D6+4 damage). "
+                "If hit, target must pass a DEX check {0}. "
                 "Failure => {Blinded.}",
             [(21, 25)],
             AttackType.normal),
         Attack(
             "Acid Spray",
-            "All enemies within 12\" must pass a DEX check {0}. " +
+            "All enemies within 12\" must pass a DEX check {0}. "
                 "Failure => {2D6+2 damage and Blinded.}",
             [(20, 24)],
             AttackType.area),
@@ -639,7 +639,7 @@ final Map<int, MonsterDescription> monsterDB = {
             AttackType.passive),
         Attack(
             "Acidic Defense",
-            "Whenever the Ichor Spitter suffers Weapon damage, " +
+            "Whenever the Ichor Spitter suffers Weapon damage, "
                 "all enemies within 6\" suffer 1D6 damage.",
             [],
             AttackType.passive)
@@ -659,21 +659,21 @@ final Map<int, MonsterDescription> monsterDB = {
       [
         Attack(
             "Spine Fling",
-            "2x attacks (Ranged, Combat, 2D6+1 damage). " +
-                "If hit, target must pass a DEX check {0}. " +
+            "2x attacks (Ranged, Combat, 2D6+1 damage). "
+                "If hit, target must pass a DEX check {0}. "
                 "Failure => {Restrained.}",
             [(21, 25)],
             AttackType.normal),
         Attack(
             "Wrenching Impalement",
-            "Move adjacent to the Restrained enemy and that enemy must " +
-                "pass a FOR check {0}. " +
+            "Move adjacent to the Restrained enemy and that enemy must "
+                "pass a FOR check {0}. "
                 "Failure => {4D6 damage and Stunned.}",
             [(22, 26)],
             AttackType.normal),
         Attack(
             "Spine Spray",
-            "All enemies within 12\" must pass a DEX check {0}. " +
+            "All enemies within 12\" must pass a DEX check {0}. "
                 "Failure => {2D6 damage and Restrained.}",
             [(21, 25)],
             AttackType.area),
@@ -684,14 +684,14 @@ final Map<int, MonsterDescription> monsterDB = {
       [
         Attack(
             "Spine Defenses",
-            "Whenever the Spine Flinger suffers damage " +
+            "Whenever the Spine Flinger suffers damage "
                 "from a Weapon attack, it reduces that damage by 2.",
             [],
             AttackType.passive),
         Attack(
             "Spinal Impalement",
-            "When attempting to clear a condition " +
-                "caused by a Spine Flinger, team members suffer a -2 penalty to " +
+            "When attempting to clear a condition "
+                "caused by a Spine Flinger, team members suffer a -2 penalty to "
                 "the stat check.",
             [],
             AttackType.passive)
@@ -702,7 +702,7 @@ final Map<int, MonsterDescription> monsterDB = {
       },
       SpecialAttackQuestions({
         1: "Is there a Restrained enemy within 12\"?",
-        2: "Is there 1 or more enemies within 12\" AND has the Spine Flinger " +
+        2: "Is there 1 or more enemies within 12\" AND has the Spine Flinger "
             "been critically hit since its last activation?"
       }, false, SpeAttackPreamblePosition.onAllAttacks)),
   34: MonsterDescription(
@@ -719,17 +719,17 @@ final Map<int, MonsterDescription> monsterDB = {
             AttackType.normal),
         Attack(
             "Scatter Shot",
-            "1x attack (Ranged, Combat, Energy, 2D6+2 damage) against each " +
-                "enemy within 18\" that can be seen. " +
-                "If hit, target must pass a DEX check {0}. " +
+            "1x attack (Ranged, Combat, Energy, 2D6+2 damage) against each "
+                "enemy within 18\" that can be seen. "
+                "If hit, target must pass a DEX check {0}. "
                 "Failure => {Blinded.}",
             [(20, 24)],
             AttackType.area),
         Attack(
             "Restraining Shot",
-            "The closest enemy in line of sight must pass a DEX check {0}. " +
-                "Failure => {3D6 damage and Restrained. " +
-                "In addition, each time the target attempts to clear " +
+            "The closest enemy in line of sight must pass a DEX check {0}. "
+                "Failure => {3D6 damage and Restrained. "
+                "In addition, each time the target attempts to clear "
                 "this Restrained condition and fails, it suffers 3D6 damage.}",
             [(24, 28)],
             AttackType.normal),
@@ -740,15 +740,15 @@ final Map<int, MonsterDescription> monsterDB = {
       [
         Attack(
             "Shock Trooper",
-            "At the start of every activation, auto-clear one condition " +
-                "(if multiple conditions, choose randomly). " +
-                "The Navite Warrior can still attempt to clear another condition as " +
+            "At the start of every activation, auto-clear one condition "
+                "(if multiple conditions, choose randomly). "
+                "The Navite Warrior can still attempt to clear another condition as "
                 "normal.",
             [],
             AttackType.passive),
         Attack(
             "True Frenzy",
-            "2 additional actions when In Extremis, suffers 4D6 damage instead " +
+            "2 additional actions when In Extremis, suffers 4D6 damage instead "
                 "of 2D6.",
             [],
             AttackType.passive)
@@ -770,24 +770,24 @@ final Map<int, MonsterDescription> monsterDB = {
       [
         Attack(
             "Pulse Wave (Psionic)",
-            "All enemies within 12\" must pass a FOR check {0}. " +
+            "All enemies within 12\" must pass a FOR check {0}. "
                 "Failure => {1D6 damage and Stunned.}",
             [(18, 22)],
             AttackType.area),
         Attack(
             "Focusing Wave",
-            "Target the closest Stunned enemy. If tied, choose randomly. " +
-                "1x attack (Ranged, Psionic, 4D6+2 damage). " +
-                "If attack scores a critical hit, target must pass a FOR check {0}. " +
+            "Target the closest Stunned enemy. If tied, choose randomly. "
+                "1x attack (Ranged, Psionic, 4D6+2 damage). "
+                "If attack scores a critical hit, target must pass a FOR check {0}. "
                 "Failure => {Out of Action.}",
             [(25, 29)],
             AttackType.normal),
         Attack(
             "Chaos Suggestion",
-            "All enemies within 12\" that are Stunned must pass a FOR check {0}. " +
-                "Failure => {Next time that enemy activates, " +
-                "if they do not clear the Stunned condition, they must use their " +
-                "attack action and determine their target randomly from all targets " +
+            "All enemies within 12\" that are Stunned must pass a FOR check {0}. "
+                "Failure => {Next time that enemy activates, "
+                "if they do not clear the Stunned condition, they must use their "
+                "attack action and determine their target randomly from all targets "
                 "they can see, whether friend or foe.}",
             [(20, 24)],
             AttackType.area),
@@ -798,19 +798,19 @@ final Map<int, MonsterDescription> monsterDB = {
       [
         Attack(
             "Mental Defenses",
-            "Whenever an enemy utilizes any ability with the " +
-                "Psionic keyword while within 12\" of the Pulsar, they suffer 1D6 damage. " +
-                "In addition, whenever the Pulsar makes a stat check to avoid or " +
-                "clear a condition caused by an attack with the Psionic keyword, the " +
+            "Whenever an enemy utilizes any ability with the "
+                "Psionic keyword while within 12\" of the Pulsar, they suffer 1D6 damage. "
+                "In addition, whenever the Pulsar makes a stat check to avoid or "
+                "clear a condition caused by an attack with the Psionic keyword, the "
                 "Pulsar rolls the stat check twice and selects the highest result.",
             [],
             AttackType.passive),
         Attack(
             "Derangement",
-            "If an enemy activates within 12\" of the Pulsar and is " +
-                "under the effect of any condition, they move randomly. Determine a " +
-                "random direction and move the enemy their full movement distance " +
-                "in a straight line in that direction. If this would carry the model into " +
+            "If an enemy activates within 12\" of the Pulsar and is "
+                "under the effect of any condition, they move randomly. Determine a "
+                "random direction and move the enemy their full movement distance "
+                "in a straight line in that direction. If this would carry the model into "
                 "Dangerous terrain, or cause it to fall, roll for those effects as normal.",
             [],
             AttackType.passive)
@@ -833,8 +833,8 @@ final Map<int, MonsterDescription> monsterDB = {
       [
         Attack(
             "Shocking Blast",
-            "2x attacks (Ranged, Combat, Energy, 2D6+1 damage). " +
-                "If hit, target must pass a DEX check {0}. " +
+            "2x attacks (Ranged, Combat, Energy, 2D6+1 damage). "
+                "If hit, target must pass a DEX check {0}. "
                 "Failure => {Blinded.}",
             [(20, 24)],
             AttackType.normal),
@@ -846,25 +846,25 @@ final Map<int, MonsterDescription> monsterDB = {
         Attack(
             "Energy Defenses",
             // let user keep track of this
-            "Whenever the Yvenian Shocker is hit by an attack with the Energy " +
-                "keyword, it reduces all damage suffered by half (rounding down). " +
-                "In addition, increase the number of attacks it makes with its Voltage " +
+            "Whenever the Yvenian Shocker is hit by an attack with the Energy "
+                "keyword, it reduces all damage suffered by half (rounding down). "
+                "In addition, increase the number of attacks it makes with its Voltage "
                 "Blast attack (see below) by one during its next activation.",
             [],
             AttackType.passive),
         Attack(
             "Voltage Rejoinder",
-            "If the Yvenian Shocker is critically hit by any attack, increase " +
-                "the damage during its next activation by 2D6. This is cumulative " +
-                "if the Yvenian Shocker suffers multiple critical hits between its " +
-                "activations, but the bonus applies only to attacks made during its " +
+            "If the Yvenian Shocker is critically hit by any attack, increase "
+                "the damage during its next activation by 2D6. This is cumulative "
+                "if the Yvenian Shocker suffers multiple critical hits between its "
+                "activations, but the bonus applies only to attacks made during its "
                 "next activation.",
             [],
             AttackType.passive),
         Attack(
             "Shocking Conclusion",
-            "Whenever the Yvenian Shocker is In Extremis, all enemies within " +
-                "12\" suffer damage equal to the In Extremis damage rolled by " +
+            "Whenever the Yvenian Shocker is In Extremis, all enemies within "
+                "12\" suffer damage equal to the In Extremis damage rolled by "
                 "the Yvenian Shocker.",
             [],
             AttackType.passive)
@@ -881,24 +881,24 @@ final Map<int, MonsterDescription> monsterDB = {
       [
         Attack(
             "Blast",
-            "1x attack (Ranged, Combat, Energy, 4D6+3 damage). " +
-                "If hit, target must pass a FOR check {0}. " +
-                "Failure => {Stunned. In addition, if the attack hits, all " +
-                "enemies within 6\" of the target must pass a DEX " +
+            "1x attack (Ranged, Combat, Energy, 4D6+3 damage). "
+                "If hit, target must pass a FOR check {0}. "
+                "Failure => {Stunned. In addition, if the attack hits, all "
+                "enemies within 6\" of the target must pass a DEX "
                 "check {0} or suffer 2D6+1 damage.}",
             [(20, 24)],
             AttackType.normal),
         Attack(
             "Leveling Blast",
-            "All enemies within 12\" must pass a DEX check {0}. " +
+            "All enemies within 12\" must pass a DEX check {0}. "
                 "Failure => {1D6+6 damage and Blinded.}",
             [(20, 24)],
             AttackType.area),
         Attack(
             "Disrupting Blast",
             // typo in the rules here +20
-            "1x attack (Ranged, Combat, Energy, 3D6+5 damage). " +
-                "If hit, target must pass a FOR check {0}. " +
+            "1x attack (Ranged, Combat, Energy, 3D6+5 damage). "
+                "If hit, target must pass a FOR check {0}. "
                 "Failure => {Stunned.}",
             [(22, 26)],
             AttackType.normal),
@@ -910,15 +910,15 @@ final Map<int, MonsterDescription> monsterDB = {
       [
         Attack(
             "Explosive Engine",
-            "Whenever the Cannonade suffers damage " +
-                "from a Weapon attack, all enemies within 12\" of the Cannonade " +
+            "Whenever the Cannonade suffers damage "
+                "from a Weapon attack, all enemies within 12\" of the Cannonade "
                 "suffer 1D6 damage.",
             [],
             AttackType.passive),
         Attack(
             "Final Detonation",
-            "All enemies within 24\" must pass a DEX check {0}. " +
-                "Failure => {5D6+3 damage. Once this attack is resolved, " +
+            "All enemies within 24\" must pass a DEX check {0}. "
+                "Failure => {5D6+3 damage. Once this attack is resolved, "
                 "the Cannonade is Out of Action and Removed from Play.}",
             [(20, 24)],
             // would be an area attack, but this attack is special
@@ -944,20 +944,20 @@ final Map<int, MonsterDescription> monsterDB = {
       [
         Attack(
             "Mind Stab",
-            "1x attack (Ranged, Psionic, 1D6+2 damage). " +
-                "If hit, target must pass a FOR check {0}. " +
+            "1x attack (Ranged, Psionic, 1D6+2 damage). "
+                "If hit, target must pass a FOR check {0}. "
                 "Failure => {Stunned.}",
             [(21, 25)],
             AttackType.normal),
         Attack(
             "Visions of Nightmares (Psionic)",
-            "All enemies within 18\" must pass a DEX check {0}. " +
+            "All enemies within 18\" must pass a DEX check {0}. "
                 "Failure => {2D6 damage and Blinded.}",
             [(21, 25)],
             AttackType.area),
         Attack(
             "Overwhelming Visions (Psionic)",
-            "All Blinded enemies within 18\" must pass a FOR check {0}. " +
+            "All Blinded enemies within 18\" must pass a FOR check {0}. "
                 "Failure => {2D6+3 damage and Stunned.}",
             [(24, 28)],
             AttackType.area),
@@ -973,11 +973,11 @@ final Map<int, MonsterDescription> monsterDB = {
             AttackType.passive),
         Attack(
             "Nightmare to Behold",
-            "When an enemy makes an attack against " +
-                "the Mind Raker while within 6\" of it, that enemy's Combat score is " +
-                "treated as 10, unless that score is already lower than 10. If the enemy " +
-                "is currently under the effect of a condition that would reduce " +
-                "their Combat score, this condition is applied before the determination " +
+            "When an enemy makes an attack against "
+                "the Mind Raker while within 6\" of it, that enemy's Combat score is "
+                "treated as 10, unless that score is already lower than 10. If the enemy "
+                "is currently under the effect of a condition that would reduce "
+                "their Combat score, this condition is applied before the determination "
                 "of 10 or lower is made.",
             [],
             AttackType.passive)
@@ -1004,13 +1004,13 @@ final Map<int, MonsterDescription> monsterDB = {
             AttackType.normal),
         Attack(
             "Hide",
-            "The Chaos Bringer becomes Hidden. The Acuity " +
+            "The Chaos Bringer becomes Hidden. The Acuity "
                 "check to spot this Hidden alien creature is 21.",
             [],
             AttackType.normal),
         Attack(
             "Chaotic Maelstrom (Psionic)",
-            "All enemies within 18\" must pass a FOR check {0}. " +
+            "All enemies within 18\" must pass a FOR check {0}. "
                 "Failure => {2D6+1 damage and Poisoned.}",
             [(21, 25)],
             AttackType.area),
@@ -1021,14 +1021,14 @@ final Map<int, MonsterDescription> monsterDB = {
       [
         Attack(
             "Chaos Bringer",
-            "As long as the Chaos Bringer is alive, at the start " +
+            "As long as the Chaos Bringer is alive, at the start "
                 "of each round, add 1 to the roll to determine if a FUBAR event occurs.",
             [],
             AttackType.passive),
         Attack(
             "Chthonic Form",
-            "If an enemy successfully spots the Chaos Bringer " +
-                "while it is Hidden, that enemy suffers 3D6 damage. This damage " +
+            "If an enemy successfully spots the Chaos Bringer "
+                "while it is Hidden, that enemy suffers 3D6 damage. This damage "
                 "has the Psionic keyword.",
             [],
             AttackType.passive)
@@ -1056,14 +1056,14 @@ final Map<int, MonsterDescription> monsterDB = {
       [
         Attack(
             "Shadow Coils",
-            "2x attacks (Melee, Combat, 1D6+3 damage). " +
-                "If hit, target must pass a DEX check {0}. " +
+            "2x attacks (Melee, Combat, 1D6+3 damage). "
+                "If hit, target must pass a DEX check {0}. "
                 "Failure => {Blinded.}",
             [(22, 26)],
             AttackType.normal),
         Attack(
             "Grasping Shadows",
-            "All enemies within 18\" must pass a DEX check {0}. " +
+            "All enemies within 18\" must pass a DEX check {0}. "
                 "Failure => {3D6 damage and Blinded.}",
             [(20, 24)],
             AttackType.area),
@@ -1074,21 +1074,21 @@ final Map<int, MonsterDescription> monsterDB = {
       [
         Attack(
             "Shadow Cloak",
-            "When the Gzurn Shadow is set up, and at the " +
-                "start of each round, it automatically becomes Hidden. " +
+            "When the Gzurn Shadow is set up, and at the "
+                "start of each round, it automatically becomes Hidden. "
                 "To spot it, pass ACU check {0}.",
             [(23, 27)],
             AttackType.passive),
         Attack(
             "One with Darkness",
-            "When an enemy attempts to spot a Gzurn " +
-                "Shadow using an Acuity stat check, they must roll twice and select " +
+            "When an enemy attempts to spot a Gzurn "
+                "Shadow using an Acuity stat check, they must roll twice and select "
                 "the lowest result.",
             [],
             AttackType.passive),
         Attack(
             "Wrap in Night",
-            "If the Gzurn Shadow critically hits an enemy with " +
+            "If the Gzurn Shadow critically hits an enemy with "
                 "an attack, that enemy is automatically Blinded.",
             [],
             AttackType.passive)
@@ -1114,25 +1114,25 @@ final Map<int, MonsterDescription> monsterDB = {
       [
         Attack(
             "Bladed Strikes",
-            "2x attacks (Melee, Combat, 1D6+6 damage). " +
-                "If hit, target must pass a FOR check {0}. " +
+            "2x attacks (Melee, Combat, 1D6+6 damage). "
+                "If hit, target must pass a FOR check {0}. "
                 "Failure => {Poisoned.}",
             [(21, 25)],
             AttackType.normal),
         Attack(
             "Bladed Frenzy",
-            "4x Surprise attacks (Melee, Combat, 1D6+6 damage). " +
-                "If hit, target must pass a FOR check {0}. " +
+            "4x Surprise attacks (Melee, Combat, 1D6+6 damage). "
+                "If hit, target must pass a FOR check {0}. "
                 "Failure => {Poisoned.}",
             [(21, 25)],
             AttackType.normal),
         Attack(
             "Strike and Fade",
-            "1x attacks (Melee, Combat, 1D6+6 damage). " +
-                "If hit, target must pass a FOR check {0}. " +
-                "Failure => {Poisoned.} " +
-                "The monster may immediately move its full movement away from the closest enemy " +
-                "into the nearest cover, if possible. At the end of this movement, it " +
+            "1x attacks (Melee, Combat, 1D6+6 damage). "
+                "If hit, target must pass a FOR check {0}. "
+                "Failure => {Poisoned.} "
+                "The monster may immediately move its full movement away from the closest enemy "
+                "into the nearest cover, if possible. At the end of this movement, it "
                 "becomes Hidden.",
             [(21, 25)],
             AttackType.normal),
@@ -1143,19 +1143,19 @@ final Map<int, MonsterDescription> monsterDB = {
       [
         Attack(
             "Stalker",
-            "When the Razorslash is set up, it is automatically Hidden. " +
+            "When the Razorslash is set up, it is automatically Hidden. "
                 "To spot it, pass ACU check {0}.",
             [(21, 21)],
             AttackType.passive),
         Attack(
             "Bladed Reprisal",
-            "When an enemy within 6\" of a Razorlash hits " +
+            "When an enemy within 6\" of a Razorlash hits "
                 "with a Weapon attack, that enemy suffers 1D6 damage.",
             [],
             AttackType.passive),
         Attack(
             "Alien Form",
-            "The Razorlash is immune to the Blinded condition " +
+            "The Razorlash is immune to the Blinded condition "
                 "and automatically passes any checks to avoid this condition.",
             [],
             AttackType.passive)
@@ -1180,29 +1180,30 @@ final Map<int, MonsterDescription> monsterDB = {
       [
         Attack(
             "Clawed Strike",
-            "1x attack (Melee, Combat, 3D6+3 damage). " +
-                "If hit, target must pass a FOR check {0}. " +
+            "1x attack (Melee, Combat, 3D6+3 damage). "
+                "If hit, target must pass a FOR check {0}. "
                 "Failure => {Poisoned.}",
             [(23, 27)],
             AttackType.normal),
+        Attack("Careful Stalking (Visible)", "Become Hidden.", [],
+            AttackType.normal),
         Attack(
-            "Careful Stalking",
-            "If the Renvultia Stalker is not Hidden, " +
-                "it becomes Hidden. If it is already Hidden, when the Renvultia " +
-                "Stalker next activates, if it is still Hidden when it makes its first " +
-                "Combat attack, it may roll the Combat stat check twice and take " +
+            "Careful Stalking (Hidden)",
+            "When the Renvultia "
+                "Stalker next activates, if it is still Hidden when it makes its first "
+                "Combat attack, it may roll the Combat stat check twice and take "
                 "the highest result.",
             [],
             AttackType.normal),
         Attack(
             "Flurry of Strikes",
-            "Move adjacent to the closest enemy and make " +
-                "1x attack (Melee, Combat, 3D6+3 damage). " +
-                "If hit, target must pass a FOR check {0}. " +
-                "Failure => {Poisoned.} " +
-                "Repeat this process for the next closest enemy, other than " +
-                "the enemy just attacked. Repeat this process a maximum " +
-                "of four times, or until it has moved at least 24\" during this action, " +
+            "Move adjacent to the closest enemy and make "
+                "1x attack (Melee, Combat, 3D6+3 damage). "
+                "If hit, target must pass a FOR check {0}. "
+                "Failure => {Poisoned.} "
+                "Repeat this process for the next closest enemy, other than "
+                "the enemy just attacked. Repeat this process a maximum "
+                "of four times, or until it has moved at least 24\" during this action, "
                 "whichever comes first.",
             [(23, 27)],
             AttackType.normal),
@@ -1213,15 +1214,15 @@ final Map<int, MonsterDescription> monsterDB = {
       [
         Attack(
             "Shadowed Speed",
-            "When the Renvultia Stalker moves more than " +
-                "half its full movement distance (12\" or more), if it ends " +
-                "this movement outside of 1\" of an enemy, it becomes Hidden. The " +
+            "When the Renvultia Stalker moves more than "
+                "half its full movement distance (12\" or more), if it ends "
+                "this movement outside of 1\" of an enemy, it becomes Hidden. The "
                 "Acuity check to spot a Hidden Renvultia Stalker is {0}.",
             [(21, 25)],
             AttackType.passive),
         Attack(
             "Devastating Surprise",
-            "When the Renvultia Stalker makes an attack " +
+            "When the Renvultia Stalker makes an attack "
                 "with Surprise, it deals an additional 2D6 damage.",
             [],
             AttackType.passive)
@@ -1249,14 +1250,14 @@ final Map<int, MonsterDescription> monsterDB = {
       [
         Attack(
             "Paralyzing Vision",
-            "3x attacks (Melee, Psionic, 1D6+2 damage). " +
-                "If hit, target must pass a FOR check {0}. " +
+            "3x attacks (Melee, Psionic, 1D6+2 damage). "
+                "If hit, target must pass a FOR check {0}. "
                 "Failure => {Stunned.}",
             [(20, 24)],
             AttackType.normal),
         Attack(
             "Poisonous Visions (Psionic)",
-            "The 2 closest enemies within 18\" must pass a FOR check {0}. " +
+            "The 2 closest enemies within 18\" must pass a FOR check {0}. "
                 "Failure => {2D6 damage and Poisoned.}",
             [(22, 26)],
             AttackType.area),
@@ -1267,29 +1268,29 @@ final Map<int, MonsterDescription> monsterDB = {
       [
         Attack(
             "Blinding Vision",
-            "Whenever an enemy makes a Weapon attack " +
-                "against the Ocular Enigma, they must succeed on a DEX " +
-                "check {0} or become Blinded. This stat check to avoid the " +
-                "condition is made before the attack is made and if the stat check " +
-                "is failed, the attacker no longer has line of sight to the enemy and " +
-                "may not attack. They may instead choose a different action for " +
+            "Whenever an enemy makes a Weapon attack "
+                "against the Ocular Enigma, they must succeed on a DEX "
+                "check {0} or become Blinded. This stat check to avoid the "
+                "condition is made before the attack is made and if the stat check "
+                "is failed, the attacker no longer has line of sight to the enemy and "
+                "may not attack. They may instead choose a different action for "
                 "this activation.",
             [(19, 23)],
             AttackType.passive),
         Attack(
             "Blinding Surprise",
-            "The Ocular Enigma counts as Hidden from any " +
-                "enemy with the Blinded condition and has Surprise on any attack " +
-                "made against a Blinded enemy. Unlike normal Hidden, the enemy " +
-                "may not make an Acuity check to spot the Ocular Enigma; they " +
-                "may only clear or remove the Blinded condition, at which point " +
+            "The Ocular Enigma counts as Hidden from any "
+                "enemy with the Blinded condition and has Surprise on any attack "
+                "made against a Blinded enemy. Unlike normal Hidden, the enemy "
+                "may not make an Acuity check to spot the Ocular Enigma; they "
+                "may only clear or remove the Blinded condition, at which point "
                 "the Ocular Enigma is no longer Hidden.",
             [],
             AttackType.passive),
         Attack(
             "Powerful Vision",
-            "When the Ocular Enigma makes an Acuity stat " +
-                "check to spot a Hidden enemy, it may roll twice and select the " +
+            "When the Ocular Enigma makes an Acuity stat "
+                "check to spot a Hidden enemy, it may roll twice and select the "
                 "best result.",
             [],
             AttackType.passive)
@@ -1314,27 +1315,27 @@ final Map<int, MonsterDescription> monsterDB = {
       [
         Attack(
             "Lashing Flurry",
-            "3x attacks (Melee, Combat, 1D6+1 damage). " +
-                "If hit, target must pass a DEX check {0} and a FOR check {1}. " +
+            "3x attacks (Melee, Combat, 1D6+1 damage). "
+                "If hit, target must pass a DEX check {0} and a FOR check {1}. "
                 "Failure => {On DEX check -> Restrained. On FOR check -> Poisoned.}",
             [(20, 24), (20, 24)],
             AttackType.normal),
         Attack(
             "Drag and Rake",
-            "The Restrained enemy is removed from play and the Poisoned " +
-                "Lasher moves its full movement distance away from the previous " +
-                "position of the removed enemy, to the highest vertical point it " +
-                "can reach within its movement distance. The removed enemy is " +
-                "then set up adjacent to the Poisoned Lasher in the Poisoned Lasher's " +
-                "new position. If there is no room to set up the enemy, reposition " +
-                "the Poisoned Lasher so there is room to set up both models. " +
-                "(i.e. the enemy may not be placed somewhere the model will fall.) " +
+            "The Restrained enemy is removed from play and the Poisoned "
+                "Lasher moves its full movement distance away from the previous "
+                "position of the removed enemy, to the highest vertical point it "
+                "can reach within its movement distance. The removed enemy is "
+                "then set up adjacent to the Poisoned Lasher in the Poisoned Lasher's "
+                "new position. If there is no room to set up the enemy, reposition "
+                "the Poisoned Lasher so there is room to set up both models. "
+                "(i.e. the enemy may not be placed somewhere the model will fall.) "
                 "The enemy that was removed and re-set suffers 4D6+2 damage.",
             [],
             AttackType.normal),
         Attack(
             "Poison Spray",
-            "All enemies within 12\" must pass a FOR check {0}. " +
+            "All enemies within 12\" must pass a FOR check {0}. "
                 "Failure => {1D6 damage and Poisoned.}",
             [(20, 24)],
             AttackType.area),
@@ -1345,22 +1346,22 @@ final Map<int, MonsterDescription> monsterDB = {
       [
         Attack(
             "Careful Stalker",
-            "When the Poisoned Lasher is set up, it automatically " +
-                "becomes Hidden. The Acuity check to spot a Hidden Poisoned " +
+            "When the Poisoned Lasher is set up, it automatically "
+                "becomes Hidden. The Acuity check to spot a Hidden Poisoned "
                 "Lasher is {0}.",
             [(20, 24)],
             AttackType.passive),
         Attack(
             "Extended Reach",
-            "The Poisoned Lasher can make Combat attacks " +
-                "from 3\" instead of the normal 1\". When it moves to an enemy to " +
-                "attack, it will stop its movement at 3\" away and then proceed with " +
+            "The Poisoned Lasher can make Combat attacks "
+                "from 3\" instead of the normal 1\". When it moves to an enemy to "
+                "attack, it will stop its movement at 3\" away and then proceed with "
                 "its normal actions as per Stalker AI.",
             [],
             AttackType.passive),
         Attack(
             "Restraining Killer",
-            "If the Poisoned Lasher successfully hits an enemy " +
+            "If the Poisoned Lasher successfully hits an enemy "
                 "that is Restrained, that attack will deal an extra 2D6 damage.",
             [],
             AttackType.passive)

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mizai/decisionTree.dart';
 import 'utils.dart';
 
 class Preamble {
@@ -132,8 +133,8 @@ class MonsterDescription {
     return attacks.length;
   }
 
-  bool isStalker() {
-    return aiType == AIType.stalker;
+  bool isStalkerLike() {
+    return aiType == AIType.stalker || aiType == AIType.renvultia;
   }
 }
 
@@ -165,6 +166,11 @@ enum DecisionKey {
   willNOTMakeAreaAttack,
   yesToAreaAttackQuestion,
   noToAreaAttackQuestion,
+  // renvultia things
+  hasUsedCarefulStalking,
+  hasUsedClawedStrike,
+  hasUsedFlurry,
+  activateStalkingBonus,
 }
 
 enum ActivationTriggerType { firstInitiative, secondInitiative, special }
@@ -462,5 +468,103 @@ class GameState {
 
   bool isMultiplayerGame() {
     return allGameMonsters.length > 1;
+  }
+}
+
+/// I think the general idea of this monster is that it doesn't attack often,
+/// but when it does it hits really hard. Like it waits and super charges its
+/// attack.
+/// The monster will always use careful stalking twice
+/// before moving to an attack. When attacking, it will cycle between
+/// the basic and the special.
+/// 2 stalk -> attack basic -> 2 stalk -> attack special -> 2 stalk...
+/// It may not always cycle the attacks correctly, depending on the situation.
+/// So there could be several stalk/flurry cycles, or several stalk/basic
+/// one after the other.
+/// Will revert to default behavior if:
+///  - it cannot make the attack when it should be attacking (which makes it
+/// lose the bonus), for example if no one in range or visible.
+class RenvultiaStalker extends StatefulMonster {
+  int carefulStalkingCounter = 0;
+  bool isCarefulStalkingBonusActive = false;
+
+  RenvultiaStalker(super.desc, super.phase) {
+    if (super.desc.aiType != AIType.renvultia ||
+        super.desc.species != MonsterSpecies.renvultia) {
+      throw Exception("Wrong MonsterDescription given.");
+    }
+  }
+
+  Widget useClawedStrike(
+      BuildContext context, Widget endPoint, Preamble preamble) {
+    decisionsMemory.add(DecisionKey.hasUsedClawedStrike);
+    return makeBasicAttack(context, endPoint, preamble);
+  }
+
+  Widget useCarefulStalkingWhileHidden(
+      BuildContext context, Widget endPoint, Preamble preamble) {
+    decisionsMemory.add(DecisionKey.hasUsedCarefulStalking);
+    decisionsMemory.add(DecisionKey.activateStalkingBonus);
+    return makeSpecialAttack(context, endPoint, preamble, 2);
+  }
+
+  Widget useCarefulStalkingWhileVisible(
+      BuildContext context, Widget endPoint, Preamble preamble) {
+    decisionsMemory.add(DecisionKey.hasUsedCarefulStalking);
+    return makeSpecialAttack(context, endPoint, preamble, 1);
+  }
+
+  Widget useFlurry(BuildContext context, Widget endPoint, Preamble preamble) {
+    decisionsMemory.add(DecisionKey.hasUsedFlurry);
+    return makeSpecialAttack(context, endPoint, preamble, 3);
+  }
+
+  @override
+  void endAction() {
+    super.endAction();
+
+    if (decisionsMemory.contains(DecisionKey.hasUsedCarefulStalking)) {
+      carefulStalkingCounter += 1;
+      decisionsMemory.remove(DecisionKey.hasUsedCarefulStalking);
+    }
+
+    // reset stalking counter when using other attacks
+    if (decisionsMemory.contains(DecisionKey.hasUsedClawedStrike) ||
+        decisionsMemory.contains(DecisionKey.hasUsedFlurry)) {
+      carefulStalkingCounter = 0;
+      decisionsMemory.remove(DecisionKey.hasUsedClawedStrike);
+      decisionsMemory.remove(DecisionKey.hasUsedFlurry);
+    }
+
+    if (decisionsMemory.contains(DecisionKey.activateStalkingBonus)) {
+      isCarefulStalkingBonusActive = true;
+      decisionsMemory.remove(DecisionKey.activateStalkingBonus);
+    } else {
+      // bonus is active only for 1 action
+      // here we are at the end of the next action, so remove it
+      isCarefulStalkingBonusActive = false;
+    }
+  }
+
+  Widget startingPoint(BuildContext context, GameState gameState) {
+    if (carefulStalkingCounter >= 2) {
+      // time to attack
+      throw Exception("Not implemented yet"); // TODO
+    } else {
+      // need to stalk a bit more
+      if (isHidden) {
+        return useCarefulStalkingWhileHidden(
+            context,
+            EndOfAction(gameState: gameState),
+            Preamble(
+                "Move away from the nearest enemy, ending in cover if possible."));
+      } else {
+        return useCarefulStalkingWhileVisible(
+            context,
+            EndOfAction(gameState: gameState),
+            Preamble(
+                "Move away from the nearest enemy, ending in cover if possible."));
+      }
+    }
   }
 }

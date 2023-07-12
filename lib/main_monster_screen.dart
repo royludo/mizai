@@ -54,7 +54,7 @@ class _MainMonsterScreenState extends State<MainMonsterScreen> {
             return getStartingPoint(context, monster, widget.gameState);
           }
         case AIType.renvultia:
-          throw Exception("Not implemented yet"); // TODO
+          return getStartingPoint(context, monster, widget.gameState);
       }
     })).then((_) =>
         // need to clear memory else there is a bug when going back after
@@ -73,11 +73,9 @@ class _MainMonsterScreenState extends State<MainMonsterScreen> {
       case AIType.ravager:
         extraActivationButtonText = "Enemy ranged attack missed";
         break;
-      case AIType.stalker:
+      case AIType.stalker || AIType.renvultia:
         extraActivationButtonText = "Revealed from Hidden by enemy";
         break;
-      case AIType.renvultia:
-        throw Exception("Not implemented yet"); // TODO
     }
 
     return Column(children: [
@@ -138,7 +136,7 @@ class _MainMonsterScreenState extends State<MainMonsterScreen> {
             : const Icon(Icons.health_and_safety_outlined),
       ),
       // hidden switch, only matters for stalkers
-      monster.desc.aiType == AIType.stalker
+      monster.desc.isStalkerLike()
           ? SwitchListTile(
               title: const Text('Hidden'),
               activeColor: Colors.deepPurpleAccent,

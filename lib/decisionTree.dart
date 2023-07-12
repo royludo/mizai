@@ -35,7 +35,7 @@ Widget getStartingPoint(
         return stalker_tree.EnemyInMelee(gameState: gameState);
       }
     case AIType.renvultia:
-      throw Exception("Not implemented yet"); // TODO
+      return (monster as RenvultiaStalker).startingPoint(context, gameState);
   }
 }
 
@@ -356,7 +356,7 @@ class EndOfAction extends MonsterDecisionStep {
                           builder: (_) => MainScreenWrapper(
                                 gameState: gameState,
                                 showStalkerHiddenReminder:
-                                    monster.desc.aiType == AIType.stalker,
+                                    monster.desc.isStalkerLike(),
                               )),
                       (route) => false);
                 }
