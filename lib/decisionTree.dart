@@ -215,6 +215,9 @@ class SimpleSpecialDecision extends MonsterDecisionStep {
     var questionForAttack =
         monster.desc.specialAttackQuestions.questionForAttack;
 
+    // TODO put the nextAttack in front of the list of possibleAttacks ?
+    // not sure if that wouldn't cause regressions
+
     for (var attackIndex in possibleAttackIndexes) {
       //if (monster.isSpecificAttackAllowedNow(attackIndex)) { // isn't this always true?
       return Scaffold(

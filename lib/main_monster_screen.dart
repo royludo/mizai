@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'model.dart';
 import 'decisionTree.dart';
+import 'stalker_decision_tree.dart' as stalker_tree;
 
 class MainMonsterScreen extends StatefulWidget {
   const MainMonsterScreen(
@@ -30,25 +31,28 @@ class _MainMonsterScreenState extends State<MainMonsterScreen> {
       case ActivationTriggerType.special:
         monster.decisionsMemory.add(DecisionKey.activatedWithSpecial);
         break;
+      case ActivationTriggerType.benzithSpecific:
+        monster.decisionsMemory.add(DecisionKey.activatedWithMovement);
+        break;
     }
 
     Navigator.push(context, MaterialPageRoute(builder: (context) {
       // TODO refactor that...
       switch (monster.desc.aiType) {
-        case AIType.monstrosity:
-          if (monster.isInExtremis) {
-            return CheckInExtremis(gameState: widget.gameState);
-          } else {
-            return getStartingPoint(context, monster, widget.gameState);
-          }
-        case AIType.ravager:
+        case AIType.monstrosity || AIType.ravager:
           if (monster.isInExtremis) {
             return CheckInExtremis(gameState: widget.gameState);
           } else {
             return getStartingPoint(context, monster, widget.gameState);
           }
         case AIType.stalker:
-          if (monster.isInExtremis) {
+          if (monster.desc.species == MonsterSpecies.benzith &&
+              (triggerType == ActivationTriggerType.firstInitiative ||
+                  triggerType == ActivationTriggerType.secondInitiative)) {
+            // the special case for benzith, the 2 init activations don't count
+            // if there is no enemy around
+            return stalker_tree.BenzithSpecial(gameState: widget.gameState);
+          } else if (monster.isInExtremis) {
             return CheckInExtremis(gameState: widget.gameState);
           } else {
             return getStartingPoint(context, monster, widget.gameState);
@@ -78,6 +82,46 @@ class _MainMonsterScreenState extends State<MainMonsterScreen> {
         break;
     }
 
+    // there will be 3 buttons in general case, 4 for the benzith
+    List<ElevatedButton> activationButtons = [
+      ElevatedButton(
+        onPressed: monster.activationTriggers
+                    .contains(ActivationTriggerType.firstInitiative) ||
+                monster.maxActivationReached()
+            ? null
+            : () => activateMonster(ActivationTriggerType.firstInitiative),
+        child: Text(
+            "Initiative ${monster.desc.getAcuityFromPhase(monster.phase)}"),
+      ),
+      ElevatedButton(
+        onPressed: monster.activationTriggers
+                    .contains(ActivationTriggerType.secondInitiative) ||
+                monster.maxActivationReached()
+            ? null
+            : () => activateMonster(ActivationTriggerType.secondInitiative),
+        child: Text(
+            "Initiative ${monster.desc.getAcuityFromPhase(monster.phase) - 10}"),
+      ),
+      ElevatedButton(
+        onPressed: monster.maxActivationReached()
+            ? null
+            : () => activateMonster(ActivationTriggerType.special),
+        child: Text(extraActivationButtonText),
+      )
+    ];
+
+    if (monster.desc.species == MonsterSpecies.benzith) {
+      // benzith has special activation condition instead of initiative
+      activationButtons.add(
+        ElevatedButton(
+          onPressed: monster.maxActivationReached()
+              ? null
+              : () => activateMonster(ActivationTriggerType.benzithSpecific),
+          child: const Text("Enemy moved within movement range"),
+        ),
+      );
+    }
+
     return Column(children: [
       const Divider(
         thickness: 4,
@@ -105,10 +149,11 @@ class _MainMonsterScreenState extends State<MainMonsterScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  SelectableText("veryFirstAttack: ${monster.veryFirstAttack}\n" +
-                                      "nextAttackIndex: ${monster.nextAttackIndex}\n" +
-                                      "decisionsMemory: ${monster.decisionsMemory}\n" +
-                                      "hasMovedBefore: ${monster.hasMovedBefore}\n" +
+                                  SelectableText(
+                                      "veryFirstAttack: ${monster.veryFirstAttack}\n"
+                                      "nextAttackIndex: ${monster.nextAttackIndex}\n"
+                                      "decisionsMemory: ${monster.decisionsMemory}\n"
+                                      "hasMovedBefore: ${monster.hasMovedBefore}\n"
                                       "previousActionAttackIndexes: ${monster.previousActionAttackIndexes}"),
                                 ]),
                             actions: <Widget>[
@@ -159,31 +204,7 @@ class _MainMonsterScreenState extends State<MainMonsterScreen> {
             spacing: 8,
             direction: Axis.vertical,
             crossAxisAlignment: WrapCrossAlignment.center,
-            children: [
-              ElevatedButton(
-                  onPressed: monster.activationTriggers.contains(
-                              ActivationTriggerType.firstInitiative) ||
-                          monster.maxActivationReached()
-                      ? null
-                      : () => activateMonster(
-                          ActivationTriggerType.firstInitiative),
-                  child: Text(
-                      "Initiative ${monster.desc.getAcuityFromPhase(monster.phase)}")),
-              ElevatedButton(
-                  onPressed: monster.activationTriggers.contains(
-                              ActivationTriggerType.secondInitiative) ||
-                          monster.maxActivationReached()
-                      ? null
-                      : () => activateMonster(
-                          ActivationTriggerType.secondInitiative),
-                  child: Text(
-                      "Initiative ${monster.desc.getAcuityFromPhase(monster.phase) - 10}")),
-              ElevatedButton(
-                  onPressed: monster.maxActivationReached()
-                      ? null
-                      : () => activateMonster(ActivationTriggerType.special),
-                  child: Text(extraActivationButtonText))
-            ])
+            children: activationButtons)
       ]),
     ]);
   }

@@ -397,3 +397,49 @@ class ChaosBringerSpecial extends MonsterDecisionStep {
     }
   }
 }
+
+class BenzithSpecial extends MonsterDecisionStep {
+  const BenzithSpecial({super.key, required super.gameState});
+
+  @override
+  Widget build(BuildContext context) {
+    var monster = gameState.currentMonster;
+    //stdout.writeln("enemyInMelee with decisions: $decisions");
+
+    return GenericChoiceStep(
+      gameState: gameState,
+      title: "Situation BZ",
+      content: Column(children: [
+        const SimpleQuestionText(
+            "Is there any enemy within movement range (accounting for difficult "
+            "terrain and climbing penalty)?"),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            ElevatedButton(
+                onPressed: () {
+                  // activate normally
+                  Navigator.push(context, MaterialPageRoute(builder: (_) {
+                    if (monster.isInExtremis) {
+                      return CheckInExtremis(gameState: gameState);
+                    } else {
+                      return getStartingPoint(context, monster, gameState);
+                    }
+                  }));
+                },
+                child: const ButtonText("Yes")),
+            ElevatedButton(
+              onPressed: () {
+                // don't activate at all
+                // would be nice to grey out the initiative buttons
+                // but registering the activation makes things messy
+                Navigator.pop(context);
+              },
+              child: const ButtonText("No"),
+            )
+          ],
+        )
+      ]),
+    );
+  }
+}

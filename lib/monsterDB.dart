@@ -1384,4 +1384,85 @@ final Map<int, MonsterDescription> monsterDB = {
         {},
         false,
       )),
+  55: MonsterDescription(
+      "Benzith Night Bringer",
+      "Benzith N.B.",
+      25,
+      29,
+      AIType.stalker,
+      [
+        Attack(
+            "Dark Claws",
+            "2x attacks (Melee, Combat, 2D6 damage). "
+                "If hit, target must pass a DEX check {0}. "
+                "Failure => {Blinded.}",
+            [(19, 23)],
+            AttackType.normal),
+        Attack(
+            "Night Bringer (Psionic)",
+            "All enemies within 12\" must pass a DEX check {0}. "
+                "Failure => {1D6 damage and Blinded.} "
+                "The Benzith Night Bringer then becomes Hidden.",
+            [(19, 23)],
+            AttackType.area),
+        Attack(
+            "Final Vision",
+            "1x attack (Melee, Psionic, 4D6+2 damage). "
+                "If hit, target must pass a FOR check {0}. "
+                "Failure => {Stunned. As long as they are Stunned, they cannot "
+                "remove the Blinded condition. In addition, whenever this enemy "
+                "rolls to clear a condition, they must roll twice and select the "
+                "lowest result.}",
+            [(19, 23)],
+            AttackType.normal),
+      ],
+      MonsterSpecies.benzith,
+      55,
+      138,
+      [
+        Attack(
+            "Careful Stalker",
+            "When the Benzith Night Bringer is set up, it automatically "
+                "becomes Hidden. The Acuity check to spot a Hidden "
+                "Benzith Night Bringer is {0}.",
+            [(22, 26)],
+            AttackType.passive),
+        Attack(
+            "Patient Predator",
+            "When the Benzith Night Bringer activates, "
+                "if there is no enemy within its movement range (i.e. within its "
+                "Dexterity score in inches, including any additional movement it "
+                "may have to pay for Difficult terrain or climbing), it will Delay. "
+                "If it does Delay, it will not utilize its activation, which does not "
+                "count against its maximum of three activations per turn. Instead, "
+                "it immediately activates if an enemy moves within its movement "
+                "range, as above, or if it is revealed from being Hidden. Its activation "
+                "will happen immediately following the completion of the "
+                "activation of the triggering enemy. This is an exception to the "
+                "normal Stalker Enemy AI.",
+            [],
+            AttackType.passive),
+        Attack(
+            "Stalker in the Dark",
+            "If the Benzith Night Bringer successfully critically "
+                "hits an enemy that is Blinded, that attack will deal an extra "
+                "6D6 damage.",
+            [],
+            AttackType.passive)
+      ],
+      {
+        1: ([1], []),
+        2: ([2], [])
+      },
+      SpecialAttackQuestions({
+        1: "Are there 2 or more enemies within 12\" OR was the monster spotted "
+            "since it last activated?",
+        2: "Is there a Blinded enemy within 12\"?",
+      }, true, SpeAttackPreamblePosition.onAllAttacks),
+      StalkerSpecificAttributes(
+        (22, 26),
+        {0: false, 1: false, 2: false},
+        {},
+        false,
+      )),
 };

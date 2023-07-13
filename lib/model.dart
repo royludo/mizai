@@ -172,9 +172,16 @@ enum DecisionKey {
   hasUsedClawedStrike,
   hasUsedFlurry,
   activateStalkingBonus,
+  // benzith things
+  activatedWithMovement,
 }
 
-enum ActivationTriggerType { firstInitiative, secondInitiative, special }
+enum ActivationTriggerType {
+  firstInitiative,
+  secondInitiative,
+  special,
+  benzithSpecific
+}
 
 enum MonsterSpecies {
   avenkian,
@@ -202,6 +209,7 @@ enum MonsterSpecies {
   renvultia,
   ocular,
   lasher,
+  benzith,
 }
 
 /// Main monster object of the game
@@ -213,6 +221,8 @@ enum MonsterSpecies {
 /// The developer deems this acceptable. Better let the user have some undo
 /// possibility, and coding a true reversible history for the monster
 /// is too much.
+///
+/// Whole program should be using the Template design pattern
 class StatefulMonster {
   final MonsterDescription desc;
   final int phase; // 1 or 2
@@ -344,6 +354,9 @@ class StatefulMonster {
     }
     if (decisionsMemory.contains(DecisionKey.activatedWithSpecial)) {
       activationTriggers.add(ActivationTriggerType.special);
+    }
+    if (decisionsMemory.contains(DecisionKey.activatedWithMovement)) {
+      activationTriggers.add(ActivationTriggerType.benzithSpecific);
     }
     decisionsMemory.clear();
   }
