@@ -1228,18 +1228,22 @@ final Map<int, MonsterDescription> monsterDB = {
             AttackType.passive)
       ],
       {
-        1: ([], []),
-        2: ([2], [])
+        1: ([1], [1]), // make it impossible to reach normally
+        2: ([2], [2]), // make it impossible to reach normally
+        3: ([3], [])
       },
       SpecialAttackQuestions({
         1: "",
         2: "",
+        3: "",
       }, false, SpeAttackPreamblePosition.onAllAttacks),
       StalkerSpecificAttributes(
         (21, 25),
-        {0: true, 1: true, 2: true},
-        {0: true, 1: false, 2: false},
-        true,
+        {0: true, 1: true, 2: true, 3: true},
+        {0: true, 1: false, 2: true, 3: false},
+        // should be true, but the special case AI handles it
+        // making it true would interfere with the normal stalker behavior part
+        false,
       )),
   53: MonsterDescription(
       "Ocular Enigma",

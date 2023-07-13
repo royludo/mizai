@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mizai/decisionTree.dart';
 import 'utils.dart';
+import 'stalker_decision_tree.dart' as stalker_tree;
 
 class Preamble {
   final String unspecificPreamble;
@@ -498,25 +499,25 @@ class RenvultiaStalker extends StatefulMonster {
   Widget useClawedStrike(
       BuildContext context, Widget endPoint, Preamble preamble) {
     decisionsMemory.add(DecisionKey.hasUsedClawedStrike);
-    return makeBasicAttack(context, endPoint, preamble);
+    return super.makeBasicAttack(context, endPoint, preamble);
   }
 
   Widget useCarefulStalkingWhileHidden(
       BuildContext context, Widget endPoint, Preamble preamble) {
     decisionsMemory.add(DecisionKey.hasUsedCarefulStalking);
     decisionsMemory.add(DecisionKey.activateStalkingBonus);
-    return makeSpecialAttack(context, endPoint, preamble, 2);
+    return super.makeSpecialAttack(context, endPoint, preamble, 2);
   }
 
   Widget useCarefulStalkingWhileVisible(
       BuildContext context, Widget endPoint, Preamble preamble) {
     decisionsMemory.add(DecisionKey.hasUsedCarefulStalking);
-    return makeSpecialAttack(context, endPoint, preamble, 1);
+    return super.makeSpecialAttack(context, endPoint, preamble, 1);
   }
 
   Widget useFlurry(BuildContext context, Widget endPoint, Preamble preamble) {
     decisionsMemory.add(DecisionKey.hasUsedFlurry);
-    return makeSpecialAttack(context, endPoint, preamble, 3);
+    return super.makeSpecialAttack(context, endPoint, preamble, 3);
   }
 
   @override
@@ -549,7 +550,12 @@ class RenvultiaStalker extends StatefulMonster {
   Widget startingPoint(BuildContext context, GameState gameState) {
     if (carefulStalkingCounter >= 2) {
       // time to attack
-      throw Exception("Not implemented yet"); // TODO
+      if (isHidden) {
+        attackIndexesExcludedForAction.add(3);
+      } else {
+        attackIndexesExcludedForAction.add(0);
+      }
+      return stalker_tree.EnemyInMelee(gameState: gameState);
     } else {
       // need to stalk a bit more
       if (isHidden) {
@@ -566,5 +572,48 @@ class RenvultiaStalker extends StatefulMonster {
                 "Move away from the nearest enemy, ending in cover if possible."));
       }
     }
+  }
+
+  @override
+  Widget makeBasicAttack(
+      BuildContext context, Widget endPoint, Preamble preamble) {
+    return useClawedStrike(context, endPoint, preamble);
+  }
+
+  @override
+  Widget makeSpecialAttack(BuildContext context, Widget endPoint,
+      Preamble preamble, int specialAttackIndex,
+      [Attack? overrideAttack]) {
+    if (specialAttackIndex != 3) {
+      throw Exception(
+          "Renvultian Stalker can only make FLurry attack (index 3) "
+          "through normal AI behavior. Other incompatible index ($specialAttackIndex) "
+          "was provided.");
+    }
+    return useFlurry(context, endPoint, preamble);
+  }
+}
+
+Widget makeBasicAttackWithCast(StatefulMonster monster, BuildContext context,
+    Widget endPoint, Preamble preamble) {
+  switch (monster.desc.aiType) {
+    case AIType.renvultia:
+      return (monster as RenvultiaStalker)
+          .makeBasicAttack(context, endPoint, preamble);
+    default:
+      return monster.makeBasicAttack(context, endPoint, preamble);
+  }
+}
+
+Widget makeSpecialAttackWithCast(StatefulMonster monster, BuildContext context,
+    Widget endPoint, Preamble preamble, int specialAttackIndex,
+    [Attack? overrideAttack]) {
+  switch (monster.desc.aiType) {
+    case AIType.renvultia:
+      return (monster as RenvultiaStalker).makeSpecialAttack(
+          context, endPoint, preamble, specialAttackIndex, overrideAttack);
+    default:
+      return monster.makeSpecialAttack(
+          context, endPoint, preamble, specialAttackIndex, overrideAttack);
   }
 }

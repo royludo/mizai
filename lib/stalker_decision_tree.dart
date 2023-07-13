@@ -354,7 +354,8 @@ class ChaosBringerSpecial extends MonsterDecisionStep {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (_) => monster.makeSpecialAttack(
+                          builder: (_) => makeSpecialAttackWithCast(
+                              monster,
                               context,
                               EndOfAction(gameState: gameState),
                               Preamble.empty(),
@@ -369,7 +370,8 @@ class ChaosBringerSpecial extends MonsterDecisionStep {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (_) => monster.makeSpecialAttack(
+                        builder: (_) => makeSpecialAttackWithCast(
+                            monster,
                             context,
                             EndOfAction(gameState: gameState),
                             Preamble.empty(),
@@ -385,7 +387,8 @@ class ChaosBringerSpecial extends MonsterDecisionStep {
         );
       } else {
         // maelstrom not possible, use hide
-        return monster.makeSpecialAttack(
+        return makeSpecialAttackWithCast(
+            monster,
             context,
             EndOfAction(gameState: gameState),
             Preamble.empty(),

@@ -62,8 +62,8 @@ abstract class MonsterDecisionStep extends StatelessWidget {
           if (monster.isSpecificAttackAllowedNow(i)) {
             possibleAttackWithQuestionIndexes.add(i);
             if (!monster.specificSpeAttackRequireDecision(i)) {
-              return monster.makeSpecialAttack(
-                  context, nextStep, commonPreamble, i);
+              return makeSpecialAttackWithCast(
+                  monster, context, nextStep, commonPreamble, i);
             }
           }
         }
@@ -77,7 +77,9 @@ abstract class MonsterDecisionStep extends StatelessWidget {
         );
       } else {
         // spe attack not possible, revert to basic one
-        return monster.makeBasicAttack(context, nextStep, commonPreamble);
+        // cast monster to its specific type if possible
+        return makeBasicAttackWithCast(
+            monster, context, nextStep, commonPreamble);
       }
     }));
   }
@@ -236,8 +238,12 @@ class SimpleSpecialDecision extends MonsterDecisionStep {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => monster.makeSpecialAttack(
-                                  context, nextStep, preamble, attackIndex)));
+                              builder: (context) => makeSpecialAttackWithCast(
+                                  monster,
+                                  context,
+                                  nextStep,
+                                  preamble,
+                                  attackIndex)));
                     },
                     child: const ButtonText("Yes")),
                 ElevatedButton(
@@ -266,8 +272,8 @@ class SimpleSpecialDecision extends MonsterDecisionStep {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => monster.makeBasicAttack(
-                                    context, nextStep, preamble)));
+                                builder: (context) => makeBasicAttackWithCast(
+                                    monster, context, nextStep, preamble)));
                       }
                     },
                     child: const ButtonText("No"))
