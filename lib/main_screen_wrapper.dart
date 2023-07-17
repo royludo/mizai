@@ -3,6 +3,7 @@ import 'main.dart';
 import 'main_monster_screen.dart';
 import 'utils.dart';
 import 'model.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 class MainScreenWrapper extends StatefulWidget {
   const MainScreenWrapper(
@@ -22,6 +23,10 @@ class _MainScreenWrapperState extends State<MainScreenWrapper> {
   int selectedMonsterCode = -1;
   late StatefulMonster selectedMonster;
   bool debugMode = false;
+  // Version number can only be fetched async as a promise.
+  // Following is shown before promise completes, should never be
+  // actually visible though.
+  String version = "loading...";
 
   @override
   void initState() {
@@ -49,6 +54,12 @@ class _MainScreenWrapperState extends State<MainScreenWrapper> {
         );
       });
     }
+
+    PackageInfo.fromPlatform().then((PackageInfo packageInfo) {
+      setState(() {
+        version = packageInfo.version;
+      });
+    });
   }
 
   @override
@@ -181,8 +192,12 @@ class _MainScreenWrapperState extends State<MainScreenWrapper> {
                 value: 0,
                 child: const Text('Debug'),
               ),
+              PopupMenuItem(
+                enabled: false,
+                child: Text("version $version"),
+              ),
             ];
-          })
+          }),
         ],
       ),
       body: EverythingCenteredWidget(
