@@ -51,6 +51,22 @@ abstract class MonsterDecisionStep extends StatelessWidget {
       Preamble commonPreamble,
       MonsterDecisionStep nextStep) {
     Navigator.push(context, MaterialPageRoute(builder: (context) {
+      if (monster.desc.isStalkerLike()) {
+        //stderr.writeln("${monster.attackIndexesExcludedForAction}");
+        //stderr.writeln("${monster.desc.stalkerAttr!.attackRequiresHidden.entries}");
+
+        // exclude some attacks based on the hidden status
+        for (var MapEntry(key: attackIndex, value: attackRequiresHidden)
+            in monster.desc.stalkerAttr!.attackRequiresHidden.entries) {
+          // both attack requirement and hidden status must match for the attack to be possible
+          // if no match, it is excluded
+          if (attackRequiresHidden != monster.isHidden) {
+            monster.attackIndexesExcludedForAction.add(attackIndex);
+          }
+        }
+        //stderr.writeln("${monster.attackIndexesExcludedForAction}");
+      }
+
       if (monster.isSpecialAttackPossible() &&
           monster.isAnySpecialAttackAllowedNow()) {
         // first checks say it is possible to have a special attack

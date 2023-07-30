@@ -1161,7 +1161,7 @@ final Map<int, MonsterDescription> monsterDB = {
             AttackType.passive)
       ],
       {
-        1: ([1], []),
+        1: ([1, 2], []), // TODO is it right ? rules unclear about cycling here
         2: ([], [1])
       },
       SpecialAttackQuestions({}, false, SpeAttackPreamblePosition.onAllAttacks),
