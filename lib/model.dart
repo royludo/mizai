@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mizai/decisionTree.dart';
+import 'package:mizai/pulsar_decision_tree.dart';
 import 'utils.dart';
 import 'stalker_decision_tree.dart' as stalker_tree;
 
@@ -47,7 +48,7 @@ class Attack {
   }
 }
 
-enum AIType { monstrosity, ravager, stalker, renvultia }
+enum AIType { monstrosity, ravager, stalker, renvultia, pulsar }
 
 // onQuestion: preamble is put before question deciding attack
 // onAllAttacks, onBasicOnly: preamble is put on attack screen, before attack text
@@ -174,6 +175,10 @@ enum DecisionKey {
   activateStalkingBonus,
   // benzith things
   activatedWithMovement,
+
+  // pulsar things
+  enemyWithin12,
+  noEnemyWithin12,
 }
 
 enum ActivationTriggerType {
@@ -628,5 +633,126 @@ Widget makeSpecialAttackWithCast(StatefulMonster monster, BuildContext context,
     default:
       return monster.makeSpecialAttack(
           context, endPoint, preamble, specialAttackIndex, overrideAttack);
+  }
+}
+
+enum StepId {
+  enemyInMelee,
+  enemyWithin12,
+  ravagerStep2,
+  enemyInLOS,
+  ravagerStep4,
+  allEnemiesHidden,
+  attackFromCoverPossible,
+  ravagerStep7,
+  spotHiddenEnemies,
+  moveToCoverAttack,
+  moveAwayFromClosest,
+  attackClosestRevealed,
+  moveToClosestCover,
+
+  endOfAction,
+}
+
+abstract class ImprovedStatefulMonster extends StatefulMonster {
+  ImprovedStatefulMonster(super.desc, super.phase);
+
+  Map<StepId, List<StepId>> get tree;
+
+  StepId getNextStep(StepId stepId, int decisionIndex) {
+    return tree[stepId]![decisionIndex];
+  }
+
+  List<int> getAvailableAttacks();
+  Widget startingPoint(BuildContext context, GameState gameState);
+}
+
+abstract class Ravager extends ImprovedStatefulMonster {
+  Ravager(super.desc, super.phase);
+
+  @override
+  Widget startingPoint(BuildContext context, GameState gameState) {
+    return EnemyInMelee(gameState: gameState);
+  }
+}
+
+/// monster will be responsible for providing the decision tree
+/// where to go, which branch to take
+/// decision_tree file will only render widgets and ask for next step
+/// monster keeps the decision logic, decision_tree render logic
+/// monster is also responsible for choosing its own attack
+class PulsarRavager extends Ravager {
+  @override
+  Map<StepId, List<StepId>> tree = {
+    StepId.enemyInMelee: [StepId.enemyWithin12, StepId.ravagerStep2],
+    StepId.ravagerStep2: [StepId.endOfAction],
+    StepId.enemyWithin12: [StepId.enemyInLOS, StepId.ravagerStep4],
+    StepId.ravagerStep4: [StepId.endOfAction],
+    StepId.enemyInLOS: [
+      StepId.allEnemiesHidden,
+      StepId.attackFromCoverPossible
+    ],
+    StepId.attackFromCoverPossible: [
+      StepId.moveAwayFromClosest,
+      StepId.moveToCoverAttack
+    ],
+    StepId.moveToCoverAttack: [StepId.endOfAction],
+    StepId.moveAwayFromClosest: [StepId.endOfAction],
+    StepId.allEnemiesHidden: [StepId.ravagerStep7, StepId.spotHiddenEnemies],
+    StepId.ravagerStep7: [StepId.endOfAction],
+    StepId.spotHiddenEnemies: [
+      StepId.moveToClosestCover,
+      StepId.attackClosestRevealed
+    ],
+    StepId.moveToClosestCover: [StepId.endOfAction],
+    StepId.attackClosestRevealed: [StepId.endOfAction],
+  };
+
+  PulsarRavager(super.desc, super.phase) {
+    if (super.desc.aiType != AIType.pulsar ||
+        super.desc.species != MonsterSpecies.pulsar) {
+      throw Exception("Wrong MonsterDescription given.");
+    }
+  }
+
+  @override
+  List<int> getAvailableAttacks() {
+    List<int> availableAttacks = [];
+    availableAttacks.add(0); // basic attack always available
+
+    if (isSpecialAttackPossible() && isAnySpecialAttackAllowedNow()) {
+      // first checks say it is possible to have a special attack
+      // loop determines first available spe attack that does not
+      // require a decision step = 1st spe attack that auto apply
+      // in case there is no such auto attack, collect possible attacks
+      List<int> possibleAttackWithQuestionIndexes = [];
+      for (var i = 1; i < desc.attacks.length; i++) {
+        if (isSpecificAttackAllowedNow(i)) {
+          possibleAttackWithQuestionIndexes.add(i);
+          // following doesn't apply to pulsar
+          /*if (!monster.specificSpeAttackRequireDecision(i)) {
+            return makeSpecialAttackWithCast(
+                monster, context, nextStep, commonPreamble, i);
+          }*/
+        }
+      }
+      // at this point we are sure we need a decision for the special attack
+      // else the attack would have been made already
+      /*return SimpleSpecialDecision(
+        gameState: gameState,
+        preamble: commonPreamble,
+        possibleAttackIndexes: possibleAttackWithQuestionIndexes,
+        nextStep: nextStep,
+      );*/
+      availableAttacks.addAll(possibleAttackWithQuestionIndexes);
+    } /*else {
+      // spe attack not possible, revert to basic one
+      // cast monster to its specific type if possible
+      /*return makeBasicAttackWithCast(
+          monster, context, nextStep, commonPreamble);*/
+    }*/
+
+    availableAttacks.sort();
+    return availableAttacks.reversed.toList();
   }
 }

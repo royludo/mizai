@@ -39,7 +39,7 @@ class _MainMonsterScreenState extends State<MainMonsterScreen> {
     Navigator.push(context, MaterialPageRoute(builder: (context) {
       // TODO refactor that...
       switch (monster.desc.aiType) {
-        case AIType.monstrosity || AIType.ravager:
+        case AIType.monstrosity || AIType.ravager || AIType.pulsar:
           if (monster.isInExtremis) {
             return CheckInExtremis(gameState: widget.gameState);
           } else {
@@ -74,7 +74,7 @@ class _MainMonsterScreenState extends State<MainMonsterScreen> {
       case AIType.monstrosity:
         extraActivationButtonText = "Suffered critical hit";
         break;
-      case AIType.ravager:
+      case AIType.ravager || AIType.pulsar:
         extraActivationButtonText = "Enemy ranged attack missed";
         break;
       case AIType.stalker || AIType.renvultia:

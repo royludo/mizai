@@ -121,6 +121,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 allMonsterList.add(RenvultiaStalker(
                     monsterDBWithNameKeys[monsterFullName]!,
                     currentPhaseSelected + 1));
+              case AIType.pulsar:
+                allMonsterList.add(PulsarRavager(
+                    monsterDBWithNameKeys[monsterFullName]!,
+                    currentPhaseSelected + 1));
               default:
                 allMonsterList.add(StatefulMonster(
                     monsterDBWithNameKeys[monsterFullName]!,

@@ -766,7 +766,7 @@ final Map<int, MonsterDescription> monsterDB = {
       "Pulsar",
       20,
       23,
-      AIType.ravager,
+      AIType.pulsar,
       [
         Attack(
             "Pulse Wave (Psionic)",
@@ -820,7 +820,7 @@ final Map<int, MonsterDescription> monsterDB = {
         2: ([], [1])
       },
       SpecialAttackQuestions({
-        0: "Is there 1 or more enemy within 12\"?",
+        //0: "Is there 1 or more enemy within 12\"?",
         1: "Is there 1 or more Stunned enemy within 12\"?",
         2: "Is there 1 or more Stunned enemy within 12\"?"
       }, false, SpeAttackPreamblePosition.onAllAttacks)),

@@ -36,14 +36,19 @@ Widget getStartingPoint(
       }
     case AIType.renvultia:
       return (monster as RenvultiaStalker).startingPoint(context, gameState);
+    case AIType.pulsar:
+      return (monster as PulsarRavager).startingPoint(context, gameState);
   }
 }
 
 abstract class MonsterDecisionStep extends StatelessWidget {
   const MonsterDecisionStep({super.key, required this.gameState});
+  /*const MonsterDecisionStep(
+      {super.key, required this.gameState, required this.stepId});*/
 
   final GameState gameState;
   //final Set<DecisionKey> decisions;
+  //final StepId stepId;
 
   void initiateGeneralAttackProcess(
       BuildContext context,
@@ -171,6 +176,59 @@ class GenericChoiceStep extends MonsterDecisionStep {
   }
 }
 
+class UltraSimplifiedBinaryChoiceStep extends MonsterDecisionStep {
+  const UltraSimplifiedBinaryChoiceStep(
+      {super.key,
+      required super.gameState,
+      required this.title,
+      required this.question,
+      required this.yesClosure,
+      required this.noClosure,
+      this.yesLabel = "Yes",
+      this.noLabel = "No"});
+
+  final String title;
+  final String question;
+  final void Function() yesClosure;
+  final void Function() noClosure;
+  final String yesLabel;
+  final String noLabel;
+
+  @override
+  Widget build(BuildContext context) {
+    //var monster = gameState.currentMonster;
+    //stdout.writeln("AllEnemyAttackedPreviously with decisions: $decisions");
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(title),
+      ),
+      body: EverythingCenteredWidget(
+          child: Column(children: [
+        SimpleQuestionText(question),
+        Row(
+          // TODO when buttons too long they don't wrap (cf spot hidden)
+          // in legacy structure (genericchoicestep) it is avoided by not
+          // having a row, everything in column
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            ElevatedButton(
+              onPressed: yesClosure,
+              child: ButtonText(yesLabel),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            ElevatedButton(
+              onPressed: noClosure,
+              child: ButtonText(noLabel),
+            )
+          ],
+        )
+      ])),
+    );
+  }
+}
+
 /// Describe a screen giving a message and a button to continue
 class GenericSimpleStep extends MonsterDecisionStep {
   const GenericSimpleStep(
@@ -185,7 +243,7 @@ class GenericSimpleStep extends MonsterDecisionStep {
   final Widget title;
   final Widget bodyMessage;
   final DecisionKey decisionForMemory;
-  final MonsterDecisionStep nextStep;
+  final Widget nextStep;
   final Widget buttonMessage;
 
   @override

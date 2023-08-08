@@ -53,8 +53,6 @@ class EnemyInMelee extends MonsterDecisionStep {
     }
   }
 
-  void noAreaAttackFollowUp(BuildContext context) {}
-
   @override
   Widget build(BuildContext context) {
     var monster = gameState.currentMonster;
