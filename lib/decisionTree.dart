@@ -205,18 +205,14 @@ class UltraSimplifiedBinaryChoiceStep extends MonsterDecisionStep {
       body: EverythingCenteredWidget(
           child: Column(children: [
         SimpleQuestionText(question),
-        Row(
-          // TODO when buttons too long they don't wrap (cf spot hidden)
-          // in legacy structure (genericchoicestep) it is avoided by not
-          // having a row, everything in column
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        Wrap(
+          alignment: WrapAlignment.center,
+          spacing: 200,
+          runSpacing: 10,
           children: [
             ElevatedButton(
               onPressed: yesClosure,
               child: ButtonText(yesLabel),
-            ),
-            const SizedBox(
-              height: 10,
             ),
             ElevatedButton(
               onPressed: noClosure,
