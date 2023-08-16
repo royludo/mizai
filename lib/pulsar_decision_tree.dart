@@ -35,6 +35,9 @@ MonsterDecisionStep getStepWidget(GameState gameState, StepId stepId) {
     case StepId.moveAwayFromClosest:
       return MoveAwayFromClosest(gameState: gameState);
 
+    case StepId.justBasicAttack:
+      return JustBasicAttack(gameState: gameState);
+
     case StepId.endOfAction:
       return EndOfAction(gameState: gameState);
 
@@ -468,5 +471,20 @@ class MoveAwayFromClosest extends MonsterDecisionStep {
       nextStep: getStepWidget(gameState, nextStepId),
       buttonMessage: const ButtonText("Continue"),
     );
+  }
+}
+
+class JustBasicAttack extends MonsterDecisionStep {
+  const JustBasicAttack({super.key, required super.gameState});
+
+  final StepId stepId = StepId.justBasicAttack;
+
+  @override
+  Widget build(BuildContext context) {
+    StepId nextStepId =
+        (gameState.currentMonster as PulsarRavager).getNextStep(stepId, 0);
+
+    return initiateAttack(context, gameState, [0], Preamble.empty(),
+        getStepWidget(gameState, nextStepId));
   }
 }

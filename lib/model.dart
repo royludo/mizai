@@ -651,16 +651,18 @@ enum StepId {
   attackClosestRevealed,
   moveToClosestCover,
 
+  justBasicAttack,
+
   endOfAction,
 }
 
 abstract class ImprovedStatefulMonster extends StatefulMonster {
   ImprovedStatefulMonster(super.desc, super.phase);
 
-  Map<StepId, List<StepId>> get tree;
+  Map<StepId, List<StepId>> get standardTree;
 
   StepId getNextStep(StepId stepId, int decisionIndex) {
-    return tree[stepId]![decisionIndex];
+    return standardTree[stepId]![decisionIndex];
   }
 
   List<int> getAvailableAttacks();
@@ -670,9 +672,25 @@ abstract class ImprovedStatefulMonster extends StatefulMonster {
 abstract class Ravager extends ImprovedStatefulMonster {
   Ravager(super.desc, super.phase);
 
+  Map<StepId, List<StepId>> get ripostTree;
+
   @override
   Widget startingPoint(BuildContext context, GameState gameState) {
-    return EnemyInMelee(gameState: gameState);
+    if (decisionsMemory.contains(DecisionKey.activatedWithSpecial)) {
+      return makeBasicAttack(context, EndOfAction(gameState: gameState),
+          Preamble("Target enemy who just missed."));
+    } else {
+      return EnemyInMelee(gameState: gameState);
+    }
+  }
+
+  @override
+  StepId getNextStep(StepId stepId, int decisionIndex) {
+    if (decisionsMemory.contains(DecisionKey.activatedWithSpecial)) {
+      return ripostTree[stepId]![decisionIndex];
+    } else {
+      return standardTree[stepId]![decisionIndex];
+    }
   }
 }
 
@@ -683,7 +701,7 @@ abstract class Ravager extends ImprovedStatefulMonster {
 /// monster is also responsible for choosing its own attack
 class PulsarRavager extends Ravager {
   @override
-  Map<StepId, List<StepId>> tree = {
+  Map<StepId, List<StepId>> standardTree = {
     StepId.enemyInMelee: [StepId.enemyWithin12, StepId.ravagerStep2],
     StepId.ravagerStep2: [StepId.endOfAction],
     StepId.enemyWithin12: [StepId.enemyInLOS, StepId.ravagerStep4],
@@ -708,10 +726,35 @@ class PulsarRavager extends Ravager {
     StepId.attackClosestRevealed: [StepId.endOfAction],
   };
 
+  @override
+  Map<StepId, List<StepId>> ripostTree = {
+    StepId.enemyWithin12: [StepId.enemyInLOS, StepId.justBasicAttack],
+    StepId.justBasicAttack: [StepId.endOfAction],
+    StepId.enemyInLOS: [StepId.ravagerStep7, StepId.attackFromCoverPossible],
+    StepId.ravagerStep7: [StepId.endOfAction],
+    StepId.attackFromCoverPossible: [
+      StepId.moveAwayFromClosest,
+      StepId.moveToCoverAttack
+    ],
+    StepId.moveToCoverAttack: [StepId.endOfAction],
+    StepId.moveAwayFromClosest: [StepId.endOfAction],
+  };
+
   PulsarRavager(super.desc, super.phase) {
     if (super.desc.aiType != AIType.pulsar ||
         super.desc.species != MonsterSpecies.pulsar) {
       throw Exception("Wrong MonsterDescription given.");
+    }
+  }
+
+  @override
+  Widget startingPoint(BuildContext context, GameState gameState) {
+    if (decisionsMemory.contains(DecisionKey.activatedWithSpecial)) {
+      // exclude all special attacks, only basic allowed for ripost
+      attackIndexesExcludedForAction.addAll([1, 2]);
+      return EnemyWithin12(gameState: gameState);
+    } else {
+      return EnemyInMelee(gameState: gameState);
     }
   }
 
